@@ -83,11 +83,13 @@ class CrossPlatformStorage implements HydratedStorage {
     print('start writing to file');
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
+      print(prefs);
       try {
         if (content == null) {
-          await prefs.setString(kHydratedBlocKey, content);
-        } else {
           await prefs.remove(kHydratedBlocKey);
+        } else {
+          final success = await prefs.setString(kHydratedBlocKey, content);
+          print(success);
         }
       } on dynamic catch (_) {
         await prefs.remove(kHydratedBlocKey);

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_state.dart';
+import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/widgets/soft/soft_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -18,6 +19,7 @@ import 'blocs/cross_platform_delegate.dart';
 import 'blocs/settings/settings_event.dart';
 import 'widgets/datetime/current_datetime_container.dart';
 import 'widgets/datetime/current_time_text.dart';
+import 'widgets/soft/soft_appbar.dart';
 import 'widgets/soft/soft_colors.dart';
 import 'widgets/soft/soft_container.dart';
 
@@ -82,8 +84,15 @@ void main() async {
   // }
 
   runApp(
-    BlocProvider<SettingsBloc>(
-      create: (context) => SettingsBloc(),
+    MultiBlocProvider(
+      providers: <BlocProvider>[
+        BlocProvider<SettingsBloc>(
+          create: (context) => SettingsBloc(),
+        ),
+        BlocProvider<TasksBloc>(
+          create: (context) => TasksBloc(),
+        ),
+      ],
       child: MyApp(),
     ),
   );
@@ -495,53 +504,6 @@ class _MobileLandingState extends State<MobileLanding> {
               color: darkTheme.canvasColor,
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class SoftAppBar extends StatelessWidget {
-  const SoftAppBar({
-    Key key,
-    this.titleStyle,
-    this.height = kToolbarHeight,
-  }) : super(key: key);
-
-  final TextStyle titleStyle;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        color: theme.canvasColor,
-        height: height,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 24,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Focus Timer',
-                style: theme.textTheme.title,
-              ),
-              IconButton(
-                icon: Icon(Icons.wb_sunny),
-                onPressed: () =>
-                    BlocProvider.of<SettingsBloc>(context)..add(ChangeTheme()),
-                hoverColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-            ],
-          ),
         ),
       ),
     );

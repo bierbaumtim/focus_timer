@@ -11,6 +11,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
     name: json['name'] as String ?? '',
     uuid: json['uuid'] as String ?? '',
     sessionUId: json['session_uuid'] as String ?? '',
+    isCompleted: json['iscompleted'] as bool ?? false,
   );
 }
 
@@ -18,4 +19,5 @@ Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'name': instance.name,
       'uuid': instance.uuid,
       'session_uuid': instance.sessionUId,
+      'iscompleted': instance.isCompleted,
     };

@@ -47,6 +47,17 @@ class CrossPlatformStorage implements HydratedStorage {
           await file.delete();
         }
       }
+    } else if (Platform.isWindows) {
+      // Sollte nicht im Produktion genutzt werden
+      var file = File('C:\\hydrated_bloc_storage.json');
+      if (await file.exists()) {
+        try {
+          storage =
+              json.decode(await file.readAsString()) as Map<String, dynamic>;
+        } on dynamic catch (_) {
+          await file.delete();
+        }
+      }
     }
 
     _instance = CrossPlatformStorage(storage, directory);
@@ -112,6 +123,28 @@ class CrossPlatformStorage implements HydratedStorage {
         print(e);
         await file.delete();
       }
+    } else if (Platform.isWindows && false) {
+      // Sollte nicht im Produktion genutzt werden
+      final file = await _getWindowsFile();
+      try {
+        if (content == null) {
+          await file.delete();
+        } else {
+          print('storage saved');
+          await file.writeAsString(content);
+        }
+      } on dynamic catch (e) {
+        print(e);
+        await file.delete();
+      }
     }
+  }
+
+  Future<File> _getWindowsFile() async {
+    var file = File('C:\\hydrated_bloc_storage.json');
+    if (!await file.exists()) {
+      file = await file.create();
+    }
+    return file;
   }
 }

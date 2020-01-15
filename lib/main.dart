@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:js';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -9,19 +11,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_state.dart';
 import 'package:focus_timer/blocs/tasks/bloc.dart';
+import 'package:focus_timer/repositories/storage_repository.dart';
 import 'package:focus_timer/widgets/soft/soft_button.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 import 'dart:math' as math;
 
 import 'blocs/cross_platform_delegate.dart';
 import 'blocs/settings/settings_event.dart';
+import 'models/task.dart';
+import 'state_models/session_model.dart';
 import 'widgets/datetime/current_datetime_container.dart';
 import 'widgets/datetime/current_time_text.dart';
+import 'widgets/sessions/session_countdown.dart';
 import 'widgets/soft/soft_appbar.dart';
 import 'widgets/soft/soft_colors.dart';
 import 'widgets/soft/soft_container.dart';
+import 'widgets/tasks/add_task_tile.dart';
+import 'widgets/tasks/task_tile.dart';
 
 List<Shadow> lightTextShadow = <Shadow>[
   Shadow(
@@ -52,6 +61,7 @@ List<Shadow> darkTextShadow = <Shadow>[
 ThemeData get lightTheme => ThemeData(
       brightness: Brightness.light,
       canvasColor: kSoftLightBackgroundColor,
+      accentColor: kSoftLightTextColor,
       iconTheme: IconThemeData(
         color: kSoftLightTextColor,
       ),
@@ -65,6 +75,7 @@ ThemeData get lightTheme => ThemeData(
 
 ThemeData get darkTheme => ThemeData(
       brightness: Brightness.dark,
+      accentColor: kSoftDarkTextColor,
       iconTheme: IconThemeData(
         color: kSoftDarkTextColor,
       ),
@@ -77,6 +88,10 @@ ThemeData get darkTheme => ThemeData(
     );
 
 void main() async {
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
   // if (!kIsWeb) {
   BlocSupervisor.delegate = await CrossPlatformDelegate.build();
@@ -93,7 +108,14 @@ void main() async {
           create: (context) => TasksBloc(),
         ),
       ],
-      child: MyApp(),
+      child: Injector(
+        inject: [
+          Inject<SessionsModel>(
+            () => SessionsModel(StorageRepository()),
+          ),
+        ],
+        builder: (context) => MyApp(),
+      ),
     ),
   );
 }
@@ -175,28 +197,90 @@ class DesktopLanding extends StatelessWidget {
                             height: 400,
                             radius: 40,
                             child: Center(
-                              child: CurrentTimeText(),
+                              child: SessionCountdown(),
                             ),
                           ),
                         ),
                         SizedBox(width: 96),
                         Expanded(
                           child: SoftContainer(
-                            // width: double.infinity,
-                            // height: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Column(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: Stack(
                                 children: <Widget>[
-                                  ListTile(
-                                    title: Text('Tasks'),
+                                  BlocBuilder<TasksBloc, TasksState>(
+                                    builder: (context, state) {
+                                      if (state is TasksLoaded) {
+                                        if (state.tasks.isNotEmpty) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: kToolbarHeight,
+                                              bottom: kToolbarHeight + 8,
+                                            ),
+                                            child: CustomScrollView(
+                                              physics: BouncingScrollPhysics(),
+                                              slivers: <Widget>[
+                                                SliverPadding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    bottom: 14,
+                                                    top: 14,
+                                                  ),
+                                                  sliver: SliverList(
+                                                    delegate:
+                                                        SliverChildBuilderDelegate(
+                                                      (context, index) =>
+                                                          TaskTile(
+                                                        task: state.tasks
+                                                            .elementAt(index),
+                                                      ),
+                                                      childCount:
+                                                          state.tasks.length,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Center(
+                                            child: Text(
+                                              'You\'ve done all your tasks',
+                                            ),
+                                          );
+                                        }
+                                      } else if (state is TasksLoading) {
+                                        return Center(
+                                          child: SoftContainer(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8),
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                            radius: 15,
+                                          ),
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: Text(
+                                            'Add tasks that you want to complete in future sessions',
+                                          ),
+                                        );
+                                      }
+                                    },
                                   ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                      itemBuilder: (context, index) =>
-                                          TaskTile(),
-                                      itemCount: 20,
+                                  Positioned(
+                                    left: 12,
+                                    right: 12,
+                                    child: ListTile(
+                                      title: Text('Tasks'),
                                     ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 12,
+                                    right: 12,
+                                    child: AddTaskTile(),
                                   ),
                                 ],
                               ),
@@ -221,151 +305,6 @@ class DesktopLanding extends StatelessWidget {
           ),
         ),
       ),
-    );
-
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverFillViewport(
-              delegate: SliverChildListDelegate(
-                <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          color: theme.canvasColor,
-                          height: kToolbarHeight + 14,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 24,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Focus Timer',
-                                  style: theme.textTheme.title.copyWith(
-                                    fontSize: 35,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.wb_sunny),
-                                  onPressed: () =>
-                                      BlocProvider.of<SettingsBloc>(context)
-                                        ..add(ChangeTheme()),
-                                  hoverColor: Colors.transparent,
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: CurrentDateTimeContainer(),
-                        ),
-                      ),
-                      Positioned(
-                        left: kToolbarHeight,
-                        right: kToolbarHeight,
-                        bottom: kToolbarHeight,
-                        top: kToolbarHeight + 20,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 2,
-                              child: SoftContainer(
-                                height: 400,
-                                radius: 40,
-                                child: Center(
-                                  child: CurrentTimeText(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 96),
-                            Expanded(
-                              child: SoftContainer(
-                                width: double.infinity,
-                                height: double.infinity,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ListTile(
-                                        title: Text('Tasks'),
-                                      ),
-                                      Expanded(
-                                        child: ListView.builder(
-                                          itemBuilder: (context, index) =>
-                                              CheckboxListTile(
-                                            value: index & 1 == 0,
-                                            onChanged: (_) => null,
-                                            title: Text('Task: $index'),
-                                          ),
-                                          itemCount: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    color: darkTheme.canvasColor,
-                  ),
-                  Container(
-                    color: lightTheme.canvasColor,
-                  ),
-                  Container(
-                    color: darkTheme.canvasColor,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TaskTile extends StatefulWidget {
-  const TaskTile({Key key}) : super(key: key);
-
-  @override
-  _TaskTileState createState() => _TaskTileState();
-}
-
-class _TaskTileState extends State<TaskTile> {
-  bool isChecked;
-
-  @override
-  void initState() {
-    super.initState();
-    isChecked = false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return CheckboxListTile(
-      value: isChecked,
-      onChanged: (value) => setState(() => isChecked = value),
-      title: Text('Task: $isChecked'),
-      activeColor: isDark ? Colors.grey[500] : Colors.grey[900],
     );
   }
 }

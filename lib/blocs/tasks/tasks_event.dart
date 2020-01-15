@@ -17,6 +17,15 @@ class AddTask extends TasksEvent {
   List get props => super.props..add(task);
 }
 
+class UpdateTask extends TasksEvent {
+  final Task task;
+
+  const UpdateTask(this.task);
+
+  @override
+  List get props => super.props..add(task);
+}
+
 class RemoveTask extends TasksEvent {
   final String taskUid;
 

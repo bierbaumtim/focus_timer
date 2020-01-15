@@ -13,14 +13,18 @@ class Task extends Equatable {
   @JsonKey(name: 'session_uuid', defaultValue: '')
   final String sessionUId;
   @JsonKey(name: 'iscompleted', defaultValue: false)
-  final bool isCompleted;
+  bool isCompleted;
 
-  const Task({
+  Task({
     this.name,
     this.uuid,
     this.sessionUId,
     this.isCompleted,
   });
+
+  void toggleIsCompleted() {
+    isCompleted = !isCompleted;
+  }
 
   @override
   List<Object> get props => <Object>[

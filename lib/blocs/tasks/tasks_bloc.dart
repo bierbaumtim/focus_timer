@@ -16,6 +16,8 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   ) async* {
     if (event is AddTask) {
       yield* _mapAddTaskToState(event);
+    } else if (event is UpdateTask) {
+      yield* _mapUpdateTaskToState(event);
     } else if (event is RemoveTask) {
       yield* _mapRemoveTask(event);
     } else if (event is LoadTasks) {}
@@ -24,7 +26,23 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   Stream<TasksState> _mapAddTaskToState(AddTask event) async* {
     final currentTasks =
         state is TasksLoaded ? (state as TasksLoaded).tasks : <Task>[];
-    yield TasksLoaded(currentTasks..add(event.task));
+    yield TasksLoaded(
+      List<Task>.from(currentTasks)..add(event.task),
+    );
+  }
+
+  Stream<TasksState> _mapUpdateTaskToState(UpdateTask event) async* {
+    final currentTasks =
+        state is TasksLoaded ? (state as TasksLoaded).tasks : <Task>[];
+    final updatedTasks = List<Task>.from(currentTasks)
+        .map((t) => t.uuid == event.task.uuid ? event.task : t)
+        .toList();
+
+    yield updatedTasks.isEmpty
+        ? TasksEmpty()
+        : TasksLoaded(
+            updatedTasks,
+          );
   }
 
   Stream<TasksState> _mapRemoveTask(RemoveTask event) async* {
@@ -32,7 +50,11 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         state is TasksLoaded ? (state as TasksLoaded).tasks : <Task>[];
     currentTasks.removeWhere((t) => t.uuid == event.taskUid);
 
-    yield currentTasks.isEmpty ? TasksEmpty() : TasksLoaded(currentTasks);
+    yield currentTasks.isEmpty
+        ? TasksEmpty()
+        : TasksLoaded(
+            List<Task>.from(currentTasks),
+          );
   }
 
   @override

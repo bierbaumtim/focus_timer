@@ -1,21 +1,78 @@
+import 'package:dartx/dartx.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
+
 import 'package:focus_timer/models/session.dart';
 import 'package:focus_timer/repositories/storage_repository.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
 
 class SessionsModel extends StatesRebuilder {
   final StorageRepository storageRepository;
 
   SessionsModel(this.storageRepository) {
-    isPause = false;
+    isBreak = false;
+    breakDuration = 5.minutes.inSeconds;
+    currentSessionIndex = -1;
     loadSessions();
-    print(sessions);
   }
 
   List<Session> sessions;
   Session currentSession;
-  bool isPause;
+  bool isBreak;
+  int breakDuration, currentSessionIndex;
 
-  void _saveEdits(int value) {
+  void addSession(Session session) {
+    sessions.add(session);
+    // TODO: only for debug
+    currentSession = session;
+    storageRepository.saveSession(session);
+    rebuildStates();
+  }
+
+  void updateSession(Session session) {
+    sessions = sessions
+        .map<Session>((s) => s.uid == session.uid ? session : s)
+        .toList();
+    if (currentSession.uid == session.uid) {
+      currentSession = session;
+    }
+    storageRepository.updateSession(session);
+    rebuildStates();
+  }
+
+  void removeSession(Session session) {
+    sessions.removeWhere((s) => s.uid == session.uid);
+    storageRepository.removeSession(session);
+    rebuildStates();
+  }
+
+  void startBreak() {
+    final index = sessions.indexOf(currentSession);
+    print('index: $index');
+    isBreak = true;
+    print('isBreak: $isBreak');
+    breakDuration = index % 5 == 0 ? 5.minutes.inSeconds : 25.minutes.inSeconds;
+    print('breakDuration: $breakDuration');
+    rebuildStates();
+  }
+
+  void startSession() {
+    if (sessions.isNotEmpty) {
+      print('currentSessionIndex: $currentSessionIndex');
+      if (currentSessionIndex == -1) {
+        currentSession = sessions.first;
+        currentSessionIndex = 0;
+        print('currentSessionIndex: $currentSessionIndex');
+      } else if (currentSessionIndex + 1 <= sessions.lastIndex) {
+        currentSessionIndex += 1;
+        currentSession = sessions.elementAt(currentSessionIndex);
+        print('currentSessionIndex: $currentSessionIndex');
+      }
+    }
+    isBreak = false;
+    print('isBreak: $isBreak');
+    rebuildStates();
+  }
+
+  void _saveEdits() {
     storageRepository.saveSessions(sessions);
   }
 

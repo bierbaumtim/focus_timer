@@ -1,91 +1,28 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_state.dart';
 import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/constants/hive_constants.dart';
 import 'package:focus_timer/repositories/storage_repository.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 import 'dart:math' as math;
 
 import 'blocs/cross_platform_delegate.dart';
+import 'constants/theme_constants.dart';
 import 'models/session.dart';
 import 'models/task.dart';
+import 'pages/landing_desktop.dart';
+import 'pages/landing_mobile.dart';
 import 'state_models/session_model.dart';
-import 'widgets/datetime/current_datetime_container.dart';
-import 'widgets/sessions/session_countdown.dart';
-import 'widgets/soft/soft_appbar.dart';
-import 'widgets/soft/soft_colors.dart';
-import 'widgets/soft/soft_container.dart';
-import 'widgets/tasks/add_task_tile.dart';
-import 'widgets/tasks/task_tile.dart';
-
-List<Shadow> lightTextShadow = <Shadow>[
-  Shadow(
-    color: Colors.grey[500],
-    offset: Offset(5.0, 5.0),
-    blurRadius: 15.0,
-  ),
-  Shadow(
-    color: Colors.white,
-    offset: Offset(-5.0, -5.0),
-    blurRadius: 15.0,
-  ),
-];
-
-List<Shadow> darkTextShadow = <Shadow>[
-  Shadow(
-    color: Colors.grey[900],
-    offset: Offset(5.0, 5.0),
-    blurRadius: 15.0,
-  ),
-  Shadow(
-    color: Colors.grey[800],
-    offset: Offset(-5.0, -5.0),
-    blurRadius: 15.0,
-  ),
-];
-
-ThemeData get lightTheme => ThemeData(
-      brightness: Brightness.light,
-      canvasColor: kSoftLightBackgroundColor,
-      accentColor: kSoftLightTextColor,
-      iconTheme: IconThemeData(
-        color: kSoftLightTextColor,
-      ),
-      textTheme: TextTheme(
-        title: TextStyle(
-          shadows: lightTextShadow,
-          color: kSoftLightTextColor,
-        ),
-      ),
-    );
-
-ThemeData get darkTheme => ThemeData(
-      brightness: Brightness.dark,
-      accentColor: kSoftDarkTextColor,
-      iconTheme: IconThemeData(
-        color: kSoftDarkTextColor,
-      ),
-      textTheme: TextTheme(
-        title: TextStyle(
-          shadows: darkTextShadow,
-          color: kSoftDarkTextColor,
-        ),
-      ),
-    );
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -94,10 +31,11 @@ void main() async {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
       // BlocSupervisor.delegate = await HydratedBlocDelegate.build();
+    } else {
       await Hive.initFlutter();
     }
   }
-  
+
   Hive.registerAdapter<Task>(TaskAdapter());
   Hive.registerAdapter<Session>(SessionAdapter());
   await Hive.openBox(kTasksHiveBox);
@@ -161,296 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return ScreenTypeLayout(
       mobile: MobileLanding(),
       desktop: DesktopLanding(),
-    );
-  }
-}
-
-class DesktopLanding extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      body: SafeArea(
-        child: PageView.custom(
-          scrollDirection: Axis.vertical,
-          pageSnapping: true,
-          childrenDelegate: SliverChildListDelegate(
-            <Widget>[
-              Stack(
-                children: <Widget>[
-                  SoftAppBar(
-                    height: kToolbarHeight + 14,
-                    titleStyle: theme.textTheme.title.copyWith(fontSize: 35),
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: CurrentDateTimeContainer(),
-                    ),
-                  ),
-                  Positioned(
-                    left: kToolbarHeight,
-                    right: kToolbarHeight,
-                    bottom: kToolbarHeight,
-                    top: kToolbarHeight + 20,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: SoftContainer(
-                            height: 400,
-                            radius: 40,
-                            child: Center(
-                              child: SessionCountdown(),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 96),
-                        Expanded(
-                          child: SoftContainer(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Stack(
-                                children: <Widget>[
-                                  BlocBuilder<TasksBloc, TasksState>(
-                                    builder: (context, state) {
-                                      if (state is TasksLoaded) {
-                                        if (state.tasks.isNotEmpty) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: kToolbarHeight,
-                                              bottom: kToolbarHeight + 8,
-                                            ),
-                                            child: CustomScrollView(
-                                              physics: BouncingScrollPhysics(),
-                                              slivers: <Widget>[
-                                                SliverPadding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    bottom: 14,
-                                                    top: 14,
-                                                  ),
-                                                  sliver: SliverList(
-                                                    delegate:
-                                                        SliverChildBuilderDelegate(
-                                                      (context, index) =>
-                                                          TaskTile(
-                                                        task: state.tasks
-                                                            .elementAt(index),
-                                                      ),
-                                                      childCount:
-                                                          state.tasks.length,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: Text(
-                                              'You\'ve done all your tasks',
-                                            ),
-                                          );
-                                        }
-                                      } else if (state is TasksLoading) {
-                                        return Center(
-                                          child: SoftContainer(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8),
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                            radius: 15,
-                                          ),
-                                        );
-                                      } else {
-                                        return Center(
-                                          child: Text(
-                                            'Add tasks that you want to complete in future sessions',
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  Positioned(
-                                    left: 12,
-                                    right: 12,
-                                    child: ListTile(
-                                      title: Text('Tasks'),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 12,
-                                    right: 12,
-                                    child: AddTaskTile(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                color: darkTheme.canvasColor,
-              ),
-              Container(
-                color: lightTheme.canvasColor,
-              ),
-              Container(
-                color: darkTheme.canvasColor,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class MobileLanding extends StatefulWidget {
-  @override
-  _MobileLandingState createState() => _MobileLandingState();
-}
-
-class _MobileLandingState extends State<MobileLanding> {
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([
-      SystemUiOverlay.bottom,
-    ]);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.custom(
-        scrollDirection: Axis.vertical,
-        pageSnapping: true,
-        childrenDelegate: SliverChildListDelegate(
-          <Widget>[
-            Column(
-              children: <Widget>[
-                SoftAppBar(
-                  height: kToolbarHeight + 14,
-                ),
-                Expanded(
-                  flex: 7,
-                  child: ControlledAnimation(
-                    duration: Duration(milliseconds: 1000),
-                    tween: Tween(begin: 0.0, end: 1.0),
-                    builder: (context, animation) {
-                      return Opacity(
-                        opacity: animation,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SoftContainer(
-                              width: 300,
-                              height: 300,
-                              radius: 200,
-                              child: Center(
-                                child: AutoSizeText(
-                                  '12:00',
-                                  maxLines: 1,
-                                  minFontSize: 60,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .title
-                                      .copyWith(
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.dark
-                                            ? kSoftLightTopShadowColor
-                                            : kSoftDarkTopShadowColor,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Container(
-                      height: kToolbarHeight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SoftButton(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Icon(
-                                Icons.play_arrow,
-                                size: 36,
-                              ),
-                            ),
-                            radius: 15,
-                          ),
-                          SizedBox(width: 36),
-                          SoftButton(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Icon(
-                                Icons.pause,
-                                size: 36,
-                              ),
-                            ),
-                            radius: 15,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              color: darkTheme.canvasColor,
-              child: Theme(
-                data: darkTheme,
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 8),
-                        child: CurrentDateTimeContainer(
-                          useDarkTheme: true,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) => TaskTile(),
-                        itemCount: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: lightTheme.canvasColor,
-            ),
-            Container(
-              color: darkTheme.canvasColor,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

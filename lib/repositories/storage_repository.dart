@@ -6,16 +6,24 @@ import 'package:hive/hive.dart';
 abstract class IStorageRepository {
   List<Task> loadTasks();
   List<Session> loadSessions();
-  Future<void> saveTasks(List<Task> task);
+  Future<void> saveTask(Task task);
+  Future<void> updateTask(Task task);
+  Future<void> saveSession(Session session);
   Future<void> saveSessions(List<Session> sessions);
+  Future<void> updateSession(Session session);
+  Future<void> removeSession(Session session);
 }
 
 class StorageRepository implements IStorageRepository {
+  int lastSessionKey;
+
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
     var sessions = <Session>[];
-    sessionsBox.toMap().forEach((k, v) => sessions.add(v as Session));
+    sessions =
+        sessionsBox.get(kSessionsHiveKey) as List<Session> ?? <Session>[];
+    // sessionsBox.toMap().forEach((k, v) => sessions.add(v as Session));
     return sessions;
   }
 
@@ -28,13 +36,38 @@ class StorageRepository implements IStorageRepository {
 
   @override
   Future<void> saveSessions(List<Session> sessions) async {
-    // TODO: implement saveSessions
+    for (var session in sessions) {
+      await saveSession(session);
+    }
+  }
+
+  @override
+  Future<void> saveSession(Session session) {
+    final sessionsBox = Hive.box(kSessionsHiveBox);
+    return sessionsBox.put(session.uid, session);
+  }
+
+  @override
+  Future<void> updateSession(Session session) {
+    final sessionsBox = Hive.box(kSessionsHiveBox);
+    return sessionsBox.put(session.uid, session);
+  }
+
+  @override
+  Future<void> removeSession(Session session) {
+    final sessionsBox = Hive.box(kSessionsHiveBox);
+    return sessionsBox.delete(session.uid);
+  }
+
+  @override
+  Future<void> saveTask(Task task) {
+    // TODO: implement saveTask
     throw UnimplementedError();
   }
 
   @override
-  Future<void> saveTasks(List<Task> task) async {
-    // TODO: implement saveTasks
+  Future<void> updateTask(Task task) {
+    // TODO: implement updateTask
     throw UnimplementedError();
   }
 }

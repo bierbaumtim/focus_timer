@@ -1,17 +1,23 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'task.g.dart';
 
+@HiveType(typeId: 1)
 @JsonSerializable()
 class Task extends Equatable {
+  @HiveField(0)
   @JsonKey(name: 'name', defaultValue: '')
   final String name;
+  @HiveField(1)
   @JsonKey(name: 'uuid', defaultValue: '')
   final String uuid;
+  @HiveField(2)
   @JsonKey(name: 'session_uuid', defaultValue: '')
   final String sessionUId;
+  @HiveField(3)
   @JsonKey(name: 'iscompleted', defaultValue: false)
   bool isCompleted;
 
@@ -22,9 +28,7 @@ class Task extends Equatable {
     this.isCompleted,
   });
 
-  void toggleIsCompleted() {
-    isCompleted = !isCompleted;
-  }
+  void toggleIsCompleted() => isCompleted = !isCompleted;
 
   @override
   List<Object> get props => <Object>[

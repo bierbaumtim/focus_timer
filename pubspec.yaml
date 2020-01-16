@@ -55,11 +55,15 @@ dependencies:
   shared_preferences_web: ^0.1.2+2
   supercharged: ^1.1.0
 
+  hive: ^1.3.0
+  hive_flutter: ^0.3.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   build_runner: ^1.7.2
+  hive_generator: ^0.7.0
   json_serializable: ^3.2.5
   copy_with: ^0.1.0
 

@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-import 'dart:js';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -11,8 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_state.dart';
 import 'package:focus_timer/blocs/tasks/bloc.dart';
+import 'package:focus_timer/constants/hive_constants.dart';
 import 'package:focus_timer/repositories/storage_repository.dart';
 import 'package:focus_timer/widgets/soft/soft_button.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -20,11 +21,10 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import 'dart:math' as math;
 
 import 'blocs/cross_platform_delegate.dart';
-import 'blocs/settings/settings_event.dart';
+import 'models/session.dart';
 import 'models/task.dart';
 import 'state_models/session_model.dart';
 import 'widgets/datetime/current_datetime_container.dart';
-import 'widgets/datetime/current_time_text.dart';
 import 'widgets/sessions/session_countdown.dart';
 import 'widgets/soft/soft_appbar.dart';
 import 'widgets/soft/soft_colors.dart';
@@ -88,15 +88,21 @@ ThemeData get darkTheme => ThemeData(
     );
 
 void main() async {
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  }
-
   WidgetsFlutterBinding.ensureInitialized();
-  // if (!kIsWeb) {
+
+  if (!kIsWeb) {
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+      // BlocSupervisor.delegate = await HydratedBlocDelegate.build();
+      await Hive.initFlutter();
+    }
+  }
+  
+  Hive.registerAdapter<Task>(TaskAdapter());
+  Hive.registerAdapter<Session>(SessionAdapter());
+  await Hive.openBox(kTasksHiveBox);
+  await Hive.openBox(kSessionsHiveBox);
   BlocSupervisor.delegate = await CrossPlatformDelegate.build();
-  // BlocSupervisor.delegate = await HydratedBlocDelegate.build();
-  // }
 
   runApp(
     MultiBlocProvider(

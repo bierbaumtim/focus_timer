@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/models/task.dart';
+import 'package:focus_timer/state_models/tasks_model.dart';
 import 'package:focus_timer/widgets/soft/soft_container.dart';
 
 class TaskTile extends StatelessWidget {
@@ -13,7 +13,8 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tasksBloc = BlocProvider.of<TasksBloc>(context);
+    final theme = Theme.of(context);
+    final taskModel = Injector.get<TasksModel>();
 
     return Dismissible(
       key: ValueKey(task.uuid),
@@ -26,14 +27,14 @@ class TaskTile extends StatelessWidget {
           radius: 15,
           child: CheckboxListTile(
             value: task.isCompleted,
-            onChanged: (_) =>
-                tasksBloc.add(UpdateTask(task..toggleIsCompleted())),
+            onChanged: (_) => taskModel.updateTask(task..toggleIsCompleted()),
             title: Text(task.name),
-            // activeColor: isDark ? Colors.grey[500] : Colors.grey[900],
+            activeColor: theme.accentColor,
+            checkColor: theme.canvasColor,
           ),
         ),
       ),
-      onDismissed: (_) => tasksBloc.add(RemoveTask(task.uuid)),
+      onDismissed: (_) => taskModel.removeTask(task),
     );
   }
 }

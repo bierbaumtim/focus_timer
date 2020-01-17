@@ -1,37 +1,31 @@
+import 'package:hive/hive.dart';
+import 'package:dartx/dartx.dart';
+
 import 'package:focus_timer/constants/hive_constants.dart';
 import 'package:focus_timer/models/session.dart';
-import 'package:focus_timer/models/task.dart';
-import 'package:hive/hive.dart';
 
-abstract class IStorageRepository {
-  List<Task> loadTasks();
+abstract class ISessionsRepository {
   List<Session> loadSessions();
-  Future<void> saveTask(Task task);
-  Future<void> updateTask(Task task);
   Future<void> saveSession(Session session);
   Future<void> saveSessions(List<Session> sessions);
   Future<void> updateSession(Session session);
   Future<void> removeSession(Session session);
 }
 
-class StorageRepository implements IStorageRepository {
+class SessionsRepository implements ISessionsRepository {
   int lastSessionKey;
 
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
     var sessions = <Session>[];
-    sessions =
-        sessionsBox.get(kSessionsHiveKey) as List<Session> ?? <Session>[];
+    sessions = sessionsBox.get(kSessionsHiveKey) as List<Session> ??
+        List<Session>.generate(
+          12,
+          (index) => Session.create(5.minutes.inSeconds, index),
+        );
     // sessionsBox.toMap().forEach((k, v) => sessions.add(v as Session));
     return sessions;
-  }
-
-  @override
-  List<Task> loadTasks() {
-    final tasksBox = Hive.box(kTasksHiveBox);
-    var tasks = tasksBox.values as List<Task>;
-    return tasks;
   }
 
   @override
@@ -57,17 +51,5 @@ class StorageRepository implements IStorageRepository {
   Future<void> removeSession(Session session) {
     final sessionsBox = Hive.box(kSessionsHiveBox);
     return sessionsBox.delete(session.uid);
-  }
-
-  @override
-  Future<void> saveTask(Task task) {
-    // TODO: implement saveTask
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updateTask(Task task) {
-    // TODO: implement updateTask
-    throw UnimplementedError();
   }
 }

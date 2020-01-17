@@ -5,10 +5,11 @@ import 'package:focus_timer/models/session.dart';
 import 'package:focus_timer/repositories/storage_repository.dart';
 
 class SessionsModel extends StatesRebuilder {
-  final StorageRepository storageRepository;
+  final SessionsRepository storageRepository;
 
   SessionsModel(this.storageRepository) {
     isBreak = false;
+    allSessionsCompleted = false;
     breakDuration = 5.minutes.inSeconds;
     currentSessionIndex = -1;
     loadSessions();
@@ -16,13 +17,11 @@ class SessionsModel extends StatesRebuilder {
 
   List<Session> sessions;
   Session currentSession;
-  bool isBreak;
+  bool isBreak, allSessionsCompleted;
   int breakDuration, currentSessionIndex;
 
   void addSession(Session session) {
     sessions.add(session);
-    // TODO: only for debug
-    currentSession = session;
     storageRepository.saveSession(session);
     rebuildStates();
   }
@@ -69,6 +68,12 @@ class SessionsModel extends StatesRebuilder {
     }
     isBreak = false;
     print('isBreak: $isBreak');
+    rebuildStates();
+  }
+
+  void reorderSession(int oldIndex, int newIndex) {
+    final oldSession = sessions.removeAt(oldIndex);
+    sessions.insert(newIndex, oldSession);
     rebuildStates();
   }
 

@@ -9,6 +9,8 @@ import 'package:focus_timer/blocs/settings/settings_state.dart';
 import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/constants/hive_constants.dart';
 import 'package:focus_timer/repositories/storage_repository.dart';
+import 'package:focus_timer/repositories/tasks_repository.dart';
+import 'package:focus_timer/state_models/tasks_model.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -55,7 +57,10 @@ void main() async {
       child: Injector(
         inject: [
           Inject<SessionsModel>(
-            () => SessionsModel(StorageRepository()),
+            () => SessionsModel(SessionsRepository()),
+          ),
+          Inject<TasksModel>(
+            () => TasksModel(TasksRepository()),
           ),
         ],
         builder: (context) => MyApp(),

@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/widgets/pageview_page.dart';
 import 'package:focus_timer/widgets/sessions/session_countdown.dart';
-import 'package:focus_timer/widgets/tasks/add_task_tile.dart';
-import 'package:simple_animations/simple_animations.dart';
+import 'package:focus_timer/widgets/sessions/sessions_list_container.dart';
+import 'package:focus_timer/widgets/tasks/tasks_list_container.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/constants/theme_constants.dart';
 import 'package:focus_timer/state_models/session_model.dart';
 import 'package:focus_timer/widgets/datetime/current_datetime_container.dart';
 import 'package:focus_timer/widgets/soft/soft_appbar.dart';
 import 'package:focus_timer/widgets/soft/soft_button.dart';
 import 'package:focus_timer/widgets/soft/soft_container.dart';
-import 'package:focus_timer/widgets/tasks/task_tile.dart';
 
 class MobileLanding extends StatefulWidget {
   @override
@@ -95,7 +91,6 @@ class _MobileLandingState extends State<MobileLanding> {
               ),
             ),
             Page(
-              useComplemtaryTheme: true,
               child: Column(
                 children: <Widget>[
                   Align(
@@ -108,95 +103,35 @@ class _MobileLandingState extends State<MobileLanding> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: SoftContainer(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Stack(
-                            children: <Widget>[
-                              BlocBuilder<TasksBloc, TasksState>(
-                                builder: (context, state) {
-                                  if (state is TasksLoaded) {
-                                    if (state.tasks.isNotEmpty) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: kToolbarHeight,
-                                          bottom: kToolbarHeight + 8,
-                                        ),
-                                        child: CustomScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          slivers: <Widget>[
-                                            SliverPadding(
-                                              padding: const EdgeInsets.only(
-                                                bottom: 14,
-                                                top: 14,
-                                              ),
-                                              sliver: SliverList(
-                                                delegate:
-                                                    SliverChildBuilderDelegate(
-                                                  (context, index) => TaskTile(
-                                                    task: state.tasks
-                                                        .elementAt(index),
-                                                  ),
-                                                  childCount:
-                                                      state.tasks.length,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    } else {
-                                      return Center(
-                                        child: Text(
-                                          'You\'ve done all your tasks',
-                                        ),
-                                      );
-                                    }
-                                  } else if (state is TasksLoading) {
-                                    return Center(
-                                      child: SoftContainer(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        radius: 15,
-                                      ),
-                                    );
-                                  } else {
-                                    return Center(
-                                      child: Text(
-                                        'Add tasks that you want to complete in future sessions',
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                              Positioned(
-                                left: 12,
-                                right: 12,
-                                child: ListTile(
-                                  title: Text('Tasks'),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                left: 12,
-                                right: 12,
-                                child: AddTaskTile(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: SessionsListContainer(),
                     ),
                   ),
                 ],
               ),
             ),
-            Page(),
             Page(
-              useComplemtaryTheme: true,
+              // useComplemtaryTheme: true,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                      child: CurrentDateTimeContainer(),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TasksListContainer(),
+                    ),
+                  ),
+                ],
+              ),
             ),
+            Page(
+                // useComplemtaryTheme: true,
+                ),
           ],
           addAutomaticKeepAlives: true,
         ),

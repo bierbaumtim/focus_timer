@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:focus_timer/blocs/tasks/bloc.dart';
-import 'package:focus_timer/constants/theme_constants.dart';
 import 'package:focus_timer/widgets/datetime/current_datetime_container.dart';
 import 'package:focus_timer/widgets/pageview_page.dart';
 import 'package:focus_timer/widgets/sessions/session_countdown.dart';

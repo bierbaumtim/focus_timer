@@ -26,7 +26,9 @@ dependencies:
     git:
       url: https://github.com/tb2761/sliding_up_panel.git
   md2_tab_indicator: ^1.0.2
-  reorderables: ^0.2.12
+  # reorderables: # ^0.2.12
+  #   git:
+  #     url: https://github.com/bierbaumtim/reorderables.git
   page_transition: ^1.1.5
   uuid: ^2.0.4
   wave: ^0.0.8
@@ -35,7 +37,7 @@ dependencies:
   flutter_sticky_header: ^0.4.0
   equatable: ^1.0.2
   responsive_builder: ^0.1.4
-  dartx: ^0.3.0
+  dartx: ^0.2.0
 
   json_annotation: ^3.0.1
 

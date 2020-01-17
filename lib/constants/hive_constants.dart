@@ -4,3 +4,4 @@ const String kSessionsHiveBox = 'hive_box_sessions';
 const String kSettingsHiveBox = 'hive_box_settings';
 // Hive data keys
 const String kSessionsHiveKey = 'hive_key_sessions';
+const String kTasksHiveKey = 'hive_key_tasks';

@@ -9,7 +9,7 @@ import 'package:focus_timer/widgets/soft/soft_container.dart';
 class TaskTile extends StatelessWidget {
   final Task task;
 
-  TaskTile({Key key, @required this.task}) : super(key: key);
+  const TaskTile({Key key, @required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,7 @@ class TaskTile extends StatelessWidget {
 
     return Dismissible(
       key: ValueKey(task.uuid),
+      onDismissed: (_) => taskModel.removeTask(task),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
@@ -34,7 +35,6 @@ class TaskTile extends StatelessWidget {
           ),
         ),
       ),
-      onDismissed: (_) => taskModel.removeTask(task),
     );
   }
 }

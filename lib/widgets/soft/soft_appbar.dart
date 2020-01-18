@@ -38,13 +38,13 @@ class SoftAppBar extends StatelessWidget {
                 style: titleStyle ?? theme.textTheme.title,
               ),
               SoftButton(
+                radius: 15,
+                onTap: () =>
+                    BlocProvider.of<SettingsBloc>(context).add(ChangeTheme()),
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: Icon(Icons.wb_sunny),
                 ),
-                radius: 15,
-                onTap: () =>
-                    BlocProvider.of<SettingsBloc>(context).add(ChangeTheme()),
               ),
               // IconButton(
               //   icon: Icon(Icons.wb_sunny),

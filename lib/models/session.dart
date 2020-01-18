@@ -1,11 +1,14 @@
+import 'package:copy_with_annotation/copy_with_annotation.dart';
 import 'package:equatable/equatable.dart';
-import 'package:focus_timer/models/task.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:focus_timer/models/task.dart';
+
 part 'session.g.dart';
 
+@CopyWith()
 @HiveType(typeId: 0)
 @JsonSerializable()
 class Session extends Equatable {
@@ -16,27 +19,23 @@ class Session extends Equatable {
   @JsonKey(name: 'duration', defaultValue: 0)
   final int duration;
   @HiveField(2)
-  @JsonKey(name: 'position', defaultValue: 0)
-  final int position;
-  @HiveField(3)
   @JsonKey(name: 'tasks', defaultValue: <Task>[])
   final List<Task> tasks;
 
   const Session({
     this.uid,
     this.duration,
-    this.position,
     this.tasks,
   });
 
   @override
-  List<Object> get props => <Object>[uid, duration, position, tasks];
+  @CopyWithField(ignore: true)
+  List<Object> get props => <Object>[uid, duration, tasks];
 
-  factory Session.create(int duration, int position) => Session(
+  factory Session.create(int duration) => Session(
         uid: Uuid().v4(),
         duration: duration,
-        position: position,
-        tasks: <Task>[],
+        tasks: const <Task>[],
       );
 
   factory Session.fromJson(Map<String, dynamic> json) =>

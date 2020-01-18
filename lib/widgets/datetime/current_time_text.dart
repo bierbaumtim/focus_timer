@@ -20,7 +20,7 @@ class _CurrentTimeTextState extends State<CurrentTimeText> {
     super.initState();
     currentTime = timeToString(DateTime.now());
     timer = Timer.periodic(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       (timer) {
         final time = DateTime.now();
 

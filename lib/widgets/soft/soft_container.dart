@@ -35,8 +35,8 @@ class SoftContainer extends StatelessWidget {
           Radius.circular(radius ?? 40),
         ),
         boxShadow: <BoxShadow>[
-          kSoftBottomContainerShadow((useDarkTheme ?? isDark)),
-          kSoftTopContainerShadow((useDarkTheme ?? isDark)),
+          kSoftBottomContainerShadow(useDarkTheme ?? isDark),
+          kSoftTopContainerShadow(useDarkTheme ?? isDark),
         ],
       ),
       child: child,

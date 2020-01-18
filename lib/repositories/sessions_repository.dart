@@ -18,19 +18,17 @@ class SessionsRepository implements ISessionsRepository {
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
-    var sessions = <Session>[];
-    sessions = sessionsBox.get(kSessionsHiveKey) as List<Session> ??
+    return sessionsBox.get(kSessionsHiveKey) as List<Session> ??
         List<Session>.generate(
           12,
-          (index) => Session.create(5.minutes.inSeconds, index),
+          (index) => Session.create(5.minutes.inSeconds),
         );
     // sessionsBox.toMap().forEach((k, v) => sessions.add(v as Session));
-    return sessions;
   }
 
   @override
   Future<void> saveSessions(List<Session> sessions) async {
-    for (var session in sessions) {
+    for (final session in sessions) {
       await saveSession(session);
     }
   }

@@ -1,22 +1,22 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_state.dart';
 import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/constants/hive_constants.dart';
-import 'package:focus_timer/repositories/storage_repository.dart';
+import 'package:focus_timer/repositories/sessions_repository.dart';
 import 'package:focus_timer/repositories/tasks_repository.dart';
 import 'package:focus_timer/state_models/tasks_model.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
-
-import 'dart:math' as math;
 
 import 'blocs/cross_platform_delegate.dart';
 import 'constants/theme_constants.dart';
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           darkTheme: darkTheme,
           themeMode: darkmode ? ThemeMode.dark : ThemeMode.light,
-          home: MyHomePage(),
+          home: const MyHomePage(),
         );
       },
     );
@@ -90,9 +90,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({
-    Key key,
-  }) : super(key: key);
+  const MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -114,7 +112,7 @@ class ClockElementPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.green
       ..strokeWidth = 20;
-    var path = Path();
+    final path = Path();
 
     // Method to convert degree to radians
     num degToRad(num deg) => deg * (math.pi / 180.0);
@@ -126,8 +124,8 @@ class ClockElementPainter extends CustomPainter {
     path.addArc(
       Rect.fromLTWH(
           0, size.height * 0.85, size.width * 0.5, size.height * 0.15),
-      degToRad(-180),
-      degToRad(-90),
+      degToRad(-180) as double,
+      degToRad(-90) as double,
     );
     path.lineTo(size.width, size.height * 0.925);
     path.lineTo(size.width, size.height * 0.075);

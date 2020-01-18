@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:focus_timer/widgets/pageview_page.dart';
-import 'package:focus_timer/widgets/sessions/session_countdown.dart';
-import 'package:focus_timer/widgets/sessions/sessions_list_container.dart';
-import 'package:focus_timer/widgets/tasks/tasks_list_container.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 import 'package:focus_timer/state_models/session_model.dart';
 import 'package:focus_timer/widgets/datetime/current_datetime_container.dart';
+import 'package:focus_timer/widgets/pageview_page.dart';
+import 'package:focus_timer/widgets/sessions/session_countdown.dart';
+import 'package:focus_timer/widgets/sessions/sessions_list_container.dart';
 import 'package:focus_timer/widgets/soft/soft_appbar.dart';
 import 'package:focus_timer/widgets/soft/soft_button.dart';
 import 'package:focus_timer/widgets/soft/soft_container.dart';
+import 'package:focus_timer/widgets/tasks/tasks_list_container.dart';
 
 class MobileLanding extends StatefulWidget {
   @override
@@ -33,6 +33,8 @@ class _MobileLandingState extends State<MobileLanding> {
 
     final sessionsModel = Injector.get<SessionsModel>();
 
+    final containerSize = MediaQuery.of(context).size.width * 0.8;
+
     return Scaffold(
       body: PageView.custom(
         scrollDirection: Axis.vertical,
@@ -52,10 +54,9 @@ class _MobileLandingState extends State<MobileLanding> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SoftContainer(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.width * 0.8,
-                          radius:
-                              (MediaQuery.of(context).size.width * 0.8) / 1.8,
+                          width: containerSize,
+                          height: containerSize,
+                          radius: containerSize / 1.8,
                           child: SessionCountdown(),
                         ),
                       ),
@@ -71,6 +72,7 @@ class _MobileLandingState extends State<MobileLanding> {
                           child: StateBuilder(
                             models: [sessionsModel],
                             builder: (context, _) => SoftButton(
+                              radius: 15,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Icon(
@@ -80,7 +82,6 @@ class _MobileLandingState extends State<MobileLanding> {
                                   size: 36,
                                 ),
                               ),
-                              radius: 15,
                             ),
                           ),
                         ),
@@ -95,8 +96,8 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
                       child: CurrentDateTimeContainer(),
                     ),
                   ),
@@ -115,21 +116,21 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
                       child: CurrentDateTimeContainer(),
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: TasksListContainer(),
                     ),
                   ),
                 ],
               ),
             ),
-            Page(
+            const Page(
                 // useComplemtaryTheme: true,
                 ),
           ],

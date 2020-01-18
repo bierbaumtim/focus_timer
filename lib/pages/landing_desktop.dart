@@ -31,8 +31,8 @@ class DesktopLanding extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 16.0),
                       child: CurrentDateTimeContainer(),
                     ),
                   ),
@@ -53,7 +53,7 @@ class DesktopLanding extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 96),
+                        const SizedBox(width: 96),
                         Expanded(
                           child: SoftContainer(
                             child: Padding(
@@ -70,7 +70,8 @@ class DesktopLanding extends StatelessWidget {
                                               bottom: kToolbarHeight + 8,
                                             ),
                                             child: CustomScrollView(
-                                              physics: BouncingScrollPhysics(),
+                                              physics:
+                                                  const BouncingScrollPhysics(),
                                               slivers: <Widget>[
                                                 SliverPadding(
                                                   padding:
@@ -95,25 +96,25 @@ class DesktopLanding extends StatelessWidget {
                                             ),
                                           );
                                         } else {
-                                          return Center(
+                                          return const Center(
                                             child: Text(
                                               'You\'ve done all your tasks',
                                             ),
                                           );
                                         }
                                       } else if (state is TasksLoading) {
-                                        return Center(
+                                        return const Center(
                                           child: SoftContainer(
+                                            radius: 15,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8),
+                                              padding: EdgeInsets.all(8),
                                               child:
                                                   CircularProgressIndicator(),
                                             ),
-                                            radius: 15,
                                           ),
                                         );
                                       } else {
-                                        return Center(
+                                        return const Center(
                                           child: Text(
                                             'Add tasks that you want to complete in future sessions',
                                           ),
@@ -121,14 +122,14 @@ class DesktopLanding extends StatelessWidget {
                                       }
                                     },
                                   ),
-                                  Positioned(
+                                  const Positioned(
                                     left: 12,
                                     right: 12,
                                     child: ListTile(
                                       title: Text('Tasks'),
                                     ),
                                   ),
-                                  Positioned(
+                                  const Positioned(
                                     bottom: 0,
                                     left: 12,
                                     right: 12,
@@ -144,11 +145,11 @@ class DesktopLanding extends StatelessWidget {
                   ),
                 ],
               ),
-              Page(
+              const Page(
                 useComplemtaryTheme: true,
               ),
-              Page(),
-              Page(
+              const Page(),
+              const Page(
                 useComplemtaryTheme: true,
               ),
             ],

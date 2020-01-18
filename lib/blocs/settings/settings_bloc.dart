@@ -26,7 +26,7 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
 
   @override
   SettingsState fromJson(Map<String, dynamic> json) {
-    var darkmode;
+    bool darkmode;
     try {
       darkmode = json['darkmode'] as bool ?? true;
     } catch (e) {

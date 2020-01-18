@@ -34,10 +34,11 @@ class CrossPlatformStorage implements HydratedStorage {
         await prefs?.remove(kHydratedBlocKey);
       }
     } else if (Platform.isAndroid || Platform.isIOS) {
-      directory = storageDirectory ?? Platform.isIOS
-          ? await getApplicationSupportDirectory()
-          : await getApplicationDocumentsDirectory();
-      var file = File('${directory.path}/$kHydratedBlocKey');
+      directory = storageDirectory ??
+          (Platform.isIOS
+              ? await getApplicationSupportDirectory()
+              : await getApplicationDocumentsDirectory());
+      final file = File('${directory.path}/$kHydratedBlocKey');
 
       if (await file.exists()) {
         try {
@@ -49,7 +50,7 @@ class CrossPlatformStorage implements HydratedStorage {
       }
     } else if (Platform.isWindows) {
       // Sollte nicht im Produktion genutzt werden
-      var file = File('C:\\hydrated_bloc_storage.json');
+      final file = File('C:\\hydrated_bloc_storage.json');
       if (await file.exists()) {
         try {
           storage =
@@ -60,16 +61,14 @@ class CrossPlatformStorage implements HydratedStorage {
       }
     }
 
-    _instance = CrossPlatformStorage(storage, directory);
-    return _instance;
+    return _instance = CrossPlatformStorage(storage, directory);
   }
 
   @override
-  Future<void> clear() {
+  Future<void> clear() async {
     _storage.clear();
     _instance = null;
     writeToStorage(null);
-    return null;
   }
 
   @override

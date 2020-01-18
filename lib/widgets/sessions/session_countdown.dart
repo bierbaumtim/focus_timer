@@ -19,12 +19,12 @@ class SessionCountdown extends StatelessWidget {
       ],
       onRebuildState: (context, _) => print('update StateBuilder'),
       builder: (context, _) {
-        var children = <Widget>[];
+        final children = <Widget>[];
 
         if (sessionsModel.isBreak) {
           children.add(
             CountdownTime(
-              key: PageStorageKey('countdown_break'),
+              key: const PageStorageKey('countdown_break'),
               duration: sessionsModel.breakDuration,
               onTimerFinished: () {
                 sessionsModel.startSession();
@@ -34,7 +34,7 @@ class SessionCountdown extends StatelessWidget {
         } else if (sessionsModel.currentSession != null) {
           children.add(
             CountdownTime(
-              key: PageStorageKey('countdown_session'),
+              key: const PageStorageKey('countdown_session'),
               duration: sessionsModel.currentSession.duration,
               onTimerFinished: () {
                 sessionsModel.startBreak();
@@ -108,7 +108,7 @@ class _CountdownTimeState extends State<CountdownTime> {
 
   void setupTimer() {
     duration = widget.duration;
-    timer = Timer.periodic(Duration(seconds: 1), _decreaseTimer);
+    timer = Timer.periodic(const Duration(seconds: 1), _decreaseTimer);
   }
 
   void _decreaseTimer(Timer t) {
@@ -152,9 +152,7 @@ class _CountdownTimeState extends State<CountdownTime> {
       timeString += ':';
     }
 
-    final seconds = (((duration % 3600) % 60).truncate());
-    timeString += seconds.toString().padLeft(2, '0');
-
-    return timeString;
+    final seconds = ((duration % 3600) % 60).truncate();
+    return timeString += seconds.toString().padLeft(2, '0');
   }
 }

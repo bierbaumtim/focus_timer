@@ -23,8 +23,10 @@ BoxDecoration kSoftInvertedButtonDecoration(bool isDark, double radius) =>
       ),
       boxShadow: <BoxShadow>[
         BoxShadow(
-          color: isDark ? Colors.grey[800].withOpacity(0.8) : Colors.white,
-          offset: Offset(5.0, 5.0),
+          color: isDark
+              ? kSoftDarkTopShadowColor.withOpacity(0.8)
+              : kSoftLightTopShadowColor,
+          offset: const Offset(5.0, 5.0),
           blurRadius: 3,
           spreadRadius: -3,
         ),

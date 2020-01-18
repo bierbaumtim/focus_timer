@@ -15,6 +15,7 @@ class CurrentDateTimeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SoftContainer(
+      useDarkTheme: useDarkTheme,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 4,
@@ -30,7 +31,6 @@ class CurrentDateTimeContainer extends StatelessWidget {
           ],
         ),
       ),
-      useDarkTheme: useDarkTheme,
     );
   }
 }

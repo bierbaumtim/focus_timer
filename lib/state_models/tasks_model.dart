@@ -5,8 +5,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 class TasksModel extends StatesRebuilder {
   final ITasksRepository repository;
 
-  TasksModel(this.repository) {
-    assert(repository != null);
+  TasksModel(this.repository) : assert(repository != null) {
     allTasksCompleted = false;
     tasks = repository.loadTasks();
   }

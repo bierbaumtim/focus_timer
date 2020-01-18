@@ -1,8 +1,9 @@
 import 'package:dartx/dartx.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
+import 'package:focus_timer/extensions/num_extensions.dart';
 import 'package:focus_timer/models/session.dart';
-import 'package:focus_timer/repositories/storage_repository.dart';
+import 'package:focus_timer/repositories/sessions_repository.dart';
 
 class SessionsModel extends StatesRebuilder {
   final SessionsRepository storageRepository;
@@ -20,8 +21,14 @@ class SessionsModel extends StatesRebuilder {
   bool isBreak, allSessionsCompleted;
   int breakDuration, currentSessionIndex;
 
-  void addSession(Session session) {
-    sessions.add(session);
+  void addSession(Session newSession, {int duration, int position}) {
+    final session =
+        newSession ?? Session.create(duration ?? 5.minutes.inSeconds);
+    if (position != null && position.isBetween(0, sessions.lastIndex)) {
+      sessions.insert(position, session);
+    } else {
+      sessions.add(session);
+    }
     storageRepository.saveSession(session);
     rebuildStates();
   }
@@ -45,29 +52,22 @@ class SessionsModel extends StatesRebuilder {
 
   void startBreak() {
     final index = sessions.indexOf(currentSession);
-    print('index: $index');
     isBreak = true;
-    print('isBreak: $isBreak');
     breakDuration = index % 5 == 0 ? 5.minutes.inSeconds : 25.minutes.inSeconds;
-    print('breakDuration: $breakDuration');
     rebuildStates();
   }
 
   void startSession() {
     if (sessions.isNotEmpty) {
-      print('currentSessionIndex: $currentSessionIndex');
       if (currentSessionIndex == -1) {
         currentSession = sessions.first;
         currentSessionIndex = 0;
-        print('currentSessionIndex: $currentSessionIndex');
       } else if (currentSessionIndex + 1 <= sessions.lastIndex) {
         currentSessionIndex += 1;
         currentSession = sessions.elementAt(currentSessionIndex);
-        print('currentSessionIndex: $currentSessionIndex');
       }
     }
     isBreak = false;
-    print('isBreak: $isBreak');
     rebuildStates();
   }
 

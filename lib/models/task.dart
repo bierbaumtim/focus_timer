@@ -7,6 +7,7 @@ part 'task.g.dart';
 
 @HiveType(typeId: 1)
 @JsonSerializable()
+// ignore: must_be_immutable
 class Task extends Equatable {
   @HiveField(0)
   @JsonKey(name: 'name', defaultValue: '')

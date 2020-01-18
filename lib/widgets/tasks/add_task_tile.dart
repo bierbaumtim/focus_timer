@@ -33,6 +33,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
     final theme = Theme.of(context);
 
     return SoftContainer(
+      radius: 20,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8,
@@ -52,12 +53,8 @@ class _AddTaskTileState extends State<AddTaskTile> {
                 ),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             SoftButton(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.add),
-              ),
               radius: 15,
               onTap: () {
                 if (taskNameController.text.isNotEmpty) {
@@ -67,12 +64,15 @@ class _AddTaskTileState extends State<AddTaskTile> {
                   taskNameController.clear();
                 }
               },
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.add),
+              ),
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
           ],
         ),
       ),
-      radius: 20,
     );
   }
 }

@@ -5,12 +5,12 @@ import 'package:focus_timer/widgets/soft/soft_colors.dart';
 List<Shadow> lightTextShadow = <Shadow>[
   Shadow(
     color: Colors.grey[500],
-    offset: Offset(5.0, 5.0),
+    offset: const Offset(5.0, 5.0),
     blurRadius: 15.0,
   ),
   Shadow(
     color: Colors.white,
-    offset: Offset(-5.0, -5.0),
+    offset: const Offset(-5.0, -5.0),
     blurRadius: 15.0,
   ),
 ];
@@ -18,12 +18,12 @@ List<Shadow> lightTextShadow = <Shadow>[
 List<Shadow> darkTextShadow = <Shadow>[
   Shadow(
     color: Colors.grey[900],
-    offset: Offset(5.0, 5.0),
+    offset: const Offset(5.0, 5.0),
     blurRadius: 15.0,
   ),
   Shadow(
     color: Colors.grey[800],
-    offset: Offset(-5.0, -5.0),
+    offset: const Offset(-5.0, -5.0),
     blurRadius: 15.0,
   ),
 ];

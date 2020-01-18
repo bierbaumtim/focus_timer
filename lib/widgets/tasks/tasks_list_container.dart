@@ -23,7 +23,7 @@ class TasksListContainer extends StatelessWidget {
               models: [tasksModel],
               builder: (context, _) {
                 if (tasksModel.allTasksCompleted) {
-                  return Center(
+                  return const Center(
                     child: Text(
                       'You\'ve done all your tasks',
                     ),
@@ -35,7 +35,7 @@ class TasksListContainer extends StatelessWidget {
                       bottom: kToolbarHeight + 8,
                     ),
                     child: CustomScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       slivers: <Widget>[
                         SliverPadding(
                           padding: const EdgeInsets.only(
@@ -55,7 +55,7 @@ class TasksListContainer extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Center(
+                  return const Center(
                     child: Text(
                       'Add tasks that you want to complete in future sessions',
                     ),
@@ -63,14 +63,14 @@ class TasksListContainer extends StatelessWidget {
                 }
               },
             ),
-            Positioned(
+            const Positioned(
               left: 12,
               right: 12,
               child: ListTile(
                 title: Text('Tasks'),
               ),
             ),
-            Positioned(
+            const Positioned(
               bottom: 0,
               left: 12,
               right: 12,

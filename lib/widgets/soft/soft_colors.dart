@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-final kSoftLightBackgroundColor = Colors.grey[300];
-final kSoftLightBottomShadowColor = Colors.grey[500];
-final kSoftLightTopShadowColor = Colors.white;
+final Color kSoftLightBackgroundColor = Colors.grey[300];
+final Color kSoftLightBottomShadowColor = Colors.grey[500];
+final Color kSoftLightTopShadowColor = Colors.white;
 
-final kSoftDarkBackgroundColor = Colors.grey[850];
-final kSoftDarkBottomShadowColor = Colors.grey[900];
-final kSoftDarkTopShadowColor = Colors.grey[800];
+final Color kSoftDarkBackgroundColor = Colors.grey[850];
+final Color kSoftDarkBottomShadowColor = Colors.grey[900];
+final Color kSoftDarkTopShadowColor = Color(0xFF393939); // Colors.grey[800];
 
-final kSoftLightTextColor = Colors.grey[800];
-final kSoftDarkTextColor = Colors.white;
+final Color kSoftLightTextColor = Colors.grey[800];
+final Color kSoftDarkTextColor = Colors.white;
 
-Color kSoftButtonColor(isDark) =>
+Color kSoftButtonColor(bool isDark) =>
     isDark ? kSoftDarkBackgroundColor : kSoftLightBackgroundColor;

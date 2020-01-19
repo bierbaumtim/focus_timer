@@ -21,12 +21,15 @@ class Session extends Equatable {
   @HiveField(2)
   @JsonKey(name: 'tasks', defaultValue: <Task>[])
   final List<Task> tasks;
+  @JsonKey(name: 'isCompleted', defaultValue: false)
+  final bool isCompleted;
 
   const Session({
     this.uid,
     this.duration,
     this.tasks,
-  });
+    bool isCompleted,
+  }) : isCompleted = isCompleted ?? false;
 
   @override
   @CopyWithField(ignore: true)

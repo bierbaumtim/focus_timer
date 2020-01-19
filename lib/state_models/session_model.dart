@@ -31,7 +31,9 @@ class SessionsModel extends StatesRebuilder {
         .map<Session>((s) => s.uid == session.uid ? session : s)
         .toList();
     storageRepository.updateSession(session);
-    rebuildStates();
+    if (hasObservers) {
+      rebuildStates();
+    }
   }
 
   void removeSession(Session session) {

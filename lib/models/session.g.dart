@@ -11,12 +11,14 @@ extension $SessionCopyWith on Session {
     String uid,
     int duration,
     List<Task> tasks,
+    bool isCompleted,
     List<Object> props,
   }) {
     return Session(
       uid: uid ?? this.uid,
       duration: duration ?? this.duration,
       tasks: tasks ?? this.tasks,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }
@@ -68,6 +70,7 @@ Session _$SessionFromJson(Map<String, dynamic> json) {
                 e == null ? null : Task.fromJson(e as Map<String, dynamic>))
             ?.toList() ??
         [],
+    isCompleted: json['isCompleted'] as bool ?? false,
   );
 }
 
@@ -75,4 +78,5 @@ Map<String, dynamic> _$SessionToJson(Session instance) => <String, dynamic>{
       'uid': instance.uid,
       'duration': instance.duration,
       'tasks': instance.tasks,
+      'isCompleted': instance.isCompleted,
     };

@@ -36,10 +36,10 @@ class _CurrentTimeTextState extends State<CurrentTimeText> {
   }
 
   String timeToString(DateTime time) {
-    final seconds = time.second.toString().padLeft(2, '0');
+    // final seconds = time.second.toString().padLeft(2, '0');
     final minutes = time.minute.toString().padLeft(2, '0');
     final hours = time.hour.toString().padLeft(2, '0');
-    return "$hours:$minutes:$seconds";
+    return "$hours:$minutes"; // :$seconds
   }
 
   @override

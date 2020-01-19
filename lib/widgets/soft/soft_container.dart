@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:focus_timer/widgets/soft/soft_shadows.dart';
 
 import 'soft_colors.dart';
@@ -38,6 +39,7 @@ class SoftContainer extends StatelessWidget {
           kSoftBottomContainerShadow(useDarkTheme ?? isDark),
           kSoftTopContainerShadow(useDarkTheme ?? isDark),
         ],
+        // gradient: isDark ? kSoftDarkGradient : kSoftLightGradient,
       ),
       child: child,
     );

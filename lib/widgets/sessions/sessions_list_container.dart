@@ -127,7 +127,7 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
                               child: SessionTile(
                                 session:
                                     sessionsModel.sessions.elementAt(index),
-                                index: index + 1,
+                                index: index,
                               ),
                             ),
                           ),

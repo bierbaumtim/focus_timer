@@ -23,6 +23,8 @@ class SessionTile extends StatelessWidget {
     final currentSessionModel = Injector.get<CurrentSessionModel>();
     final sessionsModel = Injector.get<SessionsModel>();
 
+    final theme = Theme.of(context);
+
     return Dismissible(
       key: ValueKey(session.uid),
       onDismissed: (_) => sessionsModel.removeSession(session),
@@ -34,7 +36,14 @@ class SessionTile extends StatelessWidget {
         child: SoftContainer(
           radius: 15,
           child: ListTile(
-            title: Text('Session ${index ?? ''}'),
+            title: Text(
+              'Session ${(index ?? 0) + 1}',
+              style: theme.textTheme.subhead.copyWith(
+                color: session.isCompleted
+                    ? theme.textTheme.subhead.color.withOpacity(0.5)
+                    : theme.textTheme.subhead.color,
+              ),
+            ),
             trailing: SoftButton(
               onTap: () {
                 if (currentSessionModel.currentSessionIndex == index) {
@@ -50,12 +59,12 @@ class SessionTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(1.5),
                 child: Icon(
-                  currentSessionModel.currentSessionIndex <= index
-                      ? currentSessionModel.currentSessionIndex == index &&
+                  session.isCompleted
+                      ? Icons.check
+                      : currentSessionModel.currentSessionIndex == index &&
                               currentSessionModel.isRunning
                           ? Icons.pause
-                          : Icons.play_arrow
-                      : Icons.check,
+                          : Icons.play_arrow,
                 ),
               ),
             ),

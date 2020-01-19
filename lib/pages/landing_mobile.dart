@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:focus_timer/state_models/current_session_model.dart';
+import 'package:focus_timer/widgets/time/countdown_time.dart';
 
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -58,7 +59,7 @@ class _MobileLandingState extends State<MobileLanding> {
                           width: containerSize,
                           height: containerSize,
                           radius: containerSize / 1.8,
-                          child: SessionCountdown(),
+                          child: const SessionCountdown(),
                         ),
                       ),
                     ),
@@ -110,9 +111,33 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topCenter,
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
-                      child: CurrentDateTimeContainer(),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                      child: StateBuilder(
+                        models: [currentSessionModel],
+                        builder: (context, _) => Row(
+                          mainAxisAlignment: currentSessionModel.isBreak ||
+                                  currentSessionModel.isRunning
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.center,
+                          children: <Widget>[
+                            const CurrentDateTimeContainer(),
+                            if (currentSessionModel.isBreak ||
+                                currentSessionModel.isRunning)
+                              const SoftContainer(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 4,
+                                    horizontal: 8,
+                                  ),
+                                  child: CountdownTime(
+                                    isSmall: true,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(

@@ -12,6 +12,7 @@ import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/constants/hive_constants.dart';
 import 'package:focus_timer/repositories/sessions_repository.dart';
 import 'package:focus_timer/repositories/tasks_repository.dart';
+import 'package:focus_timer/services/session_service.dart';
 import 'package:focus_timer/state_models/current_session_model.dart';
 import 'package:focus_timer/state_models/tasks_model.dart';
 import 'package:hive/hive.dart';
@@ -62,6 +63,12 @@ void main() async {
           ),
           Inject<CurrentSessionModel>(
             () => CurrentSessionModel(Injector.get<SessionsModel>()),
+          ),
+          Inject<SessionService>(
+            () => SessionService(
+              Injector.get<SessionsModel>(),
+              Injector.get<CurrentSessionModel>(),
+            ),
           ),
         ],
         builder: (context) => MyApp(),

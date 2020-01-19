@@ -1,6 +1,6 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 
+import 'package:auto_animated/auto_animated.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 import 'package:focus_timer/state_models/tasks_model.dart';

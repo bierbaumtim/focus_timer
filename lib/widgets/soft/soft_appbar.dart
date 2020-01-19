@@ -9,12 +9,14 @@ import 'package:focus_timer/widgets/soft/soft_button.dart';
 class SoftAppBar extends StatelessWidget {
   const SoftAppBar({
     Key key,
+    this.centerWidget,
     this.titleStyle,
     this.height = kToolbarHeight,
   }) : super(key: key);
 
   final TextStyle titleStyle;
   final double height;
+  final Widget centerWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,8 @@ class SoftAppBar extends StatelessWidget {
                 'Focus Timer',
                 style: titleStyle ?? theme.textTheme.title,
               ),
+              if (centerWidget != null)
+                Expanded(child: centerWidget),
               SoftButton(
                 radius: 15,
                 onTap: () =>

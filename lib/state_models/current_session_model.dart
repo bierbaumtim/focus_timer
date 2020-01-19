@@ -60,7 +60,7 @@ class CurrentSessionModel extends StatesRebuilder {
         currentSessionIndex++;
         currentSession = sessions.elementAt(currentSessionIndex);
       }
-      currentDuration = 10 ?? currentSession?.duration ?? 0;
+      currentDuration = currentSession?.duration ?? 0;
       isRunning = true;
       timer?.cancel();
       timer = Timer.periodic(

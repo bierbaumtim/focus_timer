@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:focus_timer/models/session.dart';
+import 'package:focus_timer/state_models/current_session_model.dart';
 import 'package:focus_timer/state_models/session_model.dart';
 import 'package:focus_timer/widgets/soft/soft_button.dart';
 import 'package:focus_timer/widgets/soft/soft_container.dart';
@@ -19,6 +20,7 @@ class SessionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentSessionModel = Injector.get<CurrentSessionModel>();
     final sessionsModel = Injector.get<SessionsModel>();
 
     return Dismissible(
@@ -34,9 +36,27 @@ class SessionTile extends StatelessWidget {
           child: ListTile(
             title: Text('Session ${index ?? ''}'),
             trailing: SoftButton(
+              onTap: () {
+                if (currentSessionModel.currentSessionIndex == index) {
+                  if (currentSessionModel.isRunning) {
+                    currentSessionModel.stopTimer();
+                  } else {
+                    currentSessionModel.restartTimer();
+                  }
+                } else if (currentSessionModel.currentSessionIndex < index) {
+                  currentSessionModel.startSession(index);
+                }
+              },
               child: Padding(
                 padding: const EdgeInsets.all(1.5),
-                child: Icon(Icons.play_arrow),
+                child: Icon(
+                  currentSessionModel.currentSessionIndex <= index
+                      ? currentSessionModel.currentSessionIndex == index &&
+                              currentSessionModel.isRunning
+                          ? Icons.pause
+                          : Icons.play_arrow
+                      : Icons.check,
+                ),
               ),
             ),
           ),

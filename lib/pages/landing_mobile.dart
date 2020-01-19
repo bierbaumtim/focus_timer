@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:focus_timer/state_models/current_session_model.dart';
 
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -31,7 +32,7 @@ class _MobileLandingState extends State<MobileLanding> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final sessionsModel = Injector.get<SessionsModel>();
+    final currentSessionModel = Injector.get<CurrentSessionModel>();
 
     final containerSize = MediaQuery.of(context).size.width * 0.8;
 
@@ -70,19 +71,32 @@ class _MobileLandingState extends State<MobileLanding> {
                         height: kToolbarHeight,
                         child: Center(
                           child: StateBuilder(
-                            models: [sessionsModel],
-                            builder: (context, _) => SoftButton(
-                              radius: 15,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Icon(
-                                  sessionsModel.isBreak
-                                      ? Icons.play_arrow
-                                      : Icons.pause,
-                                  size: 36,
-                                ),
-                              ),
-                            ),
+                            models: [currentSessionModel],
+                            builder: (context, _) {
+                              if (currentSessionModel.isBreak) {
+                                return Container();
+                              } else {
+                                return SoftButton(
+                                  radius: 15,
+                                  onTap: () {
+                                    if (currentSessionModel.isRunning) {
+                                      currentSessionModel.stopTimer();
+                                    } else {
+                                      currentSessionModel.restartTimer();
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Icon(
+                                      currentSessionModel.isRunning
+                                          ? Icons.pause
+                                          : Icons.play_arrow,
+                                      size: 36,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                       ),

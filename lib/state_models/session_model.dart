@@ -9,17 +9,10 @@ class SessionsModel extends StatesRebuilder {
   final SessionsRepository storageRepository;
 
   SessionsModel(this.storageRepository) {
-    isBreak = false;
-    allSessionsCompleted = false;
-    breakDuration = 5.minutes.inSeconds;
-    currentSessionIndex = -1;
     loadSessions();
   }
 
   List<Session> sessions;
-  Session currentSession;
-  bool isBreak, allSessionsCompleted;
-  int breakDuration, currentSessionIndex;
 
   void addSession(Session newSession, {int duration, int position}) {
     final session =
@@ -37,9 +30,6 @@ class SessionsModel extends StatesRebuilder {
     sessions = sessions
         .map<Session>((s) => s.uid == session.uid ? session : s)
         .toList();
-    if (currentSession.uid == session.uid) {
-      currentSession = session;
-    }
     storageRepository.updateSession(session);
     rebuildStates();
   }
@@ -47,27 +37,6 @@ class SessionsModel extends StatesRebuilder {
   void removeSession(Session session) {
     sessions.removeWhere((s) => s.uid == session.uid);
     storageRepository.removeSession(session);
-    rebuildStates();
-  }
-
-  void startBreak() {
-    final index = sessions.indexOf(currentSession);
-    isBreak = true;
-    breakDuration = index % 5 == 0 ? 5.minutes.inSeconds : 25.minutes.inSeconds;
-    rebuildStates();
-  }
-
-  void startSession() {
-    if (sessions.isNotEmpty) {
-      if (currentSessionIndex == -1) {
-        currentSession = sessions.first;
-        currentSessionIndex = 0;
-      } else if (currentSessionIndex + 1 <= sessions.lastIndex) {
-        currentSessionIndex += 1;
-        currentSession = sessions.elementAt(currentSessionIndex);
-      }
-    }
-    isBreak = false;
     rebuildStates();
   }
 

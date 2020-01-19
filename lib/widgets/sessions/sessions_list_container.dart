@@ -1,5 +1,6 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_timer/state_models/current_session_model.dart';
 
 import 'package:focus_timer/state_models/session_model.dart';
 import 'package:focus_timer/widgets/sessions/session_tile.dart';
@@ -31,6 +32,7 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
   @override
   Widget build(BuildContext context) {
     final sessionsModel = Injector.get<SessionsModel>();
+    final currentSessionModel = Injector.get<CurrentSessionModel>();
 
     return SoftContainer(
       child: Padding(
@@ -38,9 +40,9 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
         child: Stack(
           children: <Widget>[
             StateBuilder(
-              models: [sessionsModel],
+              models: [sessionsModel, currentSessionModel],
               builder: (context, _) {
-                if (sessionsModel.allSessionsCompleted) {
+                if (currentSessionModel.allSessionsCompleted) {
                   return const Center(
                     child: Text(
                       'You\'ve done all your tasks',

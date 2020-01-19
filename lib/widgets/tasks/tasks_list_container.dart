@@ -1,3 +1,4 @@
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -29,29 +30,58 @@ class TasksListContainer extends StatelessWidget {
                     ),
                   );
                 } else if (tasksModel.tasks.isNotEmpty) {
+                  // return Padding(
+                  //   padding: const EdgeInsets.only(
+                  //     top: kToolbarHeight,
+                  //     bottom: kToolbarHeight + 8,
+                  //   ),
+                  //   child: CustomScrollView(
+                  //     physics: const BouncingScrollPhysics(),
+                  //     slivers: <Widget>[
+                  //       SliverPadding(
+                  //         padding: const EdgeInsets.only(
+                  //           bottom: 14,
+                  //           top: 14,
+                  //         ),
+                  //         sliver: SliverList(
+                  //           delegate: SliverChildBuilderDelegate(
+                  //             (context, index) => TaskTile(
+                  //               task: tasksModel.tasks.elementAt(index),
+                  //             ),
+                  //             childCount: tasksModel.tasks.length,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // );
                   return Padding(
                     padding: const EdgeInsets.only(
                       top: kToolbarHeight,
                       bottom: kToolbarHeight + 8,
                     ),
-                    child: CustomScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      slivers: <Widget>[
-                        SliverPadding(
-                          padding: const EdgeInsets.only(
-                            bottom: 14,
-                            top: 14,
-                          ),
-                          sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) => TaskTile(
+                    child: AnimateIfVisibleWrapper(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) => AnimateIfVisible(
+                          key: ValueKey(tasksModel.tasks.elementAt(index).uuid),
+                          builder: (context, animation) => FadeTransition(
+                            opacity: Tween<double>(
+                              begin: 0,
+                              end: 1,
+                            ).animate(animation),
+                            child: SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(0.5, 0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: TaskTile(
                                 task: tasksModel.tasks.elementAt(index),
                               ),
-                              childCount: tasksModel.tasks.length,
                             ),
                           ),
                         ),
-                      ],
+                        itemCount: tasksModel.tasks.length,
+                      ),
                     ),
                   );
                 } else {

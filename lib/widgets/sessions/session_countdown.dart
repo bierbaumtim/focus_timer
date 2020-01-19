@@ -1,45 +1,33 @@
-import 'dart:async';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+
+import 'package:focus_timer/state_models/current_session_model.dart';
 
 import '../../state_models/session_model.dart';
 
 class SessionCountdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final sessionsModel = Injector.get<SessionsModel>();
+    final currentSessionModel = Injector.get<CurrentSessionModel>();
     final theme = Theme.of(context);
 
     return StateBuilder<SessionsModel>(
       models: [
-        sessionsModel,
+        currentSessionModel,
       ],
-      onRebuildState: (context, _) => print('update StateBuilder'),
+      disposeModels: false,
       builder: (context, _) {
         final children = <Widget>[];
 
-        if (sessionsModel.isBreak) {
+        if (currentSessionModel.isBreak) {
           children.add(
-            CountdownTime(
-              key: const PageStorageKey('countdown_break'),
-              duration: sessionsModel.breakDuration,
-              onTimerFinished: () {
-                sessionsModel.startSession();
-              },
-            ),
+            const CountdownTime(),
           );
-        } else if (sessionsModel.currentSession != null) {
+        } else if (currentSessionModel.currentSession != null) {
           children.add(
-            CountdownTime(
-              key: const PageStorageKey('countdown_session'),
-              duration: sessionsModel.currentSession.duration,
-              onTimerFinished: () {
-                sessionsModel.startBreak();
-              },
-            ),
+            const CountdownTime(),
           );
         } else {
           children.add(
@@ -68,77 +56,33 @@ class SessionCountdown extends StatelessWidget {
   }
 }
 
-class CountdownTime extends StatefulWidget {
-  final int duration;
-  final VoidCallback onTimerFinished;
-
-  const CountdownTime({
-    Key key,
-    this.duration,
-    this.onTimerFinished,
-  }) : super(key: key);
-
-  @override
-  _CountdownTimeState createState() => _CountdownTimeState();
-}
-
-class _CountdownTimeState extends State<CountdownTime> {
-  Timer timer;
-  int duration;
-
-  @override
-  void initState() {
-    super.initState();
-    setupTimer();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!timer.isActive) {
-      setupTimer();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer.cancel();
-  }
-
-  void setupTimer() {
-    duration = widget.duration;
-    timer = Timer.periodic(const Duration(seconds: 1), _decreaseTimer);
-  }
-
-  void _decreaseTimer(Timer t) {
-    duration -= 1;
-    if (duration <= 0) {
-      duration = 0;
-      timer.cancel();
-      widget.onTimerFinished?.call();
-    }
-    setState(() {});
-  }
+class CountdownTime extends StatelessWidget {
+  const CountdownTime({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final currentSessionModel = Injector.get<CurrentSessionModel>();
 
-    return Align(
-      alignment: Alignment.center,
-      child: AutoSizeText(
-        timeToString,
-        maxLines: 1,
-        style: theme.textTheme.title.copyWith(
-          fontSize: 110,
-          shadows: [],
+    return StateBuilder<SessionsModel>(
+      models: [
+        currentSessionModel,
+      ],
+      builder: (context, _) => Align(
+        alignment: Alignment.center,
+        child: AutoSizeText(
+          timeToString(currentSessionModel.currentDuration),
+          maxLines: 1,
+          style: theme.textTheme.title.copyWith(
+            fontSize: 110,
+            shadows: [],
+          ),
         ),
       ),
     );
   }
 
-  String get timeToString {
+  String timeToString(int duration) {
     var timeString = '';
     final hours = (duration / 3600).truncate();
     if (hours > 0) {

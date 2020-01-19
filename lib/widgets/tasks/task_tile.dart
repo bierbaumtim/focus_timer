@@ -29,8 +29,18 @@ class TaskTile extends StatelessWidget {
           child: CheckboxListTile(
             value: task.isCompleted,
             onChanged: (_) => taskModel.updateTask(task..toggleIsCompleted()),
-            title: Text(task.name),
-            activeColor: theme.accentColor,
+            title: Text(
+              task.name,
+              style: task.isCompleted
+                  ? theme.textTheme.body1.copyWith(
+                      decoration: TextDecoration.lineThrough,
+                      decorationThickness: 2.0,
+                      color: theme.textTheme.body1.color.withOpacity(0.75),
+                    )
+                  : theme.textTheme.body1,
+            ),
+            activeColor:
+                theme.accentColor.withOpacity(task.isCompleted ? 0.75 : 1.0),
             checkColor: theme.canvasColor,
           ),
         ),

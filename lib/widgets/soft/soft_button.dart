@@ -40,11 +40,11 @@ class _SoftButtonState extends State<SoftButton> {
       onTap: widget.onTap,
       child: Container(
         decoration: invertColor
-            ? kSoftInvertedButtonDecoration(
+            ? kSoftInvertedDecoration(
                 widget.useDarkTheme ?? isDark,
                 widget.radius,
               )
-            : kSoftButtonDecoration(
+            : kSoftDecoration(
                 widget.useDarkTheme ?? isDark,
                 widget.radius,
               ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'soft_colors.dart';
 import 'soft_shadows.dart';
 
-BoxDecoration kSoftButtonDecoration(bool isDark, double radius) =>
+BoxDecoration kSoftDecoration(bool isDark, double radius) =>
     BoxDecoration(
       color: kSoftButtonColor(isDark),
       borderRadius: BorderRadius.all(
@@ -15,7 +15,7 @@ BoxDecoration kSoftButtonDecoration(bool isDark, double radius) =>
       ],
     );
 
-BoxDecoration kSoftInvertedButtonDecoration(bool isDark, double radius) =>
+BoxDecoration kSoftInvertedDecoration(bool isDark, double radius) =>
     BoxDecoration(
       color: Colors.black.withOpacity(isDark ? 0.25 : 0.075),
       borderRadius: BorderRadius.all(

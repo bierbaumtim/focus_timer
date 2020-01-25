@@ -6,7 +6,7 @@ final Color kSoftLightTopShadowColor = Colors.white;
 
 final Color kSoftDarkBackgroundColor = Colors.grey[850];
 final Color kSoftDarkBottomShadowColor = Colors.grey[900];
-final Color kSoftDarkTopShadowColor = Color(0xFF393939); // Colors.grey[800];
+const Color kSoftDarkTopShadowColor = Color(0xFF393939); // Colors.grey[800];
 
 final Color kSoftLightTextColor = Colors.grey[800];
 final Color kSoftDarkTextColor = Colors.white;

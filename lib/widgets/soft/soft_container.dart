@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/widgets/soft/soft_shadows.dart';
-
-import 'soft_colors.dart';
+import 'package:focus_timer/widgets/soft/soft_decorations.dart';
 
 class SoftContainer extends StatelessWidget {
   final Widget child;
-  final double width;
-  final double height;
   final double radius;
   final bool useDarkTheme;
+  final bool inverted;
+  BoxConstraints constraints;
 
-  const SoftContainer({
+  SoftContainer({
     Key key,
-    this.width,
-    this.height,
+    double width,
+    double height,
     this.radius,
     this.child,
     this.useDarkTheme,
-  }) : super(key: key);
+    this.inverted = false,
+    BoxConstraints constraints,
+  })  : constraints = (width != null || height != null)
+            ? constraints?.tighten(width: width, height: height) ??
+                BoxConstraints.tightFor(width: width, height: height)
+            : constraints,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +30,10 @@ class SoftContainer extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: (useDarkTheme ?? isDark)
-            ? kSoftDarkBackgroundColor
-            : kSoftLightBackgroundColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(radius ?? 40),
-        ),
-        boxShadow: <BoxShadow>[
-          kSoftBottomContainerShadow(useDarkTheme ?? isDark),
-          kSoftTopContainerShadow(useDarkTheme ?? isDark),
-        ],
-        // gradient: isDark ? kSoftDarkGradient : kSoftLightGradient,
-      ),
+      constraints: constraints,
+      decoration: inverted
+          ? kSoftInvertedDecoration(useDarkTheme ?? isDark, radius)
+          : kSoftDecoration(useDarkTheme ?? isDark, radius),
       child: child,
     );
   }

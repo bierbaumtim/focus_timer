@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/state_models/session_model.dart';
-import 'package:focus_timer/utils/time_utils.dart';
+import '../../state_models/current_session_model.dart';
+import '../../state_models/session_model.dart';
+import '../../utils/time_utils.dart';
 
 class CountdownTime extends StatelessWidget {
   final bool isSmall;
 
-  const CountdownTime({Key key, this.isSmall = false}) : super(key: key);
+  const CountdownTime({
+    Key key,
+    this.isSmall = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class CountdownTime extends StatelessWidget {
         child: AutoSizeText(
           timeToString(currentSessionModel.currentDuration),
           maxLines: 1,
-          style: theme.textTheme.title.copyWith(
+          style: theme.textTheme.headline6.copyWith(
             fontSize: 110,
             shadows: [],
           ),

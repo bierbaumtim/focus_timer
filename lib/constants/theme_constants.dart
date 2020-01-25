@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/widgets/soft/soft_colors.dart';
+import '../widgets/soft/soft_colors.dart';
 
 List<Shadow> lightTextShadow = <Shadow>[
   Shadow(
@@ -36,7 +36,7 @@ ThemeData get lightTheme => ThemeData(
         color: kSoftLightTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           shadows: lightTextShadow,
           color: kSoftLightTextColor,
         ),
@@ -50,7 +50,7 @@ ThemeData get darkTheme => ThemeData(
         color: kSoftDarkTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           shadows: darkTextShadow,
           color: kSoftDarkTextColor,
         ),

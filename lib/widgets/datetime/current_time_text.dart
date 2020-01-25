@@ -39,7 +39,7 @@ class _CurrentTimeTextState extends State<CurrentTimeText> {
     // final seconds = time.second.toString().padLeft(2, '0');
     final minutes = time.minute.toString().padLeft(2, '0');
     final hours = time.hour.toString().padLeft(2, '0');
-    return "$hours:$minutes"; // :$seconds
+    return '$hours:$minutes'; // :$seconds
   }
 
   @override
@@ -49,7 +49,7 @@ class _CurrentTimeTextState extends State<CurrentTimeText> {
     return Text(
       currentTime,
       maxLines: 1,
-      style: theme.textTheme.title.copyWith(
+      style: theme.textTheme.headline6.copyWith(
         fontSize: widget.fontsize ?? 110,
         shadows: [],
       ),

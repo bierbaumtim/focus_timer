@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 
+/// Base color for light theme
 final Color kSoftLightBackgroundColor = Colors.grey[300];
+
+/// light color for the bottom shadow
 final Color kSoftLightBottomShadowColor = Colors.grey[500];
+
+/// light color for the top shadow
 final Color kSoftLightTopShadowColor = Colors.white;
 
+/// Base color for dark theme
 final Color kSoftDarkBackgroundColor = Colors.grey[850];
+
+/// Dark color for the bottom shadow
 final Color kSoftDarkBottomShadowColor = Colors.grey[900];
+
+/// Dark color for the top shadow
 const Color kSoftDarkTopShadowColor = Color(0xFF393939); // Colors.grey[800];
 
+/// Color for text in light theme
 final Color kSoftLightTextColor = Colors.grey[800];
+
+/// Color for text in dark theme
 final Color kSoftDarkTextColor = Colors.white;
 
-Color kSoftButtonColor(bool isDark) =>
-    isDark ? kSoftDarkBackgroundColor : kSoftLightBackgroundColor;
+Color kSoftButtonColor({@required bool isDark}) {
+  assert(isDark != null);
+
+  return isDark ? kSoftDarkBackgroundColor : kSoftLightBackgroundColor;
+}
 
 final LinearGradient kSoftLightGradient = LinearGradient(
   colors: <Color>[

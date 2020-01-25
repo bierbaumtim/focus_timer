@@ -1,6 +1,7 @@
-import 'package:focus_timer/models/task.dart';
-import 'package:focus_timer/repositories/tasks_repository.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+
+import '../models/task.dart';
+import '../repositories/tasks_repository.dart';
 
 class TasksModel extends StatesRebuilder {
   final ITasksRepository repository;

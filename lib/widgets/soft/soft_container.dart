@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/widgets/soft/soft_decorations.dart';
+import 'soft_decorations.dart';
 
+/// {@template softcontainer}
+/// A Container which implements the Neomorphism design.
+///
+/// It's the root widget for widgets which also implements Neomorphism design
+/// {@endtemplate}
 class SoftContainer extends StatelessWidget {
+  /// The [child] contained by the container.
   final Widget child;
-  final double radius;
-  final bool useDarkTheme;
-  final bool inverted;
-  BoxConstraints constraints;
 
+  /// The radius to apply to the [container].
+  final double radius;
+
+  /// Forces the Widget to use dark decoration.
+  final bool useDarkTheme;
+
+  /// Indicates if the depth effect is inverted.
+  final bool inverted;
+
+  ///The constraints to apply to the [child].
+  final BoxConstraints constraints;
+
+  /// {@macro softcontainer}
   SoftContainer({
     Key key,
     double width,
@@ -32,8 +47,14 @@ class SoftContainer extends StatelessWidget {
     return Container(
       constraints: constraints,
       decoration: inverted
-          ? kSoftInvertedDecoration(useDarkTheme ?? isDark, radius)
-          : kSoftDecoration(useDarkTheme ?? isDark, radius),
+          ? kSoftInvertedDecoration(
+              isDark: useDarkTheme ?? isDark,
+              radius: radius,
+            )
+          : kSoftDecoration(
+              isDark: useDarkTheme ?? isDark,
+              radius: radius,
+            ),
       child: child,
     );
   }

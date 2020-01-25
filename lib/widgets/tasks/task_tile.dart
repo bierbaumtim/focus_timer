@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/models/task.dart';
-import 'package:focus_timer/state_models/tasks_model.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
+import '../../models/task.dart';
+import '../../state_models/tasks_model.dart';
+import '../soft/soft_container.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
@@ -32,12 +32,12 @@ class TaskTile extends StatelessWidget {
             title: Text(
               task.name,
               style: task.isCompleted
-                  ? theme.textTheme.body1.copyWith(
+                  ? theme.textTheme.bodyText1.copyWith(
                       decoration: TextDecoration.lineThrough,
                       decorationThickness: 2.0,
-                      color: theme.textTheme.body1.color.withOpacity(0.75),
+                      color: theme.textTheme.bodyText1.color.withOpacity(0.75),
                     )
-                  : theme.textTheme.body1,
+                  : theme.textTheme.bodyText1,
             ),
             activeColor:
                 theme.accentColor.withOpacity(task.isCompleted ? 0.75 : 1.0),

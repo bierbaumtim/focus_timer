@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:focus_timer/constants/tween_constants.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/widgets/time/countdown_time.dart';
-import 'package:simple_animations/simple_animations.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/state_models/session_model.dart';
-import 'package:focus_timer/widgets/datetime/current_datetime_container.dart';
-import 'package:focus_timer/widgets/pageview_page.dart';
-import 'package:focus_timer/widgets/sessions/session_countdown.dart';
-import 'package:focus_timer/widgets/sessions/sessions_list_container.dart';
-import 'package:focus_timer/widgets/soft/soft_appbar.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
-import 'package:focus_timer/widgets/tasks/tasks_list_container.dart';
+import '../blocs/settings/bloc.dart';
+import '../blocs/settings/settings_bloc.dart';
+import '../blocs/settings/settings_event.dart';
+import '../constants/tween_constants.dart';
+import '../state_models/current_session_model.dart';
+import '../widgets/datetime/current_datetime_container.dart';
+import '../widgets/pageview_page.dart';
+import '../widgets/sessions/session_countdown.dart';
+import '../widgets/sessions/sessions_list_container.dart';
+import '../widgets/soft/soft_appbar.dart';
+import '../widgets/soft/soft_button.dart';
+import '../widgets/soft/soft_container.dart';
+import '../widgets/soft/soft_switch.dart';
+import '../widgets/tasks/tasks_list_container.dart';
+import '../widgets/time/countdown_time.dart';
 
 class MobileLanding extends StatefulWidget {
   @override
@@ -50,7 +55,7 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.title,
+                    titleStyle: theme.textTheme.headline6,
                   ),
                   Expanded(
                     flex: 7,
@@ -158,8 +163,8 @@ class _MobileLandingState extends State<MobileLanding> {
                             const CurrentDateTimeContainer(),
                             if (currentSessionModel.isBreak ||
                                 currentSessionModel.isRunning)
-                              const SoftContainer(
-                                child: Padding(
+                              SoftContainer(
+                                child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                     vertical: 4,
                                     horizontal: 8,
@@ -184,28 +189,61 @@ class _MobileLandingState extends State<MobileLanding> {
               ),
             ),
             Page(
-              // useComplemtaryTheme: true,
               child: Column(
-                children: <Widget>[
+                children: const <Widget>[
                   Align(
                     alignment: Alignment.topCenter,
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(top: 16.0, bottom: 8),
                       child: CurrentDateTimeContainer(),
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8),
                       child: TasksListContainer(),
                     ),
                   ),
                 ],
               ),
             ),
-            const Page(
-                // useComplemtaryTheme: true,
-                ),
+            Page(
+              child: Column(
+                children: <Widget>[
+                  const Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
+                      child: CurrentDateTimeContainer(),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SoftContainer(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: BlocBuilder<SettingsBloc, SettingsState>(
+                              builder: (context, state) => SoftSwitch(
+                                value: !(state is SettingsLoaded &&
+                                        state.darkmode) ||
+                                    true,
+                                activeChild: Icon(FontAwesome.moon_o),
+                                deactiveChild: Icon(FontAwesome.sun_o),
+                                onChanged: (value) =>
+                                    BlocProvider.of<SettingsBloc>(context)
+                                        .add(ChangeTheme()),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
           addAutomaticKeepAlives: true,
         ),

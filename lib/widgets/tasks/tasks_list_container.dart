@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/state_models/tasks_model.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
+import '../../state_models/tasks_model.dart';
+import '../soft/soft_container.dart';
 import 'add_task_tile.dart';
 import 'task_tile.dart';
 

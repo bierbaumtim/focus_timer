@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:focus_timer/blocs/settings/settings_bloc.dart';
-import 'package:focus_timer/blocs/settings/settings_event.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
+import '../../blocs/settings/settings_bloc.dart';
+import '../../blocs/settings/settings_event.dart';
+import 'soft_button.dart';
 
 class SoftAppBar extends StatelessWidget {
   const SoftAppBar({
@@ -37,7 +37,7 @@ class SoftAppBar extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Focus Timer',
-                style: titleStyle ?? theme.textTheme.title,
+                style: titleStyle ?? theme.textTheme.headline6,
               ),
               if (centerWidget != null)
                 Expanded(child: centerWidget),

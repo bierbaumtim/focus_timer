@@ -8,6 +8,7 @@ import 'cross_platform_storage.dart';
 
 class CrossPlatformDelegate extends HydratedBlocDelegate {
   /// Instance of `CrossPlatformStorage` used to manage persisted states.
+  @override
   final CrossPlatformStorage storage;
 
   /// Builds a new instance of `CrossPlatformDelegate` with the

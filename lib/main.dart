@@ -5,15 +5,6 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/blocs/settings/settings_bloc.dart';
-import 'package:focus_timer/blocs/settings/settings_state.dart';
-import 'package:focus_timer/constants/hive_constants.dart';
-import 'package:focus_timer/repositories/sessions_repository.dart';
-import 'package:focus_timer/repositories/tasks_repository.dart';
-import 'package:focus_timer/services/session_service.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/state_models/tasks_model.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -21,12 +12,20 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 import 'blocs/cross_platform_delegate.dart';
+import 'blocs/settings/settings_bloc.dart';
+import 'blocs/settings/settings_state.dart';
+import 'constants/hive_constants.dart';
 import 'constants/theme_constants.dart';
 import 'models/session.dart';
 import 'models/task.dart';
 import 'pages/landing_desktop.dart';
 import 'pages/landing_mobile.dart';
+import 'repositories/sessions_repository.dart';
+import 'repositories/tasks_repository.dart';
+import 'services/session_service.dart';
+import 'state_models/current_session_model.dart';
 import 'state_models/session_model.dart';
+import 'state_models/tasks_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

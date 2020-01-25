@@ -1,9 +1,9 @@
 import 'package:dartx/dartx.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/extensions/num_extensions.dart';
-import 'package:focus_timer/models/session.dart';
-import 'package:focus_timer/repositories/sessions_repository.dart';
+import '../extensions/num_extensions.dart';
+import '../models/session.dart';
+import '../repositories/sessions_repository.dart';
 
 class SessionsModel extends StatesRebuilder {
   final SessionsRepository storageRepository;

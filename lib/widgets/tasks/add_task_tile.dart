@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/models/task.dart';
-import 'package:focus_timer/state_models/tasks_model.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
+import '../../models/task.dart';
+import '../../state_models/tasks_model.dart';
+import '../soft/soft_button.dart';
+import '../soft/soft_container.dart';
+
+/// {@template addtasktile}
+/// A [TextInput] and a [SoftButton] inside a [SoftContainer]
+/// to enter a new task and add it to the tasks
+/// {@endtemplate}
 class AddTaskTile extends StatefulWidget {
+  /// {@macro addtasktile}
   const AddTaskTile({Key key}) : super(key: key);
 
   @override
@@ -47,7 +53,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
                   decoration: InputDecoration.collapsed(
                     hintText: 'Task hinzufügen...',
                     hintStyle: TextStyle(
-                      color: theme.textTheme.title.color,
+                      color: theme.textTheme.headline6.color,
                     ),
                   ),
                 ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:focus_timer/widgets/time/countdown_time.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/state_models/current_session_model.dart';
-
+import '../../state_models/current_session_model.dart';
 import '../../state_models/session_model.dart';
+import '../time/countdown_time.dart';
 
 class SessionCountdown extends StatelessWidget {
   const SessionCountdown({Key key}) : super(key: key);
@@ -36,7 +35,7 @@ class SessionCountdown extends StatelessWidget {
               child: AutoSizeText(
                 'All sessions done.',
                 maxLines: 1,
-                style: theme.textTheme.title.copyWith(
+                style: theme.textTheme.headline6.copyWith(
                   fontSize: 110,
                   shadows: [],
                 ),

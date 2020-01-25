@@ -39,8 +39,7 @@ class SoftAppBar extends StatelessWidget {
                 'Focus Timer',
                 style: titleStyle ?? theme.textTheme.headline6,
               ),
-              if (centerWidget != null)
-                Expanded(child: centerWidget),
+              if (centerWidget != null) Expanded(child: centerWidget),
               SoftButton(
                 radius: 15,
                 onTap: () =>
@@ -50,14 +49,6 @@ class SoftAppBar extends StatelessWidget {
                   child: Icon(Icons.wb_sunny),
                 ),
               ),
-              // IconButton(
-              //   icon: Icon(Icons.wb_sunny),
-              //   onPressed: () =>
-              //       BlocProvider.of<SettingsBloc>(context).add(ChangeTheme()),
-              //   hoverColor: Colors.transparent,
-              //   splashColor: Colors.transparent,
-              //   highlightColor: Colors.transparent,
-              // ),
             ],
           ),
         ),

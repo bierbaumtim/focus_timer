@@ -13,7 +13,7 @@ class CrossPlatformStorage implements HydratedStorage {
   final Map<String, dynamic> _storage;
   final Directory _directory;
 
-  CrossPlatformStorage(this._storage, this._directory);
+  const CrossPlatformStorage(this._storage, this._directory);
 
   static Future<CrossPlatformStorage> getInstance({
     Directory storageDirectory,

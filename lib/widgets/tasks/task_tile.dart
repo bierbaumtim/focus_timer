@@ -9,7 +9,10 @@ import '../soft/soft_container.dart';
 class TaskTile extends StatelessWidget {
   final Task task;
 
-  const TaskTile({Key key, @required this.task}) : super(key: key);
+  const TaskTile({
+    Key key,
+    @required this.task,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

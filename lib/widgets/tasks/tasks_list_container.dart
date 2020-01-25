@@ -30,31 +30,6 @@ class TasksListContainer extends StatelessWidget {
                     ),
                   );
                 } else if (tasksModel.tasks.isNotEmpty) {
-                  // return Padding(
-                  //   padding: const EdgeInsets.only(
-                  //     top: kToolbarHeight,
-                  //     bottom: kToolbarHeight + 8,
-                  //   ),
-                  //   child: CustomScrollView(
-                  //     physics: const BouncingScrollPhysics(),
-                  //     slivers: <Widget>[
-                  //       SliverPadding(
-                  //         padding: const EdgeInsets.only(
-                  //           bottom: 14,
-                  //           top: 14,
-                  //         ),
-                  //         sliver: SliverList(
-                  //           delegate: SliverChildBuilderDelegate(
-                  //             (context, index) => TaskTile(
-                  //               task: tasksModel.tasks.elementAt(index),
-                  //             ),
-                  //             childCount: tasksModel.tasks.length,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
                   return Padding(
                     padding: const EdgeInsets.only(
                       top: kToolbarHeight,

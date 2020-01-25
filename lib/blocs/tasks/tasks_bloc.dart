@@ -75,6 +75,6 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         'tasks': tasks,
       };
     }
-    return {};
+    return <String, dynamic>{};
   }
 }

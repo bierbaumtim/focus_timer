@@ -21,6 +21,7 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
   Stream<SettingsState> _mapChangeThemeToState(ChangeTheme event) async* {
     final currentSetting =
         state is SettingsLoaded ? (state as SettingsLoaded).darkmode : true;
+        
     yield SettingsLoaded(darkmode: !currentSetting);
   }
 

@@ -5,16 +5,16 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_bloc.dart';
 import 'package:focus_timer/blocs/settings/settings_state.dart';
-import 'package:focus_timer/blocs/tasks/bloc.dart';
 import 'package:focus_timer/constants/hive_constants.dart';
 import 'package:focus_timer/repositories/sessions_repository.dart';
 import 'package:focus_timer/repositories/tasks_repository.dart';
 import 'package:focus_timer/services/session_service.dart';
 import 'package:focus_timer/state_models/current_session_model.dart';
 import 'package:focus_timer/state_models/tasks_model.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';

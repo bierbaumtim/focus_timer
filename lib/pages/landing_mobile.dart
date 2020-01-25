@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import '../blocs/settings/bloc.dart';
-import '../blocs/settings/settings_bloc.dart';
-import '../blocs/settings/settings_event.dart';
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/pageview_page.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
+import '../widgets/settings/theme_switch.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_button.dart';
 import '../widgets/soft/soft_container.dart';
-import '../widgets/soft/soft_switch.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 import '../widgets/time/countdown_time.dart';
 
@@ -55,7 +50,7 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.headline6,
+                    titleStyle: theme.textTheme.title,
                   ),
                   Expanded(
                     flex: 7,
@@ -64,7 +59,7 @@ class _MobileLandingState extends State<MobileLanding> {
                         padding: const EdgeInsets.all(8.0),
                         child: ControlledAnimation(
                           tween: fadeInTween,
-                          duration: const Duration(milliseconds: 750),
+                          duration: const Duration(milliseconds: 1500),
                           builder: (context, animation) => Opacity(
                             opacity: animation,
                             child: SoftContainer(
@@ -222,20 +217,31 @@ class _MobileLandingState extends State<MobileLanding> {
                       padding: const EdgeInsets.all(8),
                       child: SoftContainer(
                         child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: BlocBuilder<SettingsBloc, SettingsState>(
-                              builder: (context, state) => SoftSwitch(
-                                value: !(state is SettingsLoaded &&
-                                        state.darkmode) ||
-                                    true,
-                                activeChild: Icon(FontAwesome.moon_o),
-                                deactiveChild: Icon(FontAwesome.sun_o),
-                                onChanged: (value) =>
-                                    BlocProvider.of<SettingsBloc>(context)
-                                        .add(ChangeTheme()),
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              ListTile(
+                                title: Text('Settings'),
                               ),
-                            ),
+                              AnimatedPadding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                duration: Duration(milliseconds: 350),
+                                child: Container(
+                                  height: 2,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .body1
+                                      .color
+                                      .withOpacity(0.75),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text('Darkmode'),
+                                trailing: ThemeSwitch(),
+                              ),
+                            ],
                           ),
                         ),
                       ),

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../blocs/settings/settings_bloc.dart';
-import '../../blocs/settings/settings_event.dart';
-import 'soft_button.dart';
+import '../settings/theme_switch.dart';
 
 class SoftAppBar extends StatelessWidget {
   const SoftAppBar({
@@ -37,18 +33,20 @@ class SoftAppBar extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Focus Timer',
-                style: titleStyle ?? theme.textTheme.headline6,
+                style: titleStyle ?? theme.textTheme.title,
               ),
-              if (centerWidget != null) Expanded(child: centerWidget),
-              SoftButton(
-                radius: 15,
-                onTap: () =>
-                    BlocProvider.of<SettingsBloc>(context).add(ChangeTheme()),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Icon(Icons.wb_sunny),
-                ),
-              ),
+              if (centerWidget != null)
+                Expanded(child: centerWidget),
+              // SoftButton(
+              //   radius: 15,
+              //   onTap: () =>
+              //       BlocProvider.of<SettingsBloc>(context).add(ChangeTheme()),
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8),
+              //     child: Icon(FontAwesome.sun_o),
+              //   ),
+              // ),
+              ThemeSwitch(),
             ],
           ),
         ),

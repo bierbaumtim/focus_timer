@@ -63,10 +63,10 @@ class DesktopLanding extends StatelessWidget {
                                   delay: const Duration(milliseconds: 500),
                                   builder: (context, animation) => Opacity(
                                     opacity: animation,
-                                    child: const SoftContainer(
+                                    child: SoftContainer(
                                       height: 400,
                                       radius: 40,
-                                      child: Center(
+                                      child: const Center(
                                         child: SessionCountdown(),
                                       ),
                                     ),
@@ -186,8 +186,8 @@ class DesktopLanding extends StatelessWidget {
                                 ),
                                 if (currentSessionModel.isBreak ||
                                     currentSessionModel.isRunning)
-                                  const SoftContainer(
-                                    child: Padding(
+                                  SoftContainer(
+                                    child: const Padding(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 4,
                                         horizontal: 8,

@@ -30,7 +30,7 @@ class CurrentDateTimeContainer extends StatelessWidget {
             Container(
               width: 10,
               height: 2,
-              color: Theme.of(context).textTheme.bodyText1.color,
+              color: Theme.of(context).textTheme.body1.color,
             ),
             const SizedBox(width: 2.5),
             const CurrentDateText(),

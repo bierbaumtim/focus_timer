@@ -9,7 +9,7 @@ class CurrentDateText extends StatelessWidget {
 
     return Text(
       dateToText,
-      style: theme.textTheme.headline6.copyWith(
+      style: theme.textTheme.title.copyWith(
         fontSize: 20,
         shadows: [],
       ),

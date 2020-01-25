@@ -13,8 +13,6 @@ abstract class ISessionsRepository {
 }
 
 class SessionsRepository implements ISessionsRepository {
-  int lastSessionKey;
-
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
@@ -23,7 +21,6 @@ class SessionsRepository implements ISessionsRepository {
           12,
           (index) => Session.create(5.minutes.inSeconds),
         );
-    // sessionsBox.toMap().forEach((k, v) => sessions.add(v as Session));
   }
 
   @override

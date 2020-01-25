@@ -49,7 +49,7 @@ class _CurrentTimeTextState extends State<CurrentTimeText> {
     return Text(
       currentTime,
       maxLines: 1,
-      style: theme.textTheme.headline6.copyWith(
+      style: theme.textTheme.title.copyWith(
         fontSize: widget.fontsize ?? 110,
         shadows: [],
       ),

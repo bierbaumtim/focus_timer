@@ -50,15 +50,17 @@ class CrossPlatformStorage implements HydratedStorage {
       }
     } else if (Platform.isWindows) {
       // Sollte nicht im Produktion genutzt werden
-      final file = File('C:\\hydrated_bloc_storage.json');
-      if (await file.exists()) {
-        try {
-          storage =
-              json.decode(await file.readAsString()) as Map<String, dynamic>;
-        } on dynamic catch (_) {
-          await file.delete();
-        }
-      }
+      // final file = File('C:\\hydrated_bloc_storage.json');
+      // if (await file.exists()) {
+      //   try {
+      //     storage =
+      //         json.decode(await file.readAsString()) as Map<String, dynamic>;
+      //   } on dynamic catch (_) {
+      //     await file.delete();
+      //   }
+      // }
+
+      storage = <String, dynamic>{};
     }
 
     return _instance = CrossPlatformStorage(storage, directory);
@@ -93,13 +95,11 @@ class CrossPlatformStorage implements HydratedStorage {
     print('start writing to file');
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
       try {
         if (content == null) {
           await prefs.remove(kHydratedBlocKey);
         } else {
-          final success = await prefs.setString(kHydratedBlocKey, content);
-          print(success);
+          await prefs.setString(kHydratedBlocKey, content);
         }
       } on dynamic catch (_) {
         await prefs.remove(kHydratedBlocKey);
@@ -115,27 +115,25 @@ class CrossPlatformStorage implements HydratedStorage {
         if (content == null) {
           await file.delete();
         } else {
-          print('storage saved');
           await file.writeAsString(content);
         }
       } on dynamic catch (e) {
         print(e);
         await file.delete();
       }
-    } else if (Platform.isWindows && false) {
+    } else if (Platform.isWindows) {
       // Sollte nicht im Produktion genutzt werden
-      final file = await _getWindowsFile();
-      try {
-        if (content == null) {
-          await file.delete();
-        } else {
-          print('storage saved');
-          await file.writeAsString(content);
-        }
-      } on dynamic catch (e) {
-        print(e);
-        await file.delete();
-      }
+      // final file = await _getWindowsFile();
+      // try {
+      //   if (content == null) {
+      //     await file.delete();
+      //   } else {
+      //     await file.writeAsString(content);
+      //   }
+      // } on dynamic catch (e) {
+      //   print(e);
+      //   await file.delete();
+      // }
     }
   }
 

@@ -27,16 +27,20 @@ class CurrentSessionModel extends StatesRebuilder {
   }
 
   void startBreak() {
-    final index = sessions.indexOf(currentSession);
     final session = currentSession.copyWith(
       isCompleted: true,
     );
     sessionsModel.updateSession(session);
     timer?.cancel();
-    if (index < sessions.lastIndex) {
+    if (currentSessionIndex < sessions.lastIndex) {
       isBreak = true;
-      currentDuration =
-          index % 5 != 0 ? 5.minutes.inSeconds : 25.minutes.inSeconds;
+      if (currentSessionIndex == 0) {
+        currentDuration = 5.minutes.inSeconds;
+      } else {
+        currentDuration = currentSessionIndex % 5 != 0
+            ? 5.minutes.inSeconds
+            : 25.minutes.inSeconds;
+      }
       timer = Timer.periodic(
         const Duration(seconds: 1),
         (_) => decreaseDurationByOne(),
@@ -96,11 +100,12 @@ class CurrentSessionModel extends StatesRebuilder {
     rebuildStates();
   }
 
-  void decreaseDurationByOne() {
+  void decreaseDurationByOne() async {
     currentDuration -= 1;
-    if (currentDuration <= 0) {
+    if (currentDuration < 0) {
       currentDuration = 0;
       timer.cancel();
+      await Future.delayed(const Duration(milliseconds: 500));
       if (isBreak) {
         startSession();
       } else {

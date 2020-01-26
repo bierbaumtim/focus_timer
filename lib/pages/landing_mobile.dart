@@ -6,7 +6,6 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
-import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/pageview_page.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
@@ -15,7 +14,7 @@ import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_button.dart';
 import '../widgets/soft/soft_container.dart';
 import '../widgets/tasks/tasks_list_container.dart';
-import '../widgets/time/countdown_time.dart';
+import '../widgets/time/mobile_top_tim_bar.dart';
 
 class MobileLanding extends StatefulWidget {
   @override
@@ -143,37 +142,7 @@ class _MobileLandingState extends State<MobileLanding> {
             Page(
               child: Column(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                      child: StateBuilder(
-                        models: [currentSessionModel],
-                        builder: (context, _) => Row(
-                          mainAxisAlignment: currentSessionModel.isBreak ||
-                                  currentSessionModel.isRunning
-                              ? MainAxisAlignment.spaceBetween
-                              : MainAxisAlignment.center,
-                          children: <Widget>[
-                            const CurrentDateTimeContainer(),
-                            if (currentSessionModel.isBreak ||
-                                currentSessionModel.isRunning)
-                              SoftContainer(
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 4,
-                                    horizontal: 8,
-                                  ),
-                                  child: CountdownTime(
-                                    isSmall: true,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  MobileTopTimeBar(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -185,14 +154,8 @@ class _MobileLandingState extends State<MobileLanding> {
             ),
             Page(
               child: Column(
-                children: const <Widget>[
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
-                      child: CurrentDateTimeContainer(),
-                    ),
-                  ),
+                children: <Widget>[
+                  MobileTopTimeBar(),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(8),
@@ -205,13 +168,7 @@ class _MobileLandingState extends State<MobileLanding> {
             Page(
               child: Column(
                 children: <Widget>[
-                  const Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
-                      child: CurrentDateTimeContainer(),
-                    ),
-                  ),
+                  MobileTopTimeBar(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8),

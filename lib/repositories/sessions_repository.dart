@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:dartx/dartx.dart';
 
-import 'package:focus_timer/constants/hive_constants.dart';
-import 'package:focus_timer/models/session.dart';
+import '../constants/hive_constants.dart';
+import '../models/session.dart';
 
 abstract class ISessionsRepository {
   List<Session> loadSessions();
@@ -13,8 +13,6 @@ abstract class ISessionsRepository {
 }
 
 class SessionsRepository implements ISessionsRepository {
-  int lastSessionKey;
-
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
@@ -23,7 +21,6 @@ class SessionsRepository implements ISessionsRepository {
           12,
           (index) => Session.create(5.minutes.inSeconds),
         );
-    // sessionsBox.toMap().forEach((k, v) => sessions.add(v as Session));
   }
 
   @override

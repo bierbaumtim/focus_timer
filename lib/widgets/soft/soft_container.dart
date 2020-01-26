@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/widgets/soft/soft_shadows.dart';
+import 'soft_decorations.dart';
 
-import 'soft_colors.dart';
-
+/// {@template softcontainer}
+/// A Container which implements the Neomorphism design.
+///
+/// It's the root widget for widgets which also implements Neomorphism design
+/// {@endtemplate}
 class SoftContainer extends StatelessWidget {
+  /// The [child] contained by the container.
   final Widget child;
-  final double width;
-  final double height;
+
+  /// The radius to apply to the [container].
   final double radius;
+
+  /// Forces the Widget to use dark decoration.
   final bool useDarkTheme;
 
-  const SoftContainer({
+  /// Indicates if the depth effect is inverted.
+  final bool inverted;
+
+  ///The constraints to apply to the [child].
+  final BoxConstraints constraints;
+
+  /// {@macro softcontainer}
+  SoftContainer({
     Key key,
-    this.width,
-    this.height,
+    double width,
+    double height,
     this.radius,
     this.child,
     this.useDarkTheme,
-  }) : super(key: key);
+    this.inverted = false,
+    BoxConstraints constraints,
+  })  : constraints = (width != null || height != null)
+            ? constraints?.tighten(width: width, height: height) ??
+                BoxConstraints.tightFor(width: width, height: height)
+            : constraints,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +45,16 @@ class SoftContainer extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: (useDarkTheme ?? isDark)
-            ? kSoftDarkBackgroundColor
-            : kSoftLightBackgroundColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(radius ?? 40),
-        ),
-        boxShadow: <BoxShadow>[
-          kSoftBottomContainerShadow(useDarkTheme ?? isDark),
-          kSoftTopContainerShadow(useDarkTheme ?? isDark),
-        ],
-        // gradient: isDark ? kSoftDarkGradient : kSoftLightGradient,
-      ),
+      constraints: constraints,
+      decoration: inverted
+          ? kSoftInvertedDecoration(
+              isDark: useDarkTheme ?? isDark,
+              radius: radius,
+            )
+          : kSoftDecoration(
+              isDark: useDarkTheme ?? isDark,
+              radius: radius,
+            ),
       child: child,
     );
   }

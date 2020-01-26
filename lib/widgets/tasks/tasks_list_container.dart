@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/state_models/tasks_model.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
+import '../../state_models/tasks_model.dart';
+import '../soft/soft_container.dart';
 import 'add_task_tile.dart';
 import 'task_tile.dart';
 
@@ -30,31 +30,6 @@ class TasksListContainer extends StatelessWidget {
                     ),
                   );
                 } else if (tasksModel.tasks.isNotEmpty) {
-                  // return Padding(
-                  //   padding: const EdgeInsets.only(
-                  //     top: kToolbarHeight,
-                  //     bottom: kToolbarHeight + 8,
-                  //   ),
-                  //   child: CustomScrollView(
-                  //     physics: const BouncingScrollPhysics(),
-                  //     slivers: <Widget>[
-                  //       SliverPadding(
-                  //         padding: const EdgeInsets.only(
-                  //           bottom: 14,
-                  //           top: 14,
-                  //         ),
-                  //         sliver: SliverList(
-                  //           delegate: SliverChildBuilderDelegate(
-                  //             (context, index) => TaskTile(
-                  //               task: tasksModel.tasks.elementAt(index),
-                  //             ),
-                  //             childCount: tasksModel.tasks.length,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
                   return Padding(
                     padding: const EdgeInsets.only(
                       top: kToolbarHeight,

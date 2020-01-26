@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/constants/theme_constants.dart';
+import '../constants/theme_constants.dart';
 
 class Page extends StatelessWidget {
   final bool useComplemtaryTheme;

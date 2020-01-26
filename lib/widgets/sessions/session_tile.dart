@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/models/session.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/state_models/session_model.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
-
 import 'package:states_rebuilder/states_rebuilder.dart';
+
+import '../../models/session.dart';
+import '../../state_models/current_session_model.dart';
+import '../../state_models/session_model.dart';
+import '../soft/soft_button.dart';
+import '../soft/soft_container.dart';
 
 class SessionTile extends StatelessWidget {
   final Session session;

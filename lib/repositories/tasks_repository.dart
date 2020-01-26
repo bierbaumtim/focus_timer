@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
-import 'package:focus_timer/constants/hive_constants.dart';
-import 'package:focus_timer/models/task.dart';
+import '../constants/hive_constants.dart';
+import '../models/task.dart';
 
 abstract class ITasksRepository {
   List<Task> loadTasks();

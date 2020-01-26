@@ -21,8 +21,9 @@ dependencies:
     sdk: flutter
   auto_size_text: ^2.1.0
   after_layout: ^1.0.7+2
-  simple_animations: ^1.3.4
+  simple_animations: ^1.3.6
   auto_animated: ^2.0.1
+  flutter_icons: ^1.0.0+1
   sliding_up_panel: #^0.3.6
     git:
       url: https://github.com/tb2761/sliding_up_panel.git
@@ -51,13 +52,13 @@ dependencies:
   bloc: ^3.0.0
   flutter_bloc: ^3.1.0
   hydrated_bloc: ^3.0.0
-  bloc_test: ^3.0.1
+  bloc_test: ^3.1.0
 
   states_rebuilder: ^1.11.2
 
   path_provider: ^1.5.1
   shared_preferences: ^0.5.6
-  shared_preferences_web: ^0.1.2+2
+  shared_preferences_web: ^0.1.2+3
   supercharged: ^1.1.0
 
   hive: ^1.3.0
@@ -74,6 +75,7 @@ dev_dependencies:
 
   effective_dart: ^1.2.0
   lint: ^1.1.1
+  # pedantic: ^1.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,13 +1,14 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
 
-import 'package:focus_timer/state_models/session_model.dart';
-import 'package:focus_timer/widgets/sessions/session_tile.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
+import 'package:auto_animated/auto_animated.dart';
 // import 'package:reorderables/reorderables.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+
+import '../../state_models/current_session_model.dart';
+import '../../state_models/session_model.dart';
+import '../soft/soft_button.dart';
+import '../soft/soft_container.dart';
+import 'session_tile.dart';
 
 class SessionsListContainer extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
-import 'package:focus_timer/models/session.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/state_models/session_model.dart';
+import '../models/session.dart';
+import '../state_models/current_session_model.dart';
+import '../state_models/session_model.dart';
 
 class SessionService {
   final SessionsModel sessionsModel;

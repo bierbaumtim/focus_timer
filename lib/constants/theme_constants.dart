@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:focus_timer/widgets/soft/soft_colors.dart';
+import '../widgets/soft/soft_colors.dart';
 
 List<Shadow> lightTextShadow = <Shadow>[
   Shadow(

@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:focus_timer/models/session.dart';
-import 'package:focus_timer/state_models/session_model.dart';
-import 'package:focus_timer/extensions/num_extensions.dart';
-
 import 'package:dartx/dartx.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+
+import '../extensions/num_extensions.dart';
+import '../models/session.dart';
+import 'session_model.dart';
 
 class CurrentSessionModel extends StatesRebuilder {
   final SessionsModel sessionsModel;
@@ -16,7 +16,7 @@ class CurrentSessionModel extends StatesRebuilder {
   bool isBreak, allSessionsCompleted, isRunning;
   int currentDuration, currentSessionIndex;
 
-  Timer timer;
+  Timer _timer;
 
   CurrentSessionModel(this.sessionsModel) {
     isBreak = false;
@@ -31,7 +31,7 @@ class CurrentSessionModel extends StatesRebuilder {
       isCompleted: true,
     );
     sessionsModel.updateSession(session);
-    timer?.cancel();
+    _timer?.cancel();
     if (currentSessionIndex < sessions.lastIndex) {
       isBreak = true;
       if (currentSessionIndex == 0) {
@@ -41,9 +41,9 @@ class CurrentSessionModel extends StatesRebuilder {
             ? 5.minutes.inSeconds
             : 25.minutes.inSeconds;
       }
-      timer = Timer.periodic(
+      _timer = Timer.periodic(
         const Duration(seconds: 1),
-        (_) => decreaseDurationByOne(),
+        (_) => _decreaseDurationByOne(),
       );
     } else {
       isBreak = false;
@@ -66,10 +66,10 @@ class CurrentSessionModel extends StatesRebuilder {
       }
       currentDuration = currentSession?.duration ?? 0;
       isRunning = true;
-      timer?.cancel();
-      timer = Timer.periodic(
+      _timer?.cancel();
+      _timer = Timer.periodic(
         const Duration(seconds: 1),
-        (timer) => decreaseDurationByOne(),
+        (timer) => _decreaseDurationByOne(),
       );
     }
     isBreak = false;
@@ -84,28 +84,35 @@ class CurrentSessionModel extends StatesRebuilder {
   }
 
   void stopTimer() {
-    timer?.cancel();
+    _timer?.cancel();
     isRunning = false;
     rebuildStates();
   }
 
   void restartTimer() {
-    timer?.cancel();
-    decreaseDurationByOne();
-    timer = Timer.periodic(
+    _timer?.cancel();
+    _decreaseDurationByOne();
+    _timer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) => decreaseDurationByOne(),
+      (timer) => _decreaseDurationByOne(),
     );
     isRunning = true;
     rebuildStates();
   }
 
-  void decreaseDurationByOne() async {
+  /// Handles a tick by the [Timer]
+  ///
+  /// When the duration is over and
+  /// [isBreak] is true it's starts
+  /// the next session otherwise
+  /// the next break.
+  void _decreaseDurationByOne() async {
     currentDuration -= 1;
     if (currentDuration < 0) {
       currentDuration = 0;
-      timer.cancel();
+      _timer.cancel();
       await Future.delayed(const Duration(milliseconds: 500));
+      _timer.cancel();
       if (isBreak) {
         startSession();
       } else {
@@ -116,7 +123,10 @@ class CurrentSessionModel extends StatesRebuilder {
     }
   }
 
+  /// Disposes the models
+  ///
+  /// Cancel every listeners and timer.
   void dispose() {
-    timer.cancel();
+    _timer.cancel();
   }
 }

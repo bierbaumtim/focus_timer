@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/models/task.dart';
-import 'package:focus_timer/state_models/tasks_model.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
+import '../../models/task.dart';
+import '../../state_models/tasks_model.dart';
+import '../soft/soft_container.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
 
-  const TaskTile({Key key, @required this.task}) : super(key: key);
+  const TaskTile({
+    Key key,
+    @required this.task,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

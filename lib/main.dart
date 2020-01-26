@@ -5,27 +5,25 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-import 'package:focus_timer/blocs/settings/settings_bloc.dart';
-import 'package:focus_timer/blocs/settings/settings_state.dart';
-import 'package:focus_timer/constants/hive_constants.dart';
-import 'package:focus_timer/repositories/sessions_repository.dart';
-import 'package:focus_timer/repositories/tasks_repository.dart';
-import 'package:focus_timer/services/session_service.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/state_models/tasks_model.dart';
-import 'blocs/cross_platform_delegate.dart';
+import 'constants/hive_constants.dart';
 import 'constants/theme_constants.dart';
 import 'models/session.dart';
 import 'models/task.dart';
 import 'pages/landing_desktop.dart';
 import 'pages/landing_mobile.dart';
+import 'repositories/sessions_repository.dart';
+import 'repositories/settings_repository.dart';
+import 'repositories/tasks_repository.dart';
+import 'services/session_service.dart';
+import 'state_models/current_session_model.dart';
 import 'state_models/session_model.dart';
+import 'state_models/settings_model.dart';
+import 'state_models/tasks_model.dart';
 
 /// ignore: avoid_void_async
 void main() async {
@@ -45,46 +43,43 @@ void main() async {
     Hive.registerAdapter<Session>(SessionAdapter());
     await Hive.openBox(kTasksHiveBox);
     await Hive.openBox(kSessionsHiveBox);
+    await Hive.openBox(kSettingsHiveBox);
   }
-  BlocSupervisor.delegate = await CrossPlatformDelegate.build();
 
-  runApp(
-    MultiBlocProvider(
-      providers: <BlocProvider>[
-        BlocProvider<SettingsBloc>(
-          create: (context) => SettingsBloc(),
-        ),
-      ],
-      child: Injector(
-        inject: [
-          Inject<SessionsModel>(
-            () => SessionsModel(SessionsRepository()),
-          ),
-          Inject<TasksModel>(
-            () => TasksModel(TasksRepository()),
-          ),
-          Inject<CurrentSessionModel>(
-            () => CurrentSessionModel(Injector.get<SessionsModel>()),
-          ),
-          Inject<SessionService>(
-            () => SessionService(
-              Injector.get<SessionsModel>(),
-              Injector.get<CurrentSessionModel>(),
-            ),
-          ),
-        ],
-        builder: (context) => MyApp(),
+  runApp(Injector(
+    inject: [
+      Inject<SessionsModel>(
+        () => SessionsModel(SessionsRepository()),
       ),
-    ),
-  );
+      Inject<TasksModel>(
+        () => TasksModel(TasksRepository()),
+      ),
+      Inject<CurrentSessionModel>(
+        () => CurrentSessionModel(Injector.get<SessionsModel>()),
+      ),
+      Inject<SettingsModel>(
+        () => SettingsModel(SettingsRepository()),
+      ),
+      Inject<SessionService>(
+        () => SessionService(
+          Injector.get<SessionsModel>(),
+          Injector.get<CurrentSessionModel>(),
+        ),
+      ),
+    ],
+    builder: (context) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
+    final settingsModel = Injector.get<SettingsModel>();
+
+    return StateBuilder<SettingsModel>(
+      models: [settingsModel],
       builder: (context, state) {
-        final darkmode = state is SettingsLoaded ? state.darkmode : true;
+        final darkmode = settingsModel.darkmode;
 
         return MaterialApp(
           title: 'Flutter Demo',

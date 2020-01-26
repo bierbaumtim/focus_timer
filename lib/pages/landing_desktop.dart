@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:focus_timer/constants/tween_constants.dart';
-import 'package:focus_timer/state_models/current_session_model.dart';
-import 'package:focus_timer/widgets/datetime/current_datetime_container.dart';
 
-import 'package:focus_timer/widgets/pageview_page.dart';
-import 'package:focus_timer/widgets/sessions/session_countdown.dart';
-import 'package:focus_timer/widgets/sessions/sessions_list_container.dart';
-import 'package:focus_timer/widgets/soft/soft_appbar.dart';
-import 'package:focus_timer/widgets/soft/soft_button.dart';
-import 'package:focus_timer/widgets/soft/soft_container.dart';
-import 'package:focus_timer/widgets/tasks/tasks_list_container.dart';
-import 'package:focus_timer/widgets/time/countdown_time.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+
+import '../constants/tween_constants.dart';
+import '../state_models/current_session_model.dart';
+import '../widgets/datetime/current_datetime_container.dart';
+import '../widgets/pageview_page.dart';
+import '../widgets/sessions/session_countdown.dart';
+import '../widgets/sessions/sessions_list_container.dart';
+import '../widgets/soft/soft_appbar.dart';
+import '../widgets/soft/soft_button.dart';
+import '../widgets/soft/soft_container.dart';
+import '../widgets/tasks/tasks_list_container.dart';
+import '../widgets/time/countdown_time.dart';
 
 class DesktopLanding extends StatelessWidget {
   @override
@@ -51,7 +52,7 @@ class DesktopLanding extends StatelessWidget {
                               delay: const Duration(milliseconds: 500),
                               builder: (context, animation) => Opacity(
                                 opacity: animation,
-                                child: const SoftContainer(
+                                child: SoftContainer(
                                   height: double.infinity,
                                   radius: 40,
                                   child: Center(
@@ -84,7 +85,7 @@ class DesktopLanding extends StatelessWidget {
                                         builder: (context, animation) =>
                                             Opacity(
                                           opacity: animation,
-                                          child: const SoftContainer(
+                                          child: SoftContainer(
                                             height: 400,
                                             radius: 40,
                                             child: Center(
@@ -220,8 +221,8 @@ class DesktopLanding extends StatelessWidget {
                                 ),
                                 if (currentSessionModel.isBreak ||
                                     currentSessionModel.isRunning)
-                                  const SoftContainer(
-                                    child: Padding(
+                                  SoftContainer(
+                                    child: const Padding(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 4,
                                         horizontal: 8,

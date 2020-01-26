@@ -38,126 +38,160 @@ class DesktopLanding extends StatelessWidget {
                       child: CurrentDateTimeContainer(),
                     ),
                   ),
-                  // Align(
-                  //   alignment: Alignment.topCenter,
-                  //   child: const Padding(
-                  //     padding: EdgeInsets.only(top: 16.0),
-                  //     child: CurrentDateTimeContainer(),
-                  //   ),
-                  // ),
-                  Positioned(
-                    left: kToolbarHeight,
-                    right: kToolbarHeight,
-                    bottom: kToolbarHeight - 20,
-                    top: kToolbarHeight + 20,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Stack(
-                            children: <Widget>[
-                              Center(
-                                child: ControlledAnimation(
-                                  tween: fadeInTween,
-                                  duration: const Duration(milliseconds: 750),
-                                  delay: const Duration(milliseconds: 500),
-                                  builder: (context, animation) => Opacity(
-                                    opacity: animation,
-                                    child: const SoftContainer(
-                                      height: 400,
-                                      radius: 40,
-                                      child: Center(
-                                        child: SessionCountdown(),
-                                      ),
-                                    ),
+                  StateBuilder(
+                    models: [currentSessionModel],
+                    builder: (context, _) {
+                      if (currentSessionModel.isBreak) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(kToolbarHeight),
+                            child: ControlledAnimation(
+                              tween: fadeInTween,
+                              duration: const Duration(milliseconds: 750),
+                              delay: const Duration(milliseconds: 500),
+                              builder: (context, animation) => Opacity(
+                                opacity: animation,
+                                child: const SoftContainer(
+                                  height: double.infinity,
+                                  radius: 40,
+                                  child: Center(
+                                    child: SessionCountdown(),
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                bottom: kToolbarHeight,
-                                left: 0,
-                                right: 0,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: ControlledAnimation(
-                                    tween: MultiTrackTween([
-                                      Track('opacity').add(
-                                        const Duration(milliseconds: 650),
-                                        fadeInTween,
-                                      ),
-                                      Track('translation').add(
-                                        const Duration(milliseconds: 450),
-                                        Tween<double>(
-                                          begin: 130,
-                                          end: 0,
-                                        ),
-                                        curve: Curves.easeInOut,
-                                      ),
-                                    ]),
-                                    duration:
-                                        const Duration(milliseconds: 1500),
-                                    delay: const Duration(milliseconds: 500),
-                                    builder: (context, animation) => Opacity(
-                                      opacity: animation['opacity'],
-                                      child: Transform.translate(
-                                        offset:
-                                            Offset(0, animation['translation']),
-                                        child: SoftButton(
-                                          radius: 15,
-                                          onTap: () {
-                                            if (currentSessionModel.isRunning) {
-                                              currentSessionModel.stopTimer();
-                                            } else {
-                                              currentSessionModel
-                                                  .restartTimer();
-                                            }
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Icon(
-                                              currentSessionModel.isRunning
-                                                  ? Icons.pause
-                                                  : Icons.play_arrow,
-                                              size: 36,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Positioned(
+                          left: kToolbarHeight,
+                          right: kToolbarHeight,
+                          bottom: kToolbarHeight - 20,
+                          top: kToolbarHeight + 20,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 2,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Center(
+                                      child: ControlledAnimation(
+                                        tween: fadeInTween,
+                                        duration:
+                                            const Duration(milliseconds: 750),
+                                        delay:
+                                            const Duration(milliseconds: 500),
+                                        builder: (context, animation) =>
+                                            Opacity(
+                                          opacity: animation,
+                                          child: const SoftContainer(
+                                            height: 400,
+                                            radius: 40,
+                                            child: Center(
+                                              child: SessionCountdown(),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
+                                    StateBuilder(
+                                      models: [currentSessionModel],
+                                      builder: (context, _) {
+                                        if (!currentSessionModel.isBreak) {
+                                          return Positioned(
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: ControlledAnimation(
+                                                tween: MultiTrackTween([
+                                                  Track('opacity').add(
+                                                    const Duration(
+                                                        milliseconds: 650),
+                                                    fadeInTween,
+                                                  ),
+                                                  Track('translation').add(
+                                                    const Duration(
+                                                        milliseconds: 450),
+                                                    Tween<double>(
+                                                      begin: 130,
+                                                      end: 0,
+                                                    ),
+                                                    curve: Curves.easeInOut,
+                                                  ),
+                                                ]),
+                                                duration: const Duration(
+                                                    milliseconds: 1500),
+                                                delay: const Duration(
+                                                    milliseconds: 500),
+                                                builder: (context, animation) =>
+                                                    Opacity(
+                                                  opacity: animation['opacity'],
+                                                  child: Transform.translate(
+                                                    offset: Offset(
+                                                        0,
+                                                        animation[
+                                                            'translation']),
+                                                    child: SoftButton(
+                                                      radius: 15,
+                                                      onTap: () {
+                                                        if (currentSessionModel
+                                                            .isRunning) {
+                                                          currentSessionModel
+                                                              .stopTimer();
+                                                        } else {
+                                                          currentSessionModel
+                                                              .restartTimer();
+                                                        }
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
+                                                        child: Icon(
+                                                          currentSessionModel
+                                                                  .isRunning
+                                                              ? Icons.pause
+                                                              : Icons
+                                                                  .play_arrow,
+                                                          size: 36,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 96),
+                              Expanded(
+                                child: StateBuilder(
+                                  models: [currentSessionModel],
+                                  builder: (context, _) => AnimatedCrossFade(
+                                    firstChild: SessionsListContainer(),
+                                    secondChild: const TasksListContainer(),
+                                    crossFadeState:
+                                        currentSessionModel.isRunning
+                                            ? CrossFadeState.showSecond
+                                            : CrossFadeState.showFirst,
+                                    duration: const Duration(milliseconds: 750),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(width: 96),
-                        Expanded(
-                          child: StateBuilder(
-                            models: [currentSessionModel],
-                            builder: (context, _) =>
-                                currentSessionModel.isRunning
-                                    ? const TasksListContainer()
-                                    : SessionsListContainer(),
-                          ),
-                        ),
-                        // Expanded(
-                        //   child: PageView(
-                        //     scrollDirection: Axis.vertical,
-                        //     pageSnapping: true,
-                        //     children: <Widget>[
-                        //       Padding(
-                        //         padding: const EdgeInsets.all(12.0),
-                        //         child: SessionsListContainer(),
-                        //       ),
-                        //       const Padding(
-                        //         padding: EdgeInsets.all(12.0),
-                        //         child: TasksListContainer(),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

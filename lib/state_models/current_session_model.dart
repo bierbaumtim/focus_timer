@@ -13,14 +13,15 @@ class CurrentSessionModel extends StatesRebuilder {
   List<Session> get sessions => sessionsModel.sessions;
 
   Session currentSession;
-  bool isBreak, allSessionsCompleted, isRunning;
+  bool isBreak, isSession, allSessionsCompleted, isTimerRunning;
   int currentDuration, currentSessionIndex;
 
   Timer _timer;
 
   CurrentSessionModel(this.sessionsModel) {
     isBreak = false;
-    isRunning = false;
+    isTimerRunning = false;
+    isSession = false;
     allSessionsCompleted = false;
     currentSessionIndex = -1;
     currentDuration = 0;
@@ -48,7 +49,8 @@ class CurrentSessionModel extends StatesRebuilder {
     } else {
       isBreak = false;
     }
-    isRunning = false;
+    isSession = false;
+    isTimerRunning = true;
     rebuildStates();
   }
 
@@ -65,7 +67,8 @@ class CurrentSessionModel extends StatesRebuilder {
         currentSession = sessions.elementAt(currentSessionIndex);
       }
       currentDuration = currentSession?.duration ?? 0;
-      isRunning = true;
+      isTimerRunning = true;
+      isSession = true;
       _timer?.cancel();
       _timer = Timer.periodic(
         const Duration(seconds: 1),
@@ -84,20 +87,24 @@ class CurrentSessionModel extends StatesRebuilder {
   }
 
   void stopTimer() {
-    _timer?.cancel();
-    isRunning = false;
-    rebuildStates();
+    if (isSession && isTimerRunning) {
+      _timer?.cancel();
+      isTimerRunning = false;
+      rebuildStates();
+    }
   }
 
   void restartTimer() {
-    _timer?.cancel();
-    _decreaseDurationByOne();
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) => _decreaseDurationByOne(),
-    );
-    isRunning = true;
-    rebuildStates();
+    if (isSession && !isTimerRunning) {
+      _timer?.cancel();
+      _decreaseDurationByOne();
+      _timer = Timer.periodic(
+        const Duration(seconds: 1),
+        (timer) => _decreaseDurationByOne(),
+      );
+      isTimerRunning = true;
+      rebuildStates();
+    }
   }
 
   /// Handles a tick by the [Timer]

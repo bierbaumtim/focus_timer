@@ -52,7 +52,7 @@ class MobileTopTimeBar extends StatelessWidget {
                 models: [currentSessionModel],
                 builder: (context, _) => Row(
                   mainAxisAlignment: currentSessionModel.isBreak ||
-                          currentSessionModel.isRunning
+                          currentSessionModel.isTimerRunning
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.center,
                   children: <Widget>[
@@ -61,7 +61,7 @@ class MobileTopTimeBar extends StatelessWidget {
                       child: CurrentDateTimeContainer(),
                     ),
                     if (currentSessionModel.isBreak ||
-                        currentSessionModel.isRunning)
+                        currentSessionModel.isTimerRunning)
                       Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 8),
                         child: SoftContainer(

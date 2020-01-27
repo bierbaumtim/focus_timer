@@ -38,16 +38,16 @@ class SessionTile extends StatelessWidget {
           child: ListTile(
             title: Text(
               'Session ${(index ?? 0) + 1}',
-              style: theme.textTheme.subhead.copyWith(
+              style: theme.textTheme.subtitle1.copyWith(
                 color: session.isCompleted
-                    ? theme.textTheme.subhead.color.withOpacity(0.5)
-                    : theme.textTheme.subhead.color,
+                    ? theme.textTheme.subtitle1.color.withOpacity(0.5)
+                    : theme.textTheme.subtitle1.color,
               ),
             ),
             trailing: SoftButton(
               onTap: () {
                 if (currentSessionModel.currentSessionIndex == index) {
-                  if (currentSessionModel.isRunning) {
+                  if (currentSessionModel.isTimerRunning) {
                     currentSessionModel.stopTimer();
                   } else {
                     currentSessionModel.restartTimer();
@@ -62,7 +62,7 @@ class SessionTile extends StatelessWidget {
                   session.isCompleted
                       ? Icons.check
                       : currentSessionModel.currentSessionIndex == index &&
-                              currentSessionModel.isRunning
+                              currentSessionModel.isTimerRunning
                           ? Icons.pause
                           : Icons.play_arrow,
                 ),

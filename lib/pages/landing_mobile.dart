@@ -11,8 +11,8 @@ import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
 import '../widgets/settings/theme_switch.dart';
 import '../widgets/soft/soft_appbar.dart';
-import '../widgets/soft/soft_button.dart';
 import '../widgets/soft/soft_container.dart';
+import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 import '../widgets/time/mobile_top_tim_bar.dart';
 
@@ -49,7 +49,7 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.title,
+                    titleStyle: theme.textTheme.headline6,
                   ),
                   Expanded(
                     flex: 7,
@@ -85,50 +85,7 @@ class _MobileLandingState extends State<MobileLanding> {
                               if (currentSessionModel.isBreak) {
                                 return Container();
                               } else {
-                                return ControlledAnimation(
-                                  tween: MultiTrackTween([
-                                    Track('opacity').add(
-                                      const Duration(milliseconds: 650),
-                                      fadeInTween,
-                                    ),
-                                    Track('translation').add(
-                                      const Duration(milliseconds: 450),
-                                      Tween<double>(
-                                        begin: 130,
-                                        end: 0,
-                                      ),
-                                      curve: Curves.easeInOut,
-                                    ),
-                                  ]),
-                                  duration: const Duration(milliseconds: 1500),
-                                  // delay: const Duration(milliseconds: 500),
-                                  builder: (context, animation) => Opacity(
-                                    opacity: animation['opacity'],
-                                    child: Transform.translate(
-                                      offset:
-                                          Offset(0, animation['translation']),
-                                      child: SoftButton(
-                                        radius: 15,
-                                        onTap: () {
-                                          if (currentSessionModel.isRunning) {
-                                            currentSessionModel.stopTimer();
-                                          } else {
-                                            currentSessionModel.restartTimer();
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
-                                          child: Icon(
-                                            currentSessionModel.isRunning
-                                                ? Icons.pause
-                                                : Icons.play_arrow,
-                                            size: 36,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                return StartBreakButton();
                               }
                             },
                           ),
@@ -189,7 +146,7 @@ class _MobileLandingState extends State<MobileLanding> {
                                   height: 2,
                                   color: Theme.of(context)
                                       .textTheme
-                                      .body1
+                                      .bodyText1
                                       .color
                                       .withOpacity(0.75),
                                 ),

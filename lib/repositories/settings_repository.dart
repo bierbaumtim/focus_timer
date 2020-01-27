@@ -34,3 +34,31 @@ class SettingsRepository implements ISettingsRepository {
     return settingsBox.putAll(settings);
   }
 }
+
+class DesktopSettingsRepository implements ISettingsRepository {
+  @override
+  Future<void> deleteSetting(String key) {
+    // TODO: implement deleteSetting
+    return null;
+  }
+
+  @override
+  Map<String, dynamic> loadSettings() {
+    // TODO: implement loadSettings
+    return <String, dynamic>{
+      'darkmode': true,
+    };
+  }
+
+  @override
+  Future<void> saveSetting(String key, value) {
+    // TODO: implement saveSetting
+    return null;
+  }
+
+  @override
+  Future<void> saveSettings(Map<String, dynamic> settings) {
+    // TODO: implement saveSettings
+    return null;
+  }
+}

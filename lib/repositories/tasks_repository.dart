@@ -35,3 +35,28 @@ class TasksRepository implements ITasksRepository {
     return tasksBox.put(task.uuid, task);
   }
 }
+
+class DesktopTasksRepository implements ITasksRepository {
+  @override
+  List<Task> loadTasks() {
+    return <Task>[];
+  }
+
+  @override
+  Future<void> removeTask(Task task) {
+    // TODO: implement removeTask
+    return null;
+  }
+
+  @override
+  Future<void> saveTask(Task task) {
+    // TODO: implement saveTask
+    return null;
+  }
+
+  @override
+  Future<void> updateTask(Task task) {
+    // TODO: implement updateTask
+    return null;
+  }
+}

@@ -19,7 +19,7 @@ class SessionsRepository implements ISessionsRepository {
     return sessionsBox.get(kSessionsHiveKey) as List<Session> ??
         List<Session>.generate(
           12,
-          (index) => Session.create(5.minutes.inSeconds),
+          (index) => Session.create(25.minutes.inSeconds),
         );
   }
 
@@ -46,5 +46,43 @@ class SessionsRepository implements ISessionsRepository {
   Future<void> removeSession(Session session) {
     final sessionsBox = Hive.box(kSessionsHiveBox);
     return sessionsBox.delete(session.uid);
+  }
+}
+
+class DesktopSessionsRepository implements ISessionsRepository {
+  @override
+  List<Session> loadSessions() {
+    return List<Session>.generate(
+      12,
+      (index) => Session.create(25.minutes.inSeconds),
+    );
+  }
+
+  @override
+  Future<void> removeSession(Session session) {
+    // TODO: implement removeSession
+    // throw UnimplementedError();
+    return null;
+  }
+
+  @override
+  Future<void> saveSession(Session session) {
+    // TODO: implement saveSession
+    // throw UnimplementedError();
+    return null;
+  }
+
+  @override
+  Future<void> saveSessions(List<Session> sessions) {
+    // TODO: implement saveSessions
+    // throw UnimplementedError();
+    return null;
+  }
+
+  @override
+  Future<void> updateSession(Session session) {
+    // TODO: implement updateSession
+    // throw UnimplementedError();
+    return null;
   }
 }

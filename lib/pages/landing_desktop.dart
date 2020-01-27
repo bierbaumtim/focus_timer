@@ -30,123 +30,128 @@ class DesktopLanding extends StatelessWidget {
           pageSnapping: true,
           childrenDelegate: SliverChildListDelegate(
             <Widget>[
-              Stack(
-                children: <Widget>[
-                  SoftAppBar(
-                    height: kToolbarHeight + 14,
-                    titleStyle: theme.textTheme.headline6.copyWith(fontSize: 35),
-                    centerWidget: const Align(
-                      alignment: Alignment.topCenter,
-                      child: CurrentDateTimeContainer(),
+              Page(
+                child: Stack(
+                  children: <Widget>[
+                    SoftAppBar(
+                      height: kToolbarHeight + 14,
+                      titleStyle:
+                          theme.textTheme.headline6.copyWith(fontSize: 35),
+                      centerWidget: const Align(
+                        alignment: Alignment.topCenter,
+                        child: CurrentDateTimeContainer(),
+                      ),
                     ),
-                  ),
-                  StateBuilder(
-                    models: [currentSessionModel],
-                    builder: (context, _) {
-                      if (currentSessionModel.isBreak) {
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(kToolbarHeight),
-                            child: ControlledAnimation(
-                              tween: fadeInTween,
-                              duration: const Duration(milliseconds: 750),
-                              delay: const Duration(milliseconds: 500),
-                              builder: (context, animation) => Opacity(
-                                opacity: animation,
-                                child: SoftContainer(
-                                  height: countdownHeight * 1.5,
-                                  radius: (countdownHeight * 1.5) / 10,
-                                  child: Center(
-                                    child: SessionCountdown(),
+                    StateBuilder(
+                      models: [currentSessionModel],
+                      builder: (context, _) {
+                        if (currentSessionModel.isBreak) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(kToolbarHeight),
+                              child: ControlledAnimation(
+                                tween: fadeInTween,
+                                duration: const Duration(milliseconds: 750),
+                                delay: const Duration(milliseconds: 500),
+                                builder: (context, animation) => Opacity(
+                                  opacity: animation,
+                                  child: SoftContainer(
+                                    height: countdownHeight * 1.5,
+                                    radius: (countdownHeight * 1.5) / 10,
+                                    child: Center(
+                                      child: SessionCountdown(),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      } else {
-                        return Positioned(
-                          left: kToolbarHeight,
-                          right: kToolbarHeight,
-                          bottom: kToolbarHeight - 20,
-                          top: kToolbarHeight + 20,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Center(
-                                      child: ControlledAnimation(
-                                        tween: fadeInTween,
-                                        duration:
-                                            const Duration(milliseconds: 1500),
-                                        delay:
-                                            const Duration(milliseconds: 500),
-                                        builder: (context, animation) =>
-                                            Opacity(
-                                          opacity: animation,
-                                          child: SoftContainer(
-                                            height: countdownHeight,
-                                            radius: countdownHeight / 10,
-                                            child: Center(
-                                              child: SessionCountdown(),
+                          );
+                        } else {
+                          return Positioned(
+                            left: kToolbarHeight,
+                            right: kToolbarHeight,
+                            bottom: kToolbarHeight - 20,
+                            top: kToolbarHeight + 20,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Center(
+                                        child: ControlledAnimation(
+                                          tween: fadeInTween,
+                                          duration: const Duration(
+                                              milliseconds: 1500),
+                                          delay:
+                                              const Duration(milliseconds: 500),
+                                          builder: (context, animation) =>
+                                              Opacity(
+                                            opacity: animation,
+                                            child: SoftContainer(
+                                              height: countdownHeight,
+                                              radius: countdownHeight / 10,
+                                              child: Center(
+                                                child: SessionCountdown(),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    StateBuilder(
-                                      models: [currentSessionModel],
-                                      builder: (context, _) {
-                                        if (currentSessionModel.isSession) {
-                                          return Positioned(
-                                            left: 0,
-                                            right: 0,
-                                            bottom: 0,
-                                            top: 2 * countdownHeight,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: StartBreakButton(),
-                                            ),
-                                          );
-                                        } else {
-                                          return Container();
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 96),
-                              Expanded(
-                                child: StateBuilder(
-                                  models: [currentSessionModel],
-                                  builder: (context, _) => AnimatedCrossFade(
-                                    firstChild: SessionsListContainer(),
-                                    secondChild: const TasksListContainer(),
-                                    crossFadeState:
-                                        currentSessionModel.isTimerRunning
-                                            ? CrossFadeState.showSecond
-                                            : CrossFadeState.showFirst,
-                                    duration: const Duration(milliseconds: 750),
+                                      StateBuilder(
+                                        models: [currentSessionModel],
+                                        builder: (context, _) {
+                                          if (currentSessionModel.isSession) {
+                                            return Positioned(
+                                              left: 0,
+                                              right: 0,
+                                              bottom: 0,
+                                              top: 2 * countdownHeight,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: StartBreakButton(),
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ],
+                                const SizedBox(width: 96),
+                                Expanded(
+                                  child: StateBuilder(
+                                    models: [currentSessionModel],
+                                    builder: (context, _) => AnimatedCrossFade(
+                                      firstChild: SessionsListContainer(),
+                                      secondChild: const TasksListContainer(),
+                                      crossFadeState:
+                                          currentSessionModel.isTimerRunning
+                                              ? CrossFadeState.showSecond
+                                              : CrossFadeState.showFirst,
+                                      duration:
+                                          const Duration(milliseconds: 750),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
               Page(
                 child: Column(
                   children: <Widget>[
                     SoftAppBar(
                       height: kToolbarHeight + 14,
-                      titleStyle: theme.textTheme.headline6.copyWith(fontSize: 35),
+                      titleStyle:
+                          theme.textTheme.headline6.copyWith(fontSize: 35),
                       centerWidget: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(

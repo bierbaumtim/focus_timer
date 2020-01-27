@@ -10,8 +10,8 @@ import '../widgets/pageview_page.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
 import '../widgets/soft/soft_appbar.dart';
-import '../widgets/soft/soft_button.dart';
 import '../widgets/soft/soft_container.dart';
+import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 import '../widgets/time/countdown_time.dart';
 
@@ -19,6 +19,7 @@ class DesktopLanding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final countdownHeight = MediaQuery.of(context).size.height / 3;
 
     final currentSessionModel = Injector.get<CurrentSessionModel>();
 
@@ -33,7 +34,7 @@ class DesktopLanding extends StatelessWidget {
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 14,
-                    titleStyle: theme.textTheme.title.copyWith(fontSize: 35),
+                    titleStyle: theme.textTheme.headline6.copyWith(fontSize: 35),
                     centerWidget: const Align(
                       alignment: Alignment.topCenter,
                       child: CurrentDateTimeContainer(),
@@ -53,8 +54,8 @@ class DesktopLanding extends StatelessWidget {
                               builder: (context, animation) => Opacity(
                                 opacity: animation,
                                 child: SoftContainer(
-                                  height: double.infinity,
-                                  radius: 40,
+                                  height: countdownHeight * 1.5,
+                                  radius: (countdownHeight * 1.5) / 10,
                                   child: Center(
                                     child: SessionCountdown(),
                                   ),
@@ -79,15 +80,15 @@ class DesktopLanding extends StatelessWidget {
                                       child: ControlledAnimation(
                                         tween: fadeInTween,
                                         duration:
-                                            const Duration(milliseconds: 750),
+                                            const Duration(milliseconds: 1500),
                                         delay:
                                             const Duration(milliseconds: 500),
                                         builder: (context, animation) =>
                                             Opacity(
                                           opacity: animation,
                                           child: SoftContainer(
-                                            height: 400,
-                                            radius: 40,
+                                            height: countdownHeight,
+                                            radius: countdownHeight / 10,
                                             child: Center(
                                               child: SessionCountdown(),
                                             ),
@@ -98,71 +99,15 @@ class DesktopLanding extends StatelessWidget {
                                     StateBuilder(
                                       models: [currentSessionModel],
                                       builder: (context, _) {
-                                        if (!currentSessionModel.isBreak) {
+                                        if (currentSessionModel.isSession) {
                                           return Positioned(
-                                            bottom: 0,
                                             left: 0,
                                             right: 0,
+                                            bottom: 0,
+                                            top: 2 * countdownHeight,
                                             child: Align(
                                               alignment: Alignment.center,
-                                              child: ControlledAnimation(
-                                                tween: MultiTrackTween([
-                                                  Track('opacity').add(
-                                                    const Duration(
-                                                        milliseconds: 650),
-                                                    fadeInTween,
-                                                  ),
-                                                  Track('translation').add(
-                                                    const Duration(
-                                                        milliseconds: 450),
-                                                    Tween<double>(
-                                                      begin: 130,
-                                                      end: 0,
-                                                    ),
-                                                    curve: Curves.easeInOut,
-                                                  ),
-                                                ]),
-                                                duration: const Duration(
-                                                    milliseconds: 1500),
-                                                delay: const Duration(
-                                                    milliseconds: 500),
-                                                builder: (context, animation) =>
-                                                    Opacity(
-                                                  opacity: animation['opacity'],
-                                                  child: Transform.translate(
-                                                    offset: Offset(
-                                                        0,
-                                                        animation[
-                                                            'translation']),
-                                                    child: SoftButton(
-                                                      radius: 15,
-                                                      onTap: () {
-                                                        if (currentSessionModel
-                                                            .isRunning) {
-                                                          currentSessionModel
-                                                              .stopTimer();
-                                                        } else {
-                                                          currentSessionModel
-                                                              .restartTimer();
-                                                        }
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(12.0),
-                                                        child: Icon(
-                                                          currentSessionModel
-                                                                  .isRunning
-                                                              ? Icons.pause
-                                                              : Icons
-                                                                  .play_arrow,
-                                                          size: 36,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                                              child: StartBreakButton(),
                                             ),
                                           );
                                         } else {
@@ -181,7 +126,7 @@ class DesktopLanding extends StatelessWidget {
                                     firstChild: SessionsListContainer(),
                                     secondChild: const TasksListContainer(),
                                     crossFadeState:
-                                        currentSessionModel.isRunning
+                                        currentSessionModel.isTimerRunning
                                             ? CrossFadeState.showSecond
                                             : CrossFadeState.showFirst,
                                     duration: const Duration(milliseconds: 750),
@@ -201,38 +146,62 @@ class DesktopLanding extends StatelessWidget {
                   children: <Widget>[
                     SoftAppBar(
                       height: kToolbarHeight + 14,
-                      titleStyle: theme.textTheme.title.copyWith(fontSize: 35),
+                      titleStyle: theme.textTheme.headline6.copyWith(fontSize: 35),
                       centerWidget: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: StateBuilder(
-                            models: [currentSessionModel],
-                            builder: (context, _) => Row(
-                              mainAxisAlignment: currentSessionModel.isBreak ||
-                                      currentSessionModel.isRunning
-                                  ? MainAxisAlignment.spaceBetween
-                                  : MainAxisAlignment.center,
-                              children: <Widget>[
-                                const Expanded(
-                                  child: Center(
-                                    child: CurrentDateTimeContainer(),
+                          child: ControlledAnimation(
+                            tween: MultiTrackTween([
+                              Track('opacity').add(
+                                const Duration(milliseconds: 650),
+                                fadeInTween,
+                              ),
+                              Track('translation').add(
+                                const Duration(milliseconds: 450),
+                                Tween<double>(
+                                  begin: -50,
+                                  end: 0,
+                                ),
+                                curve: Curves.easeInOut,
+                              ),
+                            ]),
+                            duration: const Duration(milliseconds: 1500),
+                            builder: (context, animation) => Opacity(
+                              opacity: animation['opacity'],
+                              child: Transform.translate(
+                                offset: Offset(0, animation['translation']),
+                                child: StateBuilder(
+                                  models: [currentSessionModel],
+                                  builder: (context, _) => Row(
+                                    mainAxisAlignment: currentSessionModel
+                                                .isBreak ||
+                                            currentSessionModel.isTimerRunning
+                                        ? MainAxisAlignment.spaceBetween
+                                        : MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      const Expanded(
+                                        child: Center(
+                                          child: CurrentDateTimeContainer(),
+                                        ),
+                                      ),
+                                      if (currentSessionModel.isBreak ||
+                                          currentSessionModel.isTimerRunning)
+                                        SoftContainer(
+                                          child: const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 4,
+                                              horizontal: 8,
+                                            ),
+                                            child: CountdownTime(
+                                              isSmall: true,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                 ),
-                                if (currentSessionModel.isBreak ||
-                                    currentSessionModel.isRunning)
-                                  SoftContainer(
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 4,
-                                        horizontal: 8,
-                                      ),
-                                      child: CountdownTime(
-                                        isSmall: true,
-                                      ),
-                                    ),
-                                  ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -260,9 +229,6 @@ class DesktopLanding extends StatelessWidget {
                 ),
               ),
               const Page(),
-              const Page(
-                  // useComplemtaryTheme: true,
-                  ),
             ],
           ),
         ),

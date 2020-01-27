@@ -50,57 +50,6 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
                     ),
                   );
                 } else if (sessionsModel.sessions.isNotEmpty) {
-                  // return Padding(
-                  //   padding: const EdgeInsets.only(
-                  //     top: kToolbarHeight,
-                  //     bottom: kToolbarHeight + 8,
-                  //   ),
-                  //   child: CustomScrollView(
-                  //     controller: controller,
-                  //     physics: BouncingScrollPhysics(),
-                  //     slivers: <Widget>[
-                  //       SliverPadding(
-                  //         padding: const EdgeInsets.only(
-                  //           bottom: 14,
-                  //           top: 14,
-                  //         ),
-                  //         sliver: LiveSliverList(
-                  //           itemCount: sessionsModel.sessions.length,
-                  //           controller: controller,
-                  //           itemBuilder: (context, index, animation) =>
-                  //               FadeTransition(
-                  //             opacity: Tween<double>(
-                  //               begin: 0,
-                  //               end: 1,
-                  //             ).animate(animation),
-                  //             child: SlideTransition(
-                  //               position: Tween<Offset>(
-                  //                       begin: Offset(1, -0.1),
-                  //                       end: Offset.zero)
-                  //                   .animate(animation),
-                  //               child: SessionTile(
-                  //                 session:
-                  //                     sessionsModel.sessions.elementAt(index),
-                  //                 index: index + 1,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           showItemDuration: Duration(milliseconds: 175),
-                  //           // delegate: SliverChildBuilderDelegate(
-                  //           //   (context, index) => SessionTile(
-                  //           //     session:
-                  //           //         sessionsModel.sessions.elementAt(index),
-                  //           //     index: index + 1,
-                  //           //   ),
-                  //           //   childCount: sessionsModel.sessions.length,
-                  //           // ),
-                  //           // onReorder: (oldIndex, newIndex) => sessionsModel
-                  //           //     .reorderSession(oldIndex, newIndex),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
                   return Padding(
                     padding: const EdgeInsets.only(
                       top: kToolbarHeight,

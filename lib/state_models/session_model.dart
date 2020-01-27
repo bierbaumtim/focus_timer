@@ -6,7 +6,7 @@ import '../models/session.dart';
 import '../repositories/sessions_repository.dart';
 
 class SessionsModel extends StatesRebuilder {
-  final SessionsRepository storageRepository;
+  final ISessionsRepository storageRepository;
 
   SessionsModel(this.storageRepository) {
     loadSessions();

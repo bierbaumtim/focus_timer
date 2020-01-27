@@ -29,7 +29,7 @@ class CountdownTime extends StatelessWidget {
         child: AutoSizeText(
           timeToString(currentSessionModel.currentDuration),
           maxLines: 1,
-          style: theme.textTheme.title.copyWith(
+          style: theme.textTheme.headline6.copyWith(
             fontSize: 110,
             shadows: [],
           ),

@@ -36,7 +36,7 @@ ThemeData get lightTheme => ThemeData(
         color: kSoftLightTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           shadows: lightTextShadow,
           color: kSoftLightTextColor,
         ),
@@ -50,7 +50,7 @@ ThemeData get darkTheme => ThemeData(
         color: kSoftDarkTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           shadows: darkTextShadow,
           color: kSoftDarkTextColor,
         ),

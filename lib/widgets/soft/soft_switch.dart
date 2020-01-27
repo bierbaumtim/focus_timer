@@ -110,14 +110,14 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                       child: AnimatedCrossFade(
                         firstChild: IconTheme(
                           data: IconThemeData(
-                            color: Theme.of(context).textTheme.body1.color,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             size: 20,
                           ),
                           child: widget.activeChild,
                         ),
                         secondChild: IconTheme(
                           data: IconThemeData(
-                            color: Theme.of(context).textTheme.body1.color,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             size: 20,
                           ),
                           child: widget.deactiveChild,

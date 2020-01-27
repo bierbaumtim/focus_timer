@@ -53,7 +53,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
                   decoration: InputDecoration.collapsed(
                     hintText: 'Task hinzufügen...',
                     hintStyle: TextStyle(
-                      color: theme.textTheme.title.color,
+                      color: theme.textTheme.headline6.color,
                     ),
                   ),
                 ),

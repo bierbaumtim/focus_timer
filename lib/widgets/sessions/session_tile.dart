@@ -38,10 +38,10 @@ class SessionTile extends StatelessWidget {
           child: ListTile(
             title: Text(
               'Session ${(index ?? 0) + 1}',
-              style: theme.textTheme.subtitle1.copyWith(
+              style: theme.textTheme.subhead.copyWith(
                 color: session.isCompleted
-                    ? theme.textTheme.subtitle1.color.withOpacity(0.5)
-                    : theme.textTheme.subtitle1.color,
+                    ? theme.textTheme.subhead.color.withOpacity(0.5)
+                    : theme.textTheme.subhead.color,
               ),
             ),
             trailing: SoftButton(

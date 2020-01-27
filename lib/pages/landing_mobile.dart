@@ -49,7 +49,7 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.headline6,
+                    titleStyle: theme.textTheme.title,
                   ),
                   Expanded(
                     flex: 7,

@@ -36,7 +36,7 @@ class DesktopLanding extends StatelessWidget {
                     SoftAppBar(
                       height: kToolbarHeight + 14,
                       titleStyle:
-                          theme.textTheme.headline6.copyWith(fontSize: 35),
+                          theme.textTheme.title.copyWith(fontSize: 35),
                       centerWidget: const Align(
                         alignment: Alignment.topCenter,
                         child: CurrentDateTimeContainer(),
@@ -151,7 +151,7 @@ class DesktopLanding extends StatelessWidget {
                     SoftAppBar(
                       height: kToolbarHeight + 14,
                       titleStyle:
-                          theme.textTheme.headline6.copyWith(fontSize: 35),
+                          theme.textTheme.title.copyWith(fontSize: 35),
                       centerWidget: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(

@@ -35,7 +35,7 @@ class SessionCountdown extends StatelessWidget {
               child: AutoSizeText(
                 'All sessions done.',
                 maxLines: 1,
-                style: theme.textTheme.headline6.copyWith(
+                style: theme.textTheme.title.copyWith(
                   fontSize: 110,
                   shadows: [],
                 ),

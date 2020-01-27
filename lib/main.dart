@@ -19,7 +19,6 @@ import 'pages/landing_mobile.dart';
 import 'repositories/sessions_repository.dart';
 import 'repositories/settings_repository.dart';
 import 'repositories/tasks_repository.dart';
-import 'services/session_service.dart';
 import 'state_models/current_session_model.dart';
 import 'state_models/session_model.dart';
 import 'state_models/settings_model.dart';
@@ -28,6 +27,7 @@ import 'state_models/tasks_model.dart';
 /// ignore: avoid_void_async
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  bool useDesktop;
 
   if (!kIsWeb) {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -44,26 +44,29 @@ void main() async {
     await Hive.openBox(kTasksHiveBox);
     await Hive.openBox(kSessionsHiveBox);
     await Hive.openBox(kSettingsHiveBox);
+    useDesktop = false;
+  } else {
+    useDesktop = true;
   }
 
   runApp(Injector(
     inject: [
       Inject<SessionsModel>(
-        () => SessionsModel(SessionsRepository()),
+        () => SessionsModel(
+          useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
+        ),
       ),
       Inject<TasksModel>(
-        () => TasksModel(TasksRepository()),
+        () => TasksModel(
+          useDesktop ? DesktopTasksRepository() : TasksRepository(),
+        ),
       ),
       Inject<CurrentSessionModel>(
         () => CurrentSessionModel(Injector.get<SessionsModel>()),
       ),
       Inject<SettingsModel>(
-        () => SettingsModel(SettingsRepository()),
-      ),
-      Inject<SessionService>(
-        () => SessionService(
-          Injector.get<SessionsModel>(),
-          Injector.get<CurrentSessionModel>(),
+        () => SettingsModel(
+          useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
         ),
       ),
     ],

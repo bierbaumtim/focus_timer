@@ -146,7 +146,7 @@ class _MobileLandingState extends State<MobileLanding> {
                                   height: 2,
                                   color: Theme.of(context)
                                       .textTheme
-                                      .bodyText1
+                                      .body1
                                       .color
                                       .withOpacity(0.75),
                                 ),

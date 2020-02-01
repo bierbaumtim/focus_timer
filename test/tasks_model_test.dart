@@ -13,22 +13,15 @@ void main() {
   );
 
   group('TasksModel tests', () {
+    final repo = MockTaskRepository();
+
     TasksModel model;
+
+    when(repo.loadTasks()).thenReturn(_defaultTasksList);
+
     setUp(() {
-      final repo = MockTaskRepository();
-
-      when(repo.loadTasks()).thenReturn(_defaultTasksList);
-
       model = TasksModel(repo);
     });
-
-    test(
-      'assertion when repo is null',
-      () {
-        expect(TasksModel(null), throwsAssertionError);
-      },
-      skip: true,
-    );
 
     test('load tasks', () {
       expect(model.allTasksCompleted, isFalse);

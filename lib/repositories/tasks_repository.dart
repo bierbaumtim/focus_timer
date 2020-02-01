@@ -2,13 +2,7 @@ import 'package:hive/hive.dart';
 
 import '../constants/hive_constants.dart';
 import '../models/task.dart';
-
-abstract class ITasksRepository {
-  List<Task> loadTasks();
-  Future<void> saveTask(Task task);
-  Future<void> updateTask(Task task);
-  Future<void> removeTask(Task task);
-}
+import 'interfaces/tasks_repository_interface.dart';
 
 class TasksRepository implements ITasksRepository {
   @override

@@ -9,11 +9,13 @@ class SettingsModel extends StatesRebuilder {
     loadSettings();
   }
 
-  bool get darkmode => settings['darkmode'] ?? true;
+  bool get darkmode => _settings['darkmode'] ?? true;
 
-  Map<String, dynamic> settings;
+  Map<String, dynamic> _settings;
 
-  void loadSettings() => settings = repository.loadSettings();
+  Map<String, dynamic> get settings => _settings;
+
+  void loadSettings() => _settings = repository.loadSettings();
 
   void changeDarkmode(bool value) {
     _addOrUpdateSetting('darkmode', value);
@@ -24,10 +26,10 @@ class SettingsModel extends StatesRebuilder {
   }
 
   void _addOrUpdateSetting(String key, dynamic value) {
-    if (settings.containsKey(key)) {
-      settings[key] = value;
+    if (_settings.containsKey(key)) {
+      _settings[key] = value;
     } else {
-      settings.putIfAbsent(key, () => value);
+      _settings.putIfAbsent(key, () => value);
     }
   }
 }

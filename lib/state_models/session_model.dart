@@ -3,7 +3,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 
 import '../extensions/num_extensions.dart';
 import '../models/session.dart';
-import '../repositories/sessions_repository.dart';
+import '../repositories/interfaces/sessions_repository_interface.dart';
 
 class SessionsModel extends StatesRebuilder {
   final ISessionsRepository storageRepository;

@@ -12,22 +12,26 @@ class SessionsModel extends StatesRebuilder {
     loadSessions();
   }
 
-  List<Session> sessions;
+  List<Session> _sessions;
+
+  List<Session> get sessions => _sessions;
 
   void addSession(Session newSession, {int duration, int position}) {
     final session =
         newSession ?? Session.create(duration ?? 5.minutes.inSeconds);
-    if (position != null && position.isBetween(0, sessions.lastIndex)) {
-      sessions.insert(position, session);
+    if (position != null && position.isBetween(0, _sessions.lastIndex)) {
+      _sessions.insert(position, session);
     } else {
-      sessions.add(session);
+      _sessions.add(session);
     }
     storageRepository.saveSession(session);
-    rebuildStates();
+    if (hasObservers) {
+      rebuildStates();
+    }
   }
 
   void updateSession(Session session) {
-    sessions = sessions
+    _sessions = _sessions
         .map<Session>((s) => s.uid == session.uid ? session : s)
         .toList();
     storageRepository.updateSession(session);
@@ -37,20 +41,20 @@ class SessionsModel extends StatesRebuilder {
   }
 
   void removeSession(Session session) {
-    sessions.removeWhere((s) => s.uid == session.uid);
+    _sessions.removeWhere((s) => s.uid == session.uid);
     storageRepository.removeSession(session);
-    rebuildStates();
+    if (hasObservers) {
+      rebuildStates();
+    }
   }
 
   void reorderSession(int oldIndex, int newIndex) {
-    final oldSession = sessions.removeAt(oldIndex);
-    sessions.insert(newIndex, oldSession);
-    rebuildStates();
+    final oldSession = _sessions.removeAt(oldIndex);
+    _sessions.insert(newIndex, oldSession);
+    if (hasObservers) {
+      rebuildStates();
+    }
   }
 
-  void _saveEdits() {
-    storageRepository.saveSessions(sessions);
-  }
-
-  void loadSessions() => sessions = storageRepository.loadSessions();
+  void loadSessions() => _sessions = storageRepository.loadSessions();
 }

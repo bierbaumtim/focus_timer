@@ -7,15 +7,18 @@ class TasksModel extends StatesRebuilder {
   final ITasksRepository repository;
 
   TasksModel(this.repository) : assert(repository != null) {
-    allTasksCompleted = false;
-    tasks = repository.loadTasks();
+    _allTasksCompleted = false;
+    _tasks = repository.loadTasks();
   }
 
-  List<Task> tasks;
-  bool allTasksCompleted;
+  List<Task> _tasks;
+  bool _allTasksCompleted;
+
+  List<Task> get tasks => _tasks;
+  bool get allTasksCompleted => _allTasksCompleted;
 
   void addTask(Task task) {
-    tasks.add(task);
+    _tasks.add(task);
     repository.saveTask(task);
     if (hasObservers) {
       rebuildStates();
@@ -23,7 +26,7 @@ class TasksModel extends StatesRebuilder {
   }
 
   void updateTask(Task task) {
-    tasks = tasks.map<Task>((t) => t.uuid == task.uuid ? task : t).toList();
+    _tasks = _tasks.map<Task>((t) => t.uuid == task.uuid ? task : t).toList();
     repository.updateTask(task);
     if (hasObservers) {
       rebuildStates();
@@ -31,7 +34,7 @@ class TasksModel extends StatesRebuilder {
   }
 
   void removeTask(Task task) {
-    tasks.removeWhere((t) => t.uuid == task.uuid);
+    _tasks.removeWhere((t) => t.uuid == task.uuid);
     repository.removeTask(task);
     if (hasObservers) {
       rebuildStates();

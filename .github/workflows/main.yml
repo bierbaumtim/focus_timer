@@ -16,6 +16,11 @@ jobs:
           channel: 'dev'
       - run: flutter config --enable-web
       - run: flutter pub get
+      - run: flutter test --coverage
+      - name: Codecov Action
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} #required
       - run: flutter build web --release
       - run: |
           cd build/web

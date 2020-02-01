@@ -1,13 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../constants/hive_constants.dart';
-
-abstract class ISettingsRepository {
-  Map<String, dynamic> loadSettings();
-  Future<void> saveSettings(Map<String, dynamic> settings);
-  Future<void> saveSetting(String key, dynamic value);
-  Future<void> deleteSetting(String key);
-}
+import 'interfaces/settings_repository_interface.dart';
 
 class SettingsRepository implements ISettingsRepository {
   @override

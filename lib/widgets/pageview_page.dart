@@ -16,15 +16,16 @@ class Page extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final background = useComplemtaryTheme
-        ? (isDark ? lightTheme.canvasColor : darkTheme.canvasColor)
-        : theme.canvasColor;
 
     return Theme(
       data: useComplemtaryTheme ? (isDark ? lightTheme : darkTheme) : theme,
-      child: Container(
-        color: background,
-        child: child,
+      child: Builder(
+        builder: (context) => Container(
+          color: Theme.of(context).canvasColor,
+          child: SafeArea(
+            child: child,
+          ),
+        ),
       ),
     );
   }

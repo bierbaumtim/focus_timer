@@ -14,7 +14,7 @@ import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
-import '../widgets/time/mobile_top_tim_bar.dart';
+import '../widgets/time/mobile_top_time_bar.dart';
 
 class MobileLanding extends StatefulWidget {
   @override

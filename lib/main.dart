@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:focus_timer/state_models/session_settings_model.dart';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,6 +21,7 @@ import 'repositories/settings_repository.dart';
 import 'repositories/tasks_repository.dart';
 import 'state_models/current_session_model.dart';
 import 'state_models/session_model.dart';
+import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
 
@@ -119,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: MobileLanding(),
+      tablet: DesktopLanding(),
       desktop: DesktopLanding(),
     );
   }

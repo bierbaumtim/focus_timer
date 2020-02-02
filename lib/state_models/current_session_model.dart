@@ -64,7 +64,7 @@ class CurrentSessionModel extends StatesRebuilder {
   }
 
   void startSession([int index = -1]) {
-    if (sessions.isNotEmpty && !isBreak) {
+    if (sessions.isNotEmpty) {
       if (index.isBetween(0, sessions.length - 1)) {
         currentSession = sessions.elementAt(index);
         currentSessionIndex = index;

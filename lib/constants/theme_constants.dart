@@ -41,6 +41,15 @@ ThemeData get lightTheme => ThemeData(
           color: kSoftLightTextColor,
         ),
       ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: kSoftLightTextColor,
+        activeTickMarkColor: kSoftLightTextColor,
+        thumbColor: kSoftLightTextColor,
+        inactiveTrackColor: kSoftLightTextColor.withAlpha(0x1f),
+        disabledInactiveTrackColor: kSoftLightTextColor.withAlpha(0x1f),
+        inactiveTickMarkColor: kSoftLightTextColor.withAlpha(0x8a),
+        overlayColor: kSoftLightTextColor.withAlpha(0x1f),
+      ),
     );
 
 ThemeData get darkTheme => ThemeData(
@@ -54,5 +63,14 @@ ThemeData get darkTheme => ThemeData(
           shadows: darkTextShadow,
           color: kSoftDarkTextColor,
         ),
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: kSoftDarkTextColor,
+        activeTickMarkColor: kSoftDarkTextColor,
+        thumbColor: kSoftDarkTextColor,
+        disabledInactiveTrackColor: kSoftDarkTextColor.withAlpha(0x1f),
+        inactiveTrackColor: kSoftDarkTextColor.withAlpha(0x1f),
+        inactiveTickMarkColor: kSoftDarkTextColor.withAlpha(0x8a),
+        overlayColor: kSoftDarkTextColor.withAlpha(0x1f),
       ),
     );

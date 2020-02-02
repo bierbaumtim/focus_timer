@@ -45,17 +45,20 @@ class SessionTile extends StatelessWidget {
               ),
             ),
             trailing: SoftButton(
-              onTap: () {
-                if (currentSessionModel.currentSessionIndex == index) {
-                  if (currentSessionModel.isTimerRunning) {
-                    currentSessionModel.stopTimer();
-                  } else {
-                    currentSessionModel.restartTimer();
-                  }
-                } else if (currentSessionModel.currentSessionIndex < index) {
-                  currentSessionModel.startSession(index);
-                }
-              },
+              onTap: currentSessionModel.isBreak
+                  ? null
+                  : () {
+                      if (currentSessionModel.currentSessionIndex == index) {
+                        if (currentSessionModel.isTimerRunning) {
+                          currentSessionModel.stopTimer();
+                        } else {
+                          currentSessionModel.restartTimer();
+                        }
+                      } else if (currentSessionModel.currentSessionIndex <
+                          index) {
+                        currentSessionModel.startSession(index);
+                      }
+                    },
               child: Padding(
                 padding: const EdgeInsets.all(1.5),
                 child: Icon(

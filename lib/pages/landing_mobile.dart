@@ -9,7 +9,7 @@ import '../state_models/current_session_model.dart';
 import '../widgets/pageview_page.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
-import '../widgets/settings/theme_switch.dart';
+import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
 import '../widgets/start_break_button.dart';
@@ -124,41 +124,12 @@ class _MobileLandingState extends State<MobileLanding> {
             ),
             Page(
               child: Column(
-                children: <Widget>[
+                children: const <Widget>[
                   MobileTopTimeBar(),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: SoftContainer(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              ListTile(
-                                title: Text('Settings'),
-                              ),
-                              AnimatedPadding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                duration: Duration(milliseconds: 350),
-                                child: Container(
-                                  height: 2,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .body1
-                                      .color
-                                      .withOpacity(0.75),
-                                ),
-                              ),
-                              ListTile(
-                                title: Text('Darkmode'),
-                                trailing: ThemeSwitch(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      padding: EdgeInsets.all(8),
+                      child: SettingsContainer(),
                     ),
                   ),
                 ],

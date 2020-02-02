@@ -17,6 +17,7 @@ class SoftAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final topPadding = MediaQuery.of(context).padding.top;
 
     return Align(
       alignment: Alignment.topCenter,
@@ -24,10 +25,7 @@ class SoftAppBar extends StatelessWidget {
         color: theme.canvasColor,
         height: height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 24,
-          ),
+          padding: EdgeInsets.fromLTRB(24, topPadding + 8, 24, 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -35,17 +33,7 @@ class SoftAppBar extends StatelessWidget {
                 'Focus Timer',
                 style: titleStyle ?? theme.textTheme.title,
               ),
-              if (centerWidget != null)
-                Expanded(child: centerWidget),
-              // SoftButton(
-              //   radius: 15,
-              //   onTap: () =>
-              //       BlocProvider.of<SettingsBloc>(context).add(ChangeTheme()),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8),
-              //     child: Icon(FontAwesome.sun_o),
-              //   ),
-              // ),
+              if (centerWidget != null) Expanded(child: centerWidget),
               ThemeSwitch(),
             ],
           ),

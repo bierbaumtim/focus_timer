@@ -25,8 +25,11 @@ class TasksListContainer extends StatelessWidget {
               builder: (context, _) {
                 if (tasksModel.allTasksCompleted) {
                   return const Center(
-                    child: Text(
-                      'You\'ve done all your tasks',
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(
+                        'You\'ve done all your tasks',
+                      ),
                     ),
                   );
                 } else if (tasksModel.tasks.isNotEmpty) {
@@ -56,6 +59,7 @@ class TasksListContainer extends StatelessWidget {
                           ),
                         ),
                         itemCount: tasksModel.tasks.length,
+                        shrinkWrap: true,
                       ),
                     ),
                   );

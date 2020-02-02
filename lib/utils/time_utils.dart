@@ -20,7 +20,7 @@ String timeToString(
 
   final seconds = ((duration % 3600) % 60).truncate();
 
-  if (!hideZeroSeconds && seconds > 0) {
+  if (!hideZeroSeconds && seconds >= 0) {
     timeString += seconds.toString().padLeft(2, '0');
     timeString += secondsDelimiter ?? '';
   }

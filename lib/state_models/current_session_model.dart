@@ -6,11 +6,16 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import '../extensions/num_extensions.dart';
 import '../models/session.dart';
 import 'session_model.dart';
+import 'session_settings_model.dart';
 
 class CurrentSessionModel extends StatesRebuilder {
   final SessionsModel sessionsModel;
+  final SessionSettingsModel sessionSettingsModel;
 
   List<Session> get sessions => sessionsModel.sessions;
+
+  double get _shortBreakDuration => sessionSettingsModel.shortBreakDuration;
+  double get _longBreakDuration => sessionSettingsModel.longBreakDuration;
 
   Session currentSession;
   bool isBreak, isSession, allSessionsCompleted, isTimerRunning;
@@ -18,7 +23,9 @@ class CurrentSessionModel extends StatesRebuilder {
 
   Timer _timer;
 
-  CurrentSessionModel(this.sessionsModel) {
+  CurrentSessionModel(this.sessionsModel, this.sessionSettingsModel)
+      : assert(sessionSettingsModel != null),
+        assert(sessionsModel != null) {
     isBreak = false;
     isTimerRunning = false;
     isSession = false;
@@ -36,11 +43,11 @@ class CurrentSessionModel extends StatesRebuilder {
     if (currentSessionIndex < sessions.lastIndex) {
       isBreak = true;
       if (currentSessionIndex == 0) {
-        currentDuration = 5.minutes.inSeconds;
+        currentDuration = _shortBreakDuration.toInt();
       } else {
         currentDuration = currentSessionIndex % 5 != 0
-            ? 5.minutes.inSeconds
-            : 25.minutes.inSeconds;
+            ? _shortBreakDuration.toInt()
+            : _longBreakDuration.toInt();
       }
       _timer = Timer.periodic(
         const Duration(seconds: 1),
@@ -51,7 +58,9 @@ class CurrentSessionModel extends StatesRebuilder {
     }
     isSession = false;
     isTimerRunning = true;
-    rebuildStates();
+    if (hasObservers) {
+      rebuildStates();
+    }
   }
 
   void startSession([int index = -1]) {
@@ -76,13 +85,17 @@ class CurrentSessionModel extends StatesRebuilder {
       );
     }
     isBreak = false;
-    rebuildStates();
+    if (hasObservers) {
+      rebuildStates();
+    }
   }
 
   void updateCurrentSession(Session session) {
     if (currentSession.uid == session.uid) {
       currentSession = session;
-      rebuildStates();
+      if (hasObservers) {
+        rebuildStates();
+      }
     }
   }
 
@@ -90,7 +103,9 @@ class CurrentSessionModel extends StatesRebuilder {
     if (isSession && isTimerRunning) {
       _timer?.cancel();
       isTimerRunning = false;
-      rebuildStates();
+      if (hasObservers) {
+        rebuildStates();
+      }
     }
   }
 
@@ -103,7 +118,9 @@ class CurrentSessionModel extends StatesRebuilder {
         (timer) => _decreaseDurationByOne(),
       );
       isTimerRunning = true;
-      rebuildStates();
+      if (hasObservers) {
+        rebuildStates();
+      }
     }
   }
 
@@ -126,7 +143,9 @@ class CurrentSessionModel extends StatesRebuilder {
         startBreak();
       }
     } else {
-      rebuildStates();
+      if (hasObservers) {
+        rebuildStates();
+      }
     }
   }
 

@@ -52,19 +52,6 @@ void main() async {
 
   runApp(Injector(
     inject: [
-      Inject<SessionsModel>(
-        () => SessionsModel(
-          useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
-        ),
-      ),
-      Inject<TasksModel>(
-        () => TasksModel(
-          useDesktop ? DesktopTasksRepository() : TasksRepository(),
-        ),
-      ),
-      Inject<CurrentSessionModel>(
-        () => CurrentSessionModel(Injector.get<SessionsModel>()),
-      ),
       Inject<SettingsModel>(
         () => SettingsModel(
           useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
@@ -73,6 +60,23 @@ void main() async {
       Inject<SessionSettingsModel>(
         () => SessionSettingsModel(
           useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+        ),
+      ),
+      Inject<SessionsModel>(
+        () => SessionsModel(
+          useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
+          Injector.get<SessionSettingsModel>(),
+        ),
+      ),
+      Inject<TasksModel>(
+        () => TasksModel(
+          useDesktop ? DesktopTasksRepository() : TasksRepository(),
+        ),
+      ),
+      Inject<CurrentSessionModel>(
+        () => CurrentSessionModel(
+          Injector.get<SessionsModel>(),
+          Injector.get<SessionSettingsModel>(),
         ),
       ),
     ],

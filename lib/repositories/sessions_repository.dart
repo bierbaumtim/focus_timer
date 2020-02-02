@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:dartx/dartx.dart';
 
 import '../constants/hive_constants.dart';
 import '../models/session.dart';
@@ -9,11 +8,7 @@ class SessionsRepository implements ISessionsRepository {
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
-    return sessionsBox.get(kSessionsHiveKey) as List<Session> ??
-        List<Session>.generate(
-          12,
-          (index) => Session.create(25.minutes.inSeconds),
-        );
+    return sessionsBox.get(kSessionsHiveKey) as List<Session>;
   }
 
   @override
@@ -45,10 +40,9 @@ class SessionsRepository implements ISessionsRepository {
 class DesktopSessionsRepository implements ISessionsRepository {
   @override
   List<Session> loadSessions() {
-    return List<Session>.generate(
-      12,
-      (index) => Session.create(25.minutes.inSeconds),
-    );
+    // TODO: implement loadSessions
+    // throw UnimplementedError();
+    return null;
   }
 
   @override

@@ -16,6 +16,7 @@ class CurrentSessionModel extends StatesRebuilder {
 
   double get _shortBreakDuration => sessionSettingsModel.shortBreakDuration;
   double get _longBreakDuration => sessionSettingsModel.longBreakDuration;
+  int get _sessionUntilBreak => sessionSettingsModel.sessionUntilBreak;
 
   Session currentSession;
   bool isBreak, isSession, allSessionsCompleted, isTimerRunning;
@@ -45,7 +46,7 @@ class CurrentSessionModel extends StatesRebuilder {
       if (currentSessionIndex == 0) {
         currentDuration = _shortBreakDuration.toInt();
       } else {
-        currentDuration = currentSessionIndex % 5 != 0
+        currentDuration = currentSessionIndex % _sessionUntilBreak != 0
             ? _shortBreakDuration.toInt()
             : _longBreakDuration.toInt();
       }

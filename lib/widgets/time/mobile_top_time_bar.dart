@@ -9,16 +9,18 @@ import '../datetime/current_datetime_container.dart';
 import '../soft/soft_container.dart';
 import 'countdown_time.dart';
 
-class MobileTopTimeBar extends StatelessWidget {
-  const MobileTopTimeBar({
+class TopTimeBar extends StatelessWidget {
+  const TopTimeBar({
     Key key,
     this.alignment = Alignment.topCenter,
     this.padding,
+    this.contentPadding,
   })  : assert(alignment != null),
         super(key: key);
 
   final Alignment alignment;
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +59,15 @@ class MobileTopTimeBar extends StatelessWidget {
                       : MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 16.0, bottom: 8),
+                      padding: contentPadding ??
+                          EdgeInsets.only(top: 8.0, bottom: 8),
                       child: CurrentDateTimeContainer(),
                     ),
                     if (currentSessionModel.isBreak ||
                         currentSessionModel.isTimerRunning)
                       Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 8),
+                        padding: contentPadding ??
+                            EdgeInsets.only(top: 8.0, bottom: 8),
                         child: SoftContainer(
                           child: const Padding(
                             padding: EdgeInsets.symmetric(

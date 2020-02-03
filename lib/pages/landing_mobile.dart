@@ -99,7 +99,7 @@ class _MobileLandingState extends State<MobileLanding> {
             Page(
               child: Column(
                 children: <Widget>[
-                  MobileTopTimeBar(),
+                  TopTimeBar(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -112,7 +112,7 @@ class _MobileLandingState extends State<MobileLanding> {
             Page(
               child: Column(
                 children: <Widget>[
-                  MobileTopTimeBar(),
+                  TopTimeBar(),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(8),
@@ -125,7 +125,7 @@ class _MobileLandingState extends State<MobileLanding> {
             Page(
               child: Column(
                 children: const <Widget>[
-                  MobileTopTimeBar(),
+                  TopTimeBar(),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(8),

@@ -23,12 +23,11 @@ class MobileTopTimeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentSessionModel = Injector.get<CurrentSessionModel>();
-    final topPadding = MediaQuery.of(context).padding.top;
 
     return Align(
       alignment: alignment ?? Alignment.topCenter,
       child: Padding(
-        padding: padding ?? EdgeInsets.fromLTRB(8, topPadding, 8, 8),
+        padding: padding ?? EdgeInsets.fromLTRB(8, 0, 8, 8),
         child: ControlledAnimation(
           tween: MultiTrackTween([
             Track('opacity').add(

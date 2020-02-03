@@ -33,7 +33,6 @@ void main() async {
   if (!kIsWeb) {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-      // BlocSupervisor.delegate = await HydratedBlocDelegate.build();
     } else {
       await Hive.initFlutter();
     }

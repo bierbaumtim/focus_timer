@@ -36,10 +36,15 @@ ThemeData get lightTheme => ThemeData(
         color: kSoftLightTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
-          shadows: lightTextShadow,
-          color: kSoftLightTextColor,
-        ),
+        title: lightTextStyle,
+        subtitle: lightTextStyle,
+        subhead: lightTextStyle,
+        button: lightTextStyle,
+        caption: lightTextStyle,
+        overline: lightTextStyle,
+        headline: lightTextStyle,
+        body1: lightTextStyle,
+        body2: lightTextStyle,
       ),
       sliderTheme: SliderThemeData(
         activeTrackColor: kSoftLightTextColor,
@@ -59,10 +64,15 @@ ThemeData get darkTheme => ThemeData(
         color: kSoftDarkTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
-          shadows: darkTextShadow,
-          color: kSoftDarkTextColor,
-        ),
+        title: darkTextStyle,
+        subtitle: darkTextStyle,
+        subhead: darkTextStyle,
+        button: darkTextStyle,
+        caption: darkTextStyle,
+        overline: darkTextStyle,
+        headline: darkTextStyle,
+        body1: darkTextStyle,
+        body2: darkTextStyle,
       ),
       sliderTheme: SliderThemeData(
         activeTrackColor: kSoftDarkTextColor,
@@ -74,3 +84,15 @@ ThemeData get darkTheme => ThemeData(
         overlayColor: kSoftDarkTextColor.withAlpha(0x1f),
       ),
     );
+
+TextStyle lightTextStyle = TextStyle(
+  shadows: lightTextShadow,
+  color: kSoftLightTextColor,
+  fontFamily: 'Consolas',
+);
+
+TextStyle darkTextStyle = TextStyle(
+  shadows: darkTextShadow,
+  color: kSoftDarkTextColor,
+  fontFamily: 'Consolas',
+);

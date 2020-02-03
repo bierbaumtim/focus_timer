@@ -8,7 +8,7 @@ class SessionsRepository implements ISessionsRepository {
   @override
   List<Session> loadSessions() {
     final sessionsBox = Hive.box(kSessionsHiveBox);
-    return sessionsBox.get(kSessionsHiveKey) as List<Session>;
+    return sessionsBox.values?.whereType<Session>()?.toList();
   }
 
   @override

@@ -62,11 +62,12 @@ class SessionsModel extends StatesRebuilder {
 
   void loadSessions() {
     _sessions = storageRepository.loadSessions();
-    if (_sessions == null) {
+    if (_sessions == null || _sessions.isEmpty) {
       _sessions = List<Session>.generate(
         12,
         (index) => Session.create(_sessionDuration.toInt()),
       );
+      storageRepository.saveSessions(_sessions);
     }
   }
 }

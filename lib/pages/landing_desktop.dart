@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:focus_timer/widgets/settings/settings_container.dart';
+import 'package:focus_timer/widgets/time/mobile_top_time_bar.dart';
 
 import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -35,8 +37,7 @@ class DesktopLanding extends StatelessWidget {
                   children: <Widget>[
                     SoftAppBar(
                       height: kToolbarHeight + 14,
-                      titleStyle:
-                          theme.textTheme.title.copyWith(fontSize: 35),
+                      titleStyle: theme.textTheme.title.copyWith(fontSize: 35),
                       centerWidget: const Align(
                         alignment: Alignment.topCenter,
                         child: CurrentDateTimeContainer(),
@@ -150,66 +151,9 @@ class DesktopLanding extends StatelessWidget {
                   children: <Widget>[
                     SoftAppBar(
                       height: kToolbarHeight + 14,
-                      titleStyle:
-                          theme.textTheme.title.copyWith(fontSize: 35),
-                      centerWidget: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: ControlledAnimation(
-                            tween: MultiTrackTween([
-                              Track('opacity').add(
-                                const Duration(milliseconds: 650),
-                                fadeInTween,
-                              ),
-                              Track('translation').add(
-                                const Duration(milliseconds: 450),
-                                Tween<double>(
-                                  begin: -50,
-                                  end: 0,
-                                ),
-                                curve: Curves.easeInOut,
-                              ),
-                            ]),
-                            duration: const Duration(milliseconds: 1500),
-                            builder: (context, animation) => Opacity(
-                              opacity: animation['opacity'],
-                              child: Transform.translate(
-                                offset: Offset(0, animation['translation']),
-                                child: StateBuilder(
-                                  models: [currentSessionModel],
-                                  builder: (context, _) => Row(
-                                    mainAxisAlignment: currentSessionModel
-                                                .isBreak ||
-                                            currentSessionModel.isTimerRunning
-                                        ? MainAxisAlignment.spaceBetween
-                                        : MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      const Expanded(
-                                        child: Center(
-                                          child: CurrentDateTimeContainer(),
-                                        ),
-                                      ),
-                                      if (currentSessionModel.isBreak ||
-                                          currentSessionModel.isTimerRunning)
-                                        SoftContainer(
-                                          child: const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 4,
-                                              horizontal: 8,
-                                            ),
-                                            child: CountdownTime(
-                                              isSmall: true,
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      titleStyle: theme.textTheme.title.copyWith(fontSize: 35),
+                      centerWidget: TopTimeBar(
+                        contentPadding: const EdgeInsets.all(4),
                       ),
                     ),
                     Expanded(
@@ -233,7 +177,27 @@ class DesktopLanding extends StatelessWidget {
                   ],
                 ),
               ),
-              const Page(),
+              Page(
+                child: Column(
+                  children: <Widget>[
+                    SoftAppBar(
+                      height: kToolbarHeight + 14,
+                      titleStyle: theme.textTheme.title.copyWith(fontSize: 35),
+                      centerWidget: TopTimeBar(
+                        contentPadding: const EdgeInsets.all(4),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: SettingsContainer(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

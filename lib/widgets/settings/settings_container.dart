@@ -18,103 +18,131 @@ class SettingsContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             ListTile(
               title: Text('Settings'),
             ),
-            AnimatedPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              duration: Duration(milliseconds: 350),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
               child: Container(
                 height: 2,
                 color:
                     Theme.of(context).textTheme.body1.color.withOpacity(0.75),
               ),
             ),
-            ListTile(
-              title: Text('Darkmode'),
-              trailing: ThemeSwitch(),
-            ),
-            ListTile(
-              title: Text('Sessionlänge'),
-              subtitle: StateBuilder(
-                models: [sessionSettingsModel],
-                builder: (context, _) => Text(
-                  timeToString(
-                    sessionSettingsModel.sessionsDuration,
-                    hoursDelimiter: ' hours ',
-                    minutesDelimiter: ' minutes ',
-                    secondsDelimiter: ' seconds',
-                    hideZeroSeconds: true,
+            Expanded(
+              child: ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: Text('Darkmode'),
+                    trailing: ThemeSwitch(),
                   ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: StateBuilder(
-                models: [sessionSettingsModel],
-                builder: (context, _) => Slider(
-                  min: 300,
-                  max: 5400,
-                  divisions: 85,
-                  value: sessionSettingsModel.sessionsDuration,
-                  onChanged: sessionSettingsModel.setSessionDuration,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('kurze Pausenlänge'),
-              subtitle: StateBuilder(
-                models: [sessionSettingsModel],
-                builder: (context, _) => Text(
-                  timeToString(
-                    sessionSettingsModel.shortBreakDuration,
-                    hoursDelimiter: ' hours ',
-                    minutesDelimiter: ' minutes ',
-                    secondsDelimiter: ' seconds',
-                    hideZeroSeconds: true,
+                  ListTile(
+                    title: Text('Sessions until break'),
+                    subtitle: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Text(
+                        '${sessionSettingsModel.sessionUntilBreak} sessions',
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: StateBuilder(
-                models: [sessionSettingsModel],
-                builder: (context, _) => Slider(
-                  min: 60,
-                  max: 1800,
-                  divisions: 28,
-                  value: sessionSettingsModel.shortBreakDuration,
-                  onChanged: sessionSettingsModel.setShortBreakDuration,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('lange Pauselänge'),
-              subtitle: StateBuilder(
-                models: [sessionSettingsModel],
-                builder: (context, _) => Text(
-                  timeToString(
-                    sessionSettingsModel.longBreakDuration,
-                    hoursDelimiter: ' hours ',
-                    minutesDelimiter: ' minutes ',
-                    secondsDelimiter: ' seconds',
-                    hideZeroSeconds: true,
+                  ListTile(
+                    title: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Slider(
+                        min: 1,
+                        max: 10,
+                        divisions: 10,
+                        value:
+                            sessionSettingsModel.sessionUntilBreak.toDouble(),
+                        onChanged: (sessions) => sessionSettingsModel
+                            .setSessionsUntilBreak(sessions.toInt()),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: StateBuilder(
-                models: [sessionSettingsModel],
-                builder: (context, _) => Slider(
-                  min: 300,
-                  max: 10800,
-                  divisions: 175,
-                  value: sessionSettingsModel.longBreakDuration,
-                  onChanged: sessionSettingsModel.setLongBreakDuration,
-                ),
+                  ListTile(
+                    title: Text('session duration'),
+                    subtitle: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Text(
+                        timeToString(
+                          sessionSettingsModel.sessionsDuration,
+                          hoursDelimiter: ' hours ',
+                          minutesDelimiter: ' minutes ',
+                          secondsDelimiter: ' seconds',
+                          hideZeroSeconds: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Slider(
+                        min: 300,
+                        max: 5400,
+                        divisions: 85,
+                        value: sessionSettingsModel.sessionsDuration,
+                        onChanged: sessionSettingsModel.setSessionDuration,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('short break duration'),
+                    subtitle: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Text(
+                        timeToString(
+                          sessionSettingsModel.shortBreakDuration,
+                          hoursDelimiter: ' hours ',
+                          minutesDelimiter: ' minutes ',
+                          secondsDelimiter: ' seconds',
+                          hideZeroSeconds: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Slider(
+                        min: 60,
+                        max: 1800,
+                        divisions: 28,
+                        value: sessionSettingsModel.shortBreakDuration,
+                        onChanged: sessionSettingsModel.setShortBreakDuration,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('long break duration'),
+                    subtitle: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Text(
+                        timeToString(
+                          sessionSettingsModel.longBreakDuration,
+                          hoursDelimiter: ' hours ',
+                          minutesDelimiter: ' minutes ',
+                          secondsDelimiter: ' seconds',
+                          hideZeroSeconds: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: StateBuilder(
+                      models: [sessionSettingsModel],
+                      builder: (context, _) => Slider(
+                        min: 300,
+                        max: 10800,
+                        divisions: 175,
+                        value: sessionSettingsModel.longBreakDuration,
+                        onChanged: sessionSettingsModel.setLongBreakDuration,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

@@ -16,13 +16,18 @@ class SessionSettingsModel extends StatesRebuilder {
   Map<String, dynamic> get settings => _settings;
 
   double get sessionsDuration =>
-      _settings['sessions_duration'] ?? 25.minutes.inSeconds.toDouble();
+      _settings['sessions_duration'] as double ??
+      25.minutes.inSeconds.toDouble();
 
   double get shortBreakDuration =>
-      _settings['short_break_duration'] ?? 5.minutes.inSeconds.toDouble();
+      _settings['short_break_duration'] as double ??
+      5.minutes.inSeconds.toDouble();
 
   double get longBreakDuration =>
-      _settings['long_break_duration'] ?? 25.minutes.inSeconds.toDouble();
+      _settings['long_break_duration'] as double ??
+      25.minutes.inSeconds.toDouble();
+
+  int get sessionUntilBreak => _settings['sessions_until_break'] as int ?? 4;
 
   void setSessionDuration(double duration) {
     _settings = addOrUpdateSetting(
@@ -55,6 +60,18 @@ class SessionSettingsModel extends StatesRebuilder {
       _settings,
     );
     repository.saveSetting('long_break_duration', duration);
+    if (hasObservers) {
+      rebuildStates();
+    }
+  }
+
+  void setSessionsUntilBreak(int sessions) {
+    _settings = addOrUpdateSetting(
+      'sessions_until_break',
+      sessions,
+      _settings,
+    );
+    repository.saveSetting('sessions_until_break', sessions);
     if (hasObservers) {
       rebuildStates();
     }

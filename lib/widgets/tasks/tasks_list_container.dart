@@ -19,6 +19,7 @@ class TasksListContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
             StateBuilder(
               models: [tasksModel],

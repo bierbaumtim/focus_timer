@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:focus_timer/widgets/settings/settings_container.dart';
-import 'package:focus_timer/widgets/time/mobile_top_time_bar.dart';
 
 import 'package:simple_animations/simple_animations.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -11,11 +9,12 @@ import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/pageview_page.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
+import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
-import '../widgets/time/countdown_time.dart';
+import '../widgets/time/mobile_top_time_bar.dart';
 
 class DesktopLanding extends StatelessWidget {
   @override

@@ -19,14 +19,21 @@ class TasksListContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
             StateBuilder(
               models: [tasksModel],
               builder: (context, _) {
                 if (tasksModel.allTasksCompleted) {
-                  return const Center(
-                    child: Text(
-                      'You\'ve done all your tasks',
+                  return const Positioned(
+                    bottom: 0,
+                    top: 0,
+                    left: 12,
+                    right: 12,
+                    child: Center(
+                      child: Text(
+                        'You\'ve done all your tasks',
+                      ),
                     ),
                   );
                 } else if (tasksModel.tasks.isNotEmpty) {
@@ -56,13 +63,20 @@ class TasksListContainer extends StatelessWidget {
                           ),
                         ),
                         itemCount: tasksModel.tasks.length,
+                        shrinkWrap: true,
                       ),
                     ),
                   );
                 } else {
-                  return const Center(
-                    child: Text(
-                      'Add tasks that you want to complete in future sessions',
+                  return const Positioned(
+                    bottom: 0,
+                    top: 0,
+                    left: 12,
+                    right: 12,
+                    child: Center(
+                      child: Text(
+                        'Add tasks that you want to complete in future sessions',
+                      ),
                     ),
                   );
                 }

@@ -1,6 +1,7 @@
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 import '../repositories/interfaces/settings_repository_interface.dart';
+import '../utils/settings_utils.dart';
 
 class SettingsModel extends StatesRebuilder {
   final ISettingsRepository repository;
@@ -18,18 +19,10 @@ class SettingsModel extends StatesRebuilder {
   void loadSettings() => _settings = repository.loadSettings();
 
   void changeDarkmode(bool value) {
-    _addOrUpdateSetting('darkmode', value);
+    _settings = addOrUpdateSetting('darkmode', value, _settings);
     repository.saveSetting('darkmode', value);
     if (hasObservers) {
       rebuildStates();
-    }
-  }
-
-  void _addOrUpdateSetting(String key, dynamic value) {
-    if (_settings.containsKey(key)) {
-      _settings[key] = value;
-    } else {
-      _settings.putIfAbsent(key, () => value);
     }
   }
 }

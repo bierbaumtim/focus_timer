@@ -1,4 +1,4 @@
-package com.example.focus_timer
+package com.focus_timer
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

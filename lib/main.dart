@@ -21,6 +21,7 @@ import 'repositories/settings_repository.dart';
 import 'repositories/tasks_repository.dart';
 import 'state_models/current_session_model.dart';
 import 'state_models/session_model.dart';
+import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
 
@@ -32,7 +33,6 @@ void main() async {
   if (!kIsWeb) {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-      // BlocSupervisor.delegate = await HydratedBlocDelegate.build();
     } else {
       await Hive.initFlutter();
     }
@@ -51,9 +51,20 @@ void main() async {
 
   runApp(Injector(
     inject: [
+      Inject<SettingsModel>(
+        () => SettingsModel(
+          useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+        ),
+      ),
+      Inject<SessionSettingsModel>(
+        () => SessionSettingsModel(
+          useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+        ),
+      ),
       Inject<SessionsModel>(
         () => SessionsModel(
           useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
+          Injector.get<SessionSettingsModel>(),
         ),
       ),
       Inject<TasksModel>(
@@ -62,11 +73,9 @@ void main() async {
         ),
       ),
       Inject<CurrentSessionModel>(
-        () => CurrentSessionModel(Injector.get<SessionsModel>()),
-      ),
-      Inject<SettingsModel>(
-        () => SettingsModel(
-          useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+        () => CurrentSessionModel(
+          Injector.get<SessionsModel>(),
+          Injector.get<SessionSettingsModel>(),
         ),
       ),
     ],
@@ -109,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: MobileLanding(),
+      tablet: DesktopLanding(),
       desktop: DesktopLanding(),
     );
   }

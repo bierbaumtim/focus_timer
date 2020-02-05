@@ -56,6 +56,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
                       color: theme.textTheme.title.color,
                     ),
                   ),
+                  onSubmitted: createTask,
                 ),
               ),
             ),
@@ -64,10 +65,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
               radius: 15,
               onTap: () {
                 if (taskNameController.text.isNotEmpty) {
-                  final model = Injector.get<TasksModel>();
-                  final task = Task.create(taskNameController.text);
-                  model.addTask(task);
-                  taskNameController.clear();
+                  createTask(taskNameController.text);
                 }
               },
               child: const Padding(
@@ -80,5 +78,14 @@ class _AddTaskTileState extends State<AddTaskTile> {
         ),
       ),
     );
+  }
+
+  void createTask(String taskName) {
+    if (taskName.isNotEmpty) {
+      final model = Injector.get<TasksModel>();
+      final task = Task.create(taskName);
+      model.addTask(task);
+      taskNameController.clear();
+    }
   }
 }

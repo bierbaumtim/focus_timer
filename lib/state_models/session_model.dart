@@ -4,11 +4,15 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import '../extensions/num_extensions.dart';
 import '../models/session.dart';
 import '../repositories/interfaces/sessions_repository_interface.dart';
+import 'session_settings_model.dart';
 
 class SessionsModel extends StatesRebuilder {
   final ISessionsRepository storageRepository;
+  final SessionSettingsModel sessionSettingsModel;
 
-  SessionsModel(this.storageRepository) {
+  double get _sessionDuration => sessionSettingsModel.sessionsDuration;
+
+  SessionsModel(this.storageRepository, this.sessionSettingsModel) {
     loadSessions();
   }
 
@@ -18,7 +22,7 @@ class SessionsModel extends StatesRebuilder {
 
   void addSession(Session newSession, {int duration, int position}) {
     final session =
-        newSession ?? Session.create(duration ?? 5.minutes.inSeconds);
+        newSession ?? Session.create(duration ?? _sessionDuration.toInt());
     if (position != null && position.isBetween(0, _sessions.lastIndex)) {
       _sessions.insert(position, session);
     } else {
@@ -56,5 +60,14 @@ class SessionsModel extends StatesRebuilder {
     }
   }
 
-  void loadSessions() => _sessions = storageRepository.loadSessions();
+  void loadSessions() {
+    _sessions = storageRepository.loadSessions();
+    if (_sessions == null || _sessions.isEmpty) {
+      _sessions = List<Session>.generate(
+        12,
+        (index) => Session.create(_sessionDuration.toInt()),
+      );
+      storageRepository.saveSessions(_sessions);
+    }
+  }
 }

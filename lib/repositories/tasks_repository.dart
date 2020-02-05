@@ -8,7 +8,7 @@ class TasksRepository implements ITasksRepository {
   @override
   List<Task> loadTasks() {
     final tasksBox = Hive.box(kTasksHiveBox);
-    return tasksBox.get(kTasksHiveKey) as List<Task> ?? <Task>[];
+    return tasksBox.values?.whereType<Task>()?.toList() ?? <Task>[];
   }
 
   @override

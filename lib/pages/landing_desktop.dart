@@ -10,11 +10,12 @@ import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/pageview_page.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
+import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
-import '../widgets/time/countdown_time.dart';
+import '../widgets/time/mobile_top_time_bar.dart';
 
 class DesktopLanding extends StatefulWidget {
   @override
@@ -56,7 +57,8 @@ class _DesktopLandingState extends State<DesktopLanding> {
                 duration: const Duration(milliseconds: 350),
                 curve: Curves.easeInOut,
               );
-            } else if (event.logicalKey.keyId == LogicalKeyboardKey.arrowUp.keyId) {
+            } else if (event.logicalKey.keyId ==
+                LogicalKeyboardKey.arrowUp.keyId) {
               await pageController.previousPage(
                 duration: const Duration(milliseconds: 350),
                 curve: Curves.easeInOut,
@@ -192,64 +194,8 @@ class _DesktopLandingState extends State<DesktopLanding> {
                         height: kToolbarHeight + 14,
                         titleStyle:
                             theme.textTheme.title.copyWith(fontSize: 35),
-                        centerWidget: Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: ControlledAnimation(
-                              tween: MultiTrackTween([
-                                Track('opacity').add(
-                                  const Duration(milliseconds: 650),
-                                  fadeInTween,
-                                ),
-                                Track('translation').add(
-                                  const Duration(milliseconds: 450),
-                                  Tween<double>(
-                                    begin: -50,
-                                    end: 0,
-                                  ),
-                                  curve: Curves.easeInOut,
-                                ),
-                              ]),
-                              duration: const Duration(milliseconds: 1500),
-                              builder: (context, animation) => Opacity(
-                                opacity: animation['opacity'],
-                                child: Transform.translate(
-                                  offset: Offset(0, animation['translation']),
-                                  child: StateBuilder(
-                                    models: [currentSessionModel],
-                                    builder: (context, _) => Row(
-                                      mainAxisAlignment: currentSessionModel
-                                                  .isBreak ||
-                                              currentSessionModel.isTimerRunning
-                                          ? MainAxisAlignment.spaceBetween
-                                          : MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        const Expanded(
-                                          child: Center(
-                                            child: CurrentDateTimeContainer(),
-                                          ),
-                                        ),
-                                        if (currentSessionModel.isBreak ||
-                                            currentSessionModel.isTimerRunning)
-                                          SoftContainer(
-                                            child: const Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 4,
-                                                horizontal: 8,
-                                              ),
-                                              child: CountdownTime(
-                                                isSmall: true,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                        centerWidget: TopTimeBar(
+                          contentPadding: const EdgeInsets.all(4),
                         ),
                       ),
                       Expanded(
@@ -273,7 +219,28 @@ class _DesktopLandingState extends State<DesktopLanding> {
                     ],
                   ),
                 ),
-                const Page(),
+                Page(
+                  child: Column(
+                    children: <Widget>[
+                      SoftAppBar(
+                        height: kToolbarHeight + 14,
+                        titleStyle:
+                            theme.textTheme.title.copyWith(fontSize: 35),
+                        centerWidget: TopTimeBar(
+                          contentPadding: const EdgeInsets.all(4),
+                        ),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: SettingsContainer(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

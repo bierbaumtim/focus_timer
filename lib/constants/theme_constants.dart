@@ -36,10 +36,24 @@ ThemeData get lightTheme => ThemeData(
         color: kSoftLightTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
-          shadows: lightTextShadow,
-          color: kSoftLightTextColor,
-        ),
+        title: lightTextStyle,
+        subtitle: lightTextStyle,
+        subhead: lightTextStyle,
+        button: lightTextStyle,
+        caption: lightTextStyle,
+        overline: lightTextStyle,
+        headline: lightTextStyle,
+        body1: lightTextStyle,
+        body2: lightTextStyle,
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: kSoftLightTextColor,
+        activeTickMarkColor: kSoftLightTextColor,
+        thumbColor: kSoftLightTextColor,
+        inactiveTrackColor: kSoftLightTextColor.withAlpha(0x1f),
+        disabledInactiveTrackColor: kSoftLightTextColor.withAlpha(0x1f),
+        inactiveTickMarkColor: kSoftLightTextColor.withAlpha(0x8a),
+        overlayColor: kSoftLightTextColor.withAlpha(0x1f),
       ),
     );
 
@@ -50,9 +64,35 @@ ThemeData get darkTheme => ThemeData(
         color: kSoftDarkTextColor,
       ),
       textTheme: TextTheme(
-        title: TextStyle(
-          shadows: darkTextShadow,
-          color: kSoftDarkTextColor,
-        ),
+        title: darkTextStyle,
+        subtitle: darkTextStyle,
+        subhead: darkTextStyle,
+        button: darkTextStyle,
+        caption: darkTextStyle,
+        overline: darkTextStyle,
+        headline: darkTextStyle,
+        body1: darkTextStyle,
+        body2: darkTextStyle,
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: kSoftDarkTextColor,
+        activeTickMarkColor: kSoftDarkTextColor,
+        thumbColor: kSoftDarkTextColor,
+        disabledInactiveTrackColor: kSoftDarkTextColor.withAlpha(0x1f),
+        inactiveTrackColor: kSoftDarkTextColor.withAlpha(0x1f),
+        inactiveTickMarkColor: kSoftDarkTextColor.withAlpha(0x8a),
+        overlayColor: kSoftDarkTextColor.withAlpha(0x1f),
       ),
     );
+
+TextStyle lightTextStyle = TextStyle(
+  shadows: lightTextShadow,
+  color: kSoftLightTextColor,
+  fontFamily: 'Consolas',
+);
+
+TextStyle darkTextStyle = TextStyle(
+  shadows: darkTextShadow,
+  color: kSoftDarkTextColor,
+  fontFamily: 'Consolas',
+);

@@ -25,6 +25,7 @@ dependencies:
   auto_animated: ^2.0.1
   flutter_icons: ^1.0.0+1
   md2_tab_indicator: ^1.0.2
+  flip_panel: ^1.0.1
   # reorderables: # ^0.2.12
   #   git:
   #     url: https://github.com/bierbaumtim/reorderables.git
@@ -44,7 +45,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-  states_rebuilder: ^1.11.2
+  states_rebuilder: ^1.12.1
 
   path_provider: ^1.6.0
   shared_preferences: ^0.5.6
@@ -55,6 +56,12 @@ dependencies:
   hive_flutter: ^0.3.0+1
 
   mockito: ^4.1.1
+
+  path_provider_fde:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/flutter_plugins/path_provider_fde
+      ref: 4340dec47dd88206ed421d8c1c9ecdff2ba02fff
 
 dev_dependencies:
   flutter_test:
@@ -91,10 +98,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Consolas
+      fonts:
+        - asset: fonts/Consolas/Consolas.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

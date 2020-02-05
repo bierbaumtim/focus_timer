@@ -77,6 +77,18 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
   }
 
   @override
+  void didUpdateWidget(SoftSwitch oldWidget) {
+    if (oldWidget.value != widget.value) {
+      if (widget.value) {
+        alignmentController.forward();
+      } else {
+        alignmentController.reverse();
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 37.5,

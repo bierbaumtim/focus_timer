@@ -33,12 +33,17 @@ class Session extends Equatable {
 
   @override
   @CopyWithField(ignore: true)
-  List<Object> get props => <Object>[uid, duration, tasks];
+  List<Object> get props => <Object>[
+        uid,
+        duration,
+        tasks,
+        isCompleted,
+      ];
 
   factory Session.create(int duration) => Session(
         uid: Uuid().v4(),
         duration: duration,
-        tasks: const <Task>[],
+        tasks: <Task>[],
       );
 
   factory Session.fromJson(Map<String, dynamic> json) =>

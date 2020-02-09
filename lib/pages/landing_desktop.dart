@@ -77,7 +77,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                       SoftAppBar(
                         height: kToolbarHeight + 14,
                         titleStyle:
-                            theme.textTheme.title.copyWith(fontSize: 35),
+                            theme.textTheme.headline6.copyWith(fontSize: 35),
                         centerWidget: const Align(
                           alignment: Alignment.topCenter,
                           child: CurrentDateTimeContainer(),
@@ -193,7 +193,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                       SoftAppBar(
                         height: kToolbarHeight + 14,
                         titleStyle:
-                            theme.textTheme.title.copyWith(fontSize: 35),
+                            theme.textTheme.headline6.copyWith(fontSize: 35),
                         centerWidget: TopTimeBar(
                           contentPadding: const EdgeInsets.all(4),
                         ),
@@ -225,7 +225,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                       SoftAppBar(
                         height: kToolbarHeight + 14,
                         titleStyle:
-                            theme.textTheme.title.copyWith(fontSize: 35),
+                            theme.textTheme.headline6.copyWith(fontSize: 35),
                         centerWidget: TopTimeBar(
                           contentPadding: const EdgeInsets.all(4),
                         ),

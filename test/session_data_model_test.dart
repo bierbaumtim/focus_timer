@@ -100,6 +100,45 @@ void main() {
 
         expect(session.tasks.isEmpty, isTrue);
       });
+
+      test('copyWith test', () {
+        var session = Session.create(1000);
+        final task = Task.create('Test Task');
+
+        expect(session, isA<Session>());
+        expect(session.duration, equals(1000));
+        expect(session.isCompleted, isFalse);
+        expect(session.tasks.isEmpty, isTrue);
+        expect(
+          session.props,
+          equals([
+            session.uid,
+            1000,
+            <Task>[],
+            false,
+          ]),
+        );
+
+        session = session.copyWith(
+          duration: 360,
+          tasks: <Task>[task],
+        );
+
+        expect(session, isA<Session>());
+        expect(session.duration, equals(360));
+        expect(session.isCompleted, isFalse);
+        expect(session.tasks.isEmpty, isFalse);
+        expect(session.tasks, equals(<Task>[task]));
+        expect(
+          session.props,
+          equals([
+            session.uid,
+            360,
+            <Task>[task],
+            false,
+          ]),
+        );
+      });
     });
   });
 }

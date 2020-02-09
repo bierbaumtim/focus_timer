@@ -1,4 +1,4 @@
-import 'package:copy_with_annotation/copy_with_annotation.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -32,7 +32,6 @@ class Session extends Equatable {
   }) : isCompleted = isCompleted ?? false;
 
   @override
-  @CopyWithField(ignore: true)
   List<Object> get props => <Object>[
         uid,
         duration,

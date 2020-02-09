@@ -3,6 +3,28 @@
 part of 'task.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+// ignore_for_file: argument_type_not_assignable, implicit_dynamic_type, always_specify_types
+
+extension TaskCopyWithExtension on Task {
+  Task copyWith({
+    bool isCompleted,
+    String name,
+    String sessionUId,
+    String uuid,
+  }) {
+    return Task(
+      isCompleted: isCompleted ?? this.isCompleted,
+      name: name ?? this.name,
+      sessionUId: sessionUId ?? this.sessionUId,
+      uuid: uuid ?? this.uuid,
+    );
+  }
+}
+
+// **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 

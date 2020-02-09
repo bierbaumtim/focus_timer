@@ -6,19 +6,20 @@ part of 'session.dart';
 // CopyWithGenerator
 // **************************************************************************
 
-extension $SessionCopyWith on Session {
+// ignore_for_file: argument_type_not_assignable, implicit_dynamic_type, always_specify_types
+
+extension SessionCopyWithExtension on Session {
   Session copyWith({
-    String uid,
     int duration,
-    List<Task> tasks,
     bool isCompleted,
-    List<Object> props,
+    List tasks,
+    String uid,
   }) {
     return Session(
-      uid: uid ?? this.uid,
       duration: duration ?? this.duration,
-      tasks: tasks ?? this.tasks,
       isCompleted: isCompleted ?? this.isCompleted,
+      tasks: tasks ?? this.tasks,
+      uid: uid ?? this.uid,
     );
   }
 }

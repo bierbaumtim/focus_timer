@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dartx/dartx.dart';
+import 'package:flutter/foundation.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../extensions/num_extensions.dart';
 import '../models/session.dart';
@@ -43,19 +46,15 @@ class CurrentSessionModel extends StatesRebuilder {
     _timer?.cancel();
     if (currentSessionIndex < sessions.lastIndex) {
       isBreak = true;
-      if (currentSessionIndex == 0) {
-        currentDuration = _shortBreakDuration.toInt();
-      } else {
-        currentDuration = currentSessionIndex % _sessionUntilBreak != 0
-            ? _shortBreakDuration.toInt()
-            : _longBreakDuration.toInt();
-      }
+      currentDuration = _calculateBreakDuration(currentSessionIndex);
+      _enableWakelock();
       _timer = Timer.periodic(
         const Duration(seconds: 1),
         (_) => _decreaseDurationByOne(),
       );
     } else {
       isBreak = false;
+      _disableWakelock();
     }
     isSession = false;
     isTimerRunning = true;
@@ -66,19 +65,11 @@ class CurrentSessionModel extends StatesRebuilder {
 
   void startSession([int index = -1]) {
     if (sessions.isNotEmpty) {
-      if (index.isBetween(0, sessions.length - 1)) {
-        currentSession = sessions.elementAt(index);
-        currentSessionIndex = index;
-      } else if (currentSessionIndex == -1) {
-        currentSession = sessions.first;
-        currentSessionIndex = 0;
-      } else if (currentSessionIndex + 1 <= sessions.lastIndex) {
-        currentSessionIndex++;
-        currentSession = sessions.elementAt(currentSessionIndex);
-      }
+      getNextSession(index);
       currentDuration = currentSession?.duration ?? 0;
       isTimerRunning = true;
       isSession = true;
+      _enableWakelock();
       _timer?.cancel();
       _timer = Timer.periodic(
         const Duration(seconds: 1),
@@ -102,6 +93,7 @@ class CurrentSessionModel extends StatesRebuilder {
 
   void stopTimer() {
     if (isSession && isTimerRunning) {
+      _disableWakelock();
       _timer?.cancel();
       isTimerRunning = false;
       if (hasObservers) {
@@ -112,6 +104,7 @@ class CurrentSessionModel extends StatesRebuilder {
 
   void restartTimer() {
     if (isSession && !isTimerRunning) {
+      _enableWakelock();
       _timer?.cancel();
       _decreaseDurationByOne();
       _timer = Timer.periodic(
@@ -122,6 +115,75 @@ class CurrentSessionModel extends StatesRebuilder {
       if (hasObservers) {
         rebuildStates();
       }
+    }
+  }
+
+  void handleElapsedTimeInBackground(int elapsedSeonds) {
+    var remainingTime = elapsedSeonds;
+    while (remainingTime >= 0) {
+      if (!isTimerRunning) {
+        break;
+      }
+      final tempCurrentDuation = currentDuration;
+      if (isBreak) {
+        currentDuration -= remainingTime;
+        remainingTime -= tempCurrentDuation;
+        if (currentDuration <= 0) {
+          isBreak = false;
+          getNextSession();
+          if (currentSession != null) {
+            currentDuration = currentSession.duration;
+            isSession = true;
+          } else {
+            isSession = false;
+            isTimerRunning = false;
+            _timer?.cancel();
+            break;
+          }
+        } else {
+          break;
+        }
+      } else if (isSession) {
+        currentDuration -= remainingTime;
+        remainingTime -= tempCurrentDuation;
+        if (currentDuration <= 0) {
+          sessionsModel.updateSession(
+            currentSession.copyWith(
+              isCompleted: true,
+            ),
+          );
+          currentDuration = _calculateBreakDuration(currentSessionIndex);
+        } else {
+          break;
+        }
+      }
+      print(currentDuration);
+    }
+  }
+
+  int _calculateBreakDuration(int index) {
+    if (index <= 0) {
+      return _shortBreakDuration.toInt();
+    } else {
+      return index % _sessionUntilBreak != 0
+          ? _shortBreakDuration.toInt()
+          : _longBreakDuration.toInt();
+    }
+  }
+
+  void getNextSession([int index = -1]) {
+    if (index.isBetween(0, sessions.length - 1)) {
+      currentSession = sessions.elementAt(index);
+      currentSessionIndex = index;
+    } else if (currentSessionIndex == -1) {
+      currentSession = sessions.first;
+      currentSessionIndex = 0;
+    } else if (currentSessionIndex + 1 <= sessions.lastIndex) {
+      currentSessionIndex++;
+      currentSession = sessions.elementAt(currentSessionIndex);
+    } else {
+      currentSession = null;
+      currentSessionIndex = sessions.length;
     }
   }
 
@@ -154,6 +216,23 @@ class CurrentSessionModel extends StatesRebuilder {
   ///
   /// Cancel every listeners and timer.
   void dispose() {
+    _disableWakelock();
     _timer.cancel();
+  }
+
+  void _enableWakelock() {
+    if (!kIsWeb) {
+      if (Platform.isAndroid || Platform.isIOS) {
+        Wakelock.enable();
+      }
+    }
+  }
+
+  void _disableWakelock() {
+    if (!kIsWeb) {
+      if (Platform.isAndroid || Platform.isIOS) {
+        Wakelock.disable();
+      }
+    }
   }
 }

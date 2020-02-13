@@ -8,8 +8,27 @@ import '../soft/soft_container.dart';
 import 'add_task_tile.dart';
 import 'task_tile.dart';
 
-class TasksListContainer extends StatelessWidget {
+class TasksListContainer extends StatefulWidget {
   const TasksListContainer({Key key}) : super(key: key);
+
+  @override
+  _TasksListContainerState createState() => _TasksListContainerState();
+}
+
+class _TasksListContainerState extends State<TasksListContainer> {
+  ScrollController tasksScrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    tasksScrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    tasksScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,28 +62,54 @@ class TasksListContainer extends StatelessWidget {
                       bottom: kToolbarHeight + 8,
                     ),
                     child: AnimateIfVisibleWrapper(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) => AnimateIfVisible(
-                          key: ValueKey(tasksModel.tasks.elementAt(index).uuid),
-                          builder: (context, animation) => FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0,
-                              end: 1,
-                            ).animate(animation),
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(0.5, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: TaskTile(
-                                task: tasksModel.tasks.elementAt(index),
+                      child: ReorderableListView(
+                        onReorder: tasksModel.reorderTasks,
+                        scrollController: tasksScrollController,
+                        children: tasksModel.tasks
+                            .map<Widget>(
+                              (e) => AnimateIfVisible(
+                                key: ValueKey(e.uuid),
+                                builder: (context, animation) => FadeTransition(
+                                  opacity: Tween<double>(
+                                    begin: 0,
+                                    end: 1,
+                                  ).animate(animation),
+                                  child: SlideTransition(
+                                    position: Tween<Offset>(
+                                      begin: const Offset(0.5, 0),
+                                      end: Offset.zero,
+                                    ).animate(animation),
+                                    child: TaskTile(
+                                      task: e,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        itemCount: tasksModel.tasks.length,
-                        shrinkWrap: true,
+                            )
+                            .toList(),
                       ),
+                      // child: ListView.builder(
+                      //   itemBuilder: (context, index) => AnimateIfVisible(
+                      //     key: ValueKey(tasksModel.tasks.elementAt(index).uuid),
+                      //     builder: (context, animation) => FadeTransition(
+                      //       opacity: Tween<double>(
+                      //         begin: 0,
+                      //         end: 1,
+                      //       ).animate(animation),
+                      //       child: SlideTransition(
+                      //         position: Tween<Offset>(
+                      //           begin: const Offset(0.5, 0),
+                      //           end: Offset.zero,
+                      //         ).animate(animation),
+                      //         child: TaskTile(
+                      //           task: tasksModel.tasks.elementAt(index),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   itemCount: tasksModel.tasks.length,
+                      //   shrinkWrap: true,
+                      // ),
                     ),
                   );
                 } else {

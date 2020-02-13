@@ -16,17 +16,17 @@ class SessionsListContainer extends StatefulWidget {
 }
 
 class _SessionsListContainerState extends State<SessionsListContainer> {
-  ScrollController controller;
+  ScrollController sessionsScrollController;
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    sessionsScrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    sessionsScrollController.dispose();
     super.dispose();
   }
 
@@ -57,33 +57,63 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
                     ),
                     child: AnimateIfVisibleWrapper(
                       showItemInterval: const Duration(milliseconds: 150),
-                      child: ListView.builder(
-                        controller: controller,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => AnimateIfVisible(
-                          key: ValueKey(
-                            sessionsModel.sessions.elementAt(index).uid,
-                          ),
-                          builder: (context, animation) => FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0,
-                              end: 1,
-                            ).animate(animation),
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(0.5, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: SessionTile(
-                                session:
-                                    sessionsModel.sessions.elementAt(index),
-                                index: index,
+                      child: ReorderableListView(
+                        children: sessionsModel.sessions
+                            .map<Widget>(
+                              (session) => AnimateIfVisible(
+                                key: ValueKey(
+                                  session.uid,
+                                ),
+                                builder: (context, animation) => FadeTransition(
+                                  opacity: Tween<double>(
+                                    begin: 0,
+                                    end: 1,
+                                  ).animate(animation),
+                                  child: SlideTransition(
+                                    position: Tween<Offset>(
+                                      begin: const Offset(0.5, 0),
+                                      end: Offset.zero,
+                                    ).animate(animation),
+                                    child: SessionTile(
+                                      session: session,
+                                      index: sessionsModel.sessions
+                                          .indexOf(session),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        itemCount: sessionsModel.sessions.length,
+                            )
+                            .toList(),
+                        onReorder: sessionsModel.reorderSession,
+                        scrollController: sessionsScrollController,
                       ),
+                      // child: ListView.builder(
+                      //   controller: controller,
+                      //   physics: const BouncingScrollPhysics(),
+                      //   itemBuilder: (context, index) => AnimateIfVisible(
+                      //     key: ValueKey(
+                      //       sessionsModel.sessions.elementAt(index).uid,
+                      //     ),
+                      //     builder: (context, animation) => FadeTransition(
+                      //       opacity: Tween<double>(
+                      //         begin: 0,
+                      //         end: 1,
+                      //       ).animate(animation),
+                      //       child: SlideTransition(
+                      //         position: Tween<Offset>(
+                      //           begin: const Offset(0.5, 0),
+                      //           end: Offset.zero,
+                      //         ).animate(animation),
+                      //         child: SessionTile(
+                      //           session:
+                      //               sessionsModel.sessions.elementAt(index),
+                      //           index: index,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   itemCount: sessionsModel.sessions.length,
+                      // ),
                     ),
                   );
                 } else {

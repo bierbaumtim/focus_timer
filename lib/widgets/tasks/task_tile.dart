@@ -37,12 +37,12 @@ class TaskTile extends StatelessWidget {
                 task.name,
               ),
               style: task.isCompleted
-                  ? theme.textTheme.body1.copyWith(
+                  ? theme.textTheme.bodyText2.copyWith(
                       decoration: TextDecoration.lineThrough,
                       decorationThickness: 2.0,
-                      color: theme.textTheme.body1.color.withOpacity(0.75),
+                      color: theme.textTheme.bodyText2.color.withOpacity(0.75),
                     )
-                  : theme.textTheme.body1,
+                  : theme.textTheme.bodyText2,
               duration: Duration(milliseconds: 550),
             ),
             activeColor:

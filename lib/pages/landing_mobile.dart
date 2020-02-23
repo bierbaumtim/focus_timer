@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,13 +24,47 @@ class MobileLanding extends StatefulWidget {
   _MobileLandingState createState() => _MobileLandingState();
 }
 
-class _MobileLandingState extends State<MobileLanding> {
+class _MobileLandingState extends State<MobileLanding>
+    with WidgetsBindingObserver {
+  DateTime _userLeavedTime;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     SystemChrome.setEnabledSystemUIOverlays([
       SystemUiOverlay.bottom,
     ]);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (!kIsWeb) {
+      if (Platform.isIOS || Platform.isAndroid) {
+        final currentSessionModel = Injector.get<CurrentSessionModel>();
+        if (state == AppLifecycleState.paused) {
+          _userLeavedTime = DateTime.now();
+          currentSessionModel.stopTimer();
+        } else if (state == AppLifecycleState.resumed) {
+          final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
+              _userLeavedTime.millisecondsSinceEpoch;
+          final elapsedSeconds =
+              Duration(milliseconds: elapsedMilliseconds).inSeconds;
+          currentSessionModel.restartTimer();
+          currentSessionModel.handleElapsedTimeInBackground(elapsedSeconds);
+          // if (currentSessionModel.isTimerRunning) {
+          //   currentSessionModel.currentDuration -= elapsedSeconds;
+          // }
+        }
+      }
+    }
   }
 
   @override
@@ -49,7 +86,7 @@ class _MobileLandingState extends State<MobileLanding> {
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.title,
+                    titleStyle: theme.textTheme.headline6,
                   ),
                   Expanded(
                     flex: 7,

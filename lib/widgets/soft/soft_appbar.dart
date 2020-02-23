@@ -31,7 +31,7 @@ class SoftAppBar extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Focus Timer',
-                style: titleStyle ?? theme.textTheme.title,
+                style: titleStyle ?? theme.textTheme.headline6,
               ),
               if (centerWidget != null) Expanded(child: centerWidget),
               ThemeSwitch(),

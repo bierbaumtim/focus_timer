@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -5,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 part 'task.g.dart';
 
+@CopyWith()
 @HiveType(typeId: 1)
 @JsonSerializable()
 // ignore: must_be_immutable

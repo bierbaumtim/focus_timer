@@ -40,4 +40,12 @@ class TasksModel extends StatesRebuilder {
       rebuildStates();
     }
   }
+
+  void reorderTasks(int oldIndex, int newIndex) {
+    final oldTask = _tasks.removeAt(oldIndex);
+    tasks.insert(newIndex, oldTask);
+    if (hasObservers) {
+      rebuildStates();
+    }
+  }
 }

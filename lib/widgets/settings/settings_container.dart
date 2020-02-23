@@ -27,8 +27,11 @@ class SettingsContainer extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
               child: Container(
                 height: 2,
-                color:
-                    Theme.of(context).textTheme.body1.color.withOpacity(0.75),
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .color
+                    .withOpacity(0.75),
               ),
             ),
             Expanded(

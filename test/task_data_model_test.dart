@@ -4,63 +4,101 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Task data model tests ->', () {
-    group('data creation tests', () {
-      test('Name: Test Name 1', () {
-        final task = Task.create('Test Name 1');
-
-        expect(task, isA<Task>());
-        expect(task.name, equals('Test Name 1'));
-        expect(task.isCompleted, isFalse);
-        expect(task.sessionUId, equals(''));
-        expect(task.props.contains(''), isTrue);
-        expect(task.props.contains('Test Name 1'), isTrue);
-        expect(task.props.contains(false), isTrue);
-      });
-    });
-
-    group('toggleIsCompleted tests', () {
-      test('toggle from false to true', () {
-        final task = Task.create('Test: false to true');
-
-        expect(task.isCompleted, isFalse);
-        task.toggleIsCompleted();
-        expect(task.isCompleted, isTrue);
-      });
-
-      test('toggle from false to true', () {
+    group('constructor tests ->', () {
+      test('named constructor', () {
+        final uuid = Uuid().v4();
         final task = Task(
-          name: 'Test: false to true',
-          sessionUId: '',
-          uuid: Uuid().v4(),
+          name: 'Test Name',
+          uuid: uuid,
           isCompleted: true,
+          sessionUId: '',
         );
 
+        expect(task, isA<Task>());
+        expect(task.name, equals('Test Name'));
+        expect(task.sessionUId, equals(''));
         expect(task.isCompleted, isTrue);
-        task.toggleIsCompleted();
+        expect(task.uuid, equals(uuid));
+        expect(
+          task.props,
+          equals(
+            [
+              'Test Name',
+              uuid,
+              '',
+              true,
+            ],
+          ),
+        );
+      });
+
+      test('factory constructor', () {
+        final task = Task.create('Test Name');
+
+        expect(task, isA<Task>());
+        expect(task.name, equals('Test Name'));
+        expect(task.sessionUId, equals(''));
         expect(task.isCompleted, isFalse);
+        expect(task.uuid.isNotEmpty, isTrue);
+        expect(
+          task.props,
+          equals(
+            [
+              'Test Name',
+              task.uuid,
+              '',
+              false,
+            ],
+          ),
+        );
       });
     });
 
-    group('json tests', () {
-      test('json decoding', () {
-        final task = Task.create('JsonDecoding');
+    group('json convert tests ->', () {
+      test('json encoding', () {
+        final task = Task.create('Test Name');
         final json = task.toJson();
 
         expect(
           json,
           equals(
             <String, dynamic>{
-              'name': 'JsonDecoding',
+              'name': 'Test Name',
               'uuid': task.uuid,
-              'iscompleted': false,
               'session_uuid': '',
+              'iscompleted': false,
             },
           ),
         );
       });
 
-      test('json encoding', () {
-        final task = Task.create('JsonEncoding');
+      test('json decoding', () {
+        final uuid = Uuid().v4();
+        final task = Task.fromJson(
+          <String, dynamic>{
+            'name': 'Test Name',
+            'uuid': uuid,
+            'session_uuid': '',
+            'iscompleted': false,
+          },
+        );
+
+        expect(task, isA<Task>());
+        expect(task.name, equals('Test Name'));
+        expect(task.sessionUId, equals(''));
+        expect(task.isCompleted, isFalse);
+        expect(task.uuid, equals(uuid));
+        expect(
+          task.props,
+          equals(
+            [
+              'Test Name',
+              uuid,
+              '',
+              false,
+            ],
+          ),
+        );
       });
     });
   });

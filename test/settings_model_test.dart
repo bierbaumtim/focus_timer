@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:focus_timer/repositories/mocks/mock_settings_repository.dart';
 import 'package:focus_timer/state_models/settings_model.dart';
+
 import 'package:mockito/mockito.dart';
 
 void main() {

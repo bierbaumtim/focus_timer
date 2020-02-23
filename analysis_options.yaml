@@ -16,6 +16,6 @@ analyzer:
 
 linter:
   rules:
-    public_member_api_docs: true
+    public_member_api_docs: false
     use_function_type_syntax_for_parameters: true
     prefer_relative_imports: true

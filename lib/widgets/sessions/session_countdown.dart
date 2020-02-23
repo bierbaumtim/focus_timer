@@ -33,7 +33,9 @@ class SessionCountdown extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: AutoSizeText(
-                'All sessions done.',
+                currentSessionModel.currentSessionIndex == -1
+                    ? 'Start with your first session'
+                    : 'All sessions done.',
                 maxLines: 1,
                 style: theme.textTheme.headline6.copyWith(
                   fontSize: 110,

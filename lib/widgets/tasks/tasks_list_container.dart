@@ -64,7 +64,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
                     child: AnimateIfVisibleWrapper(
                       child: ReorderableListView(
                         onReorder: tasksModel.reorderTasks,
-                        scrollController: tasksScrollController,
+                        // scrollController: tasksScrollController,
                         children: tasksModel.tasks
                             .map<Widget>(
                               (e) => AnimateIfVisible(

@@ -87,33 +87,6 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
                         onReorder: sessionsModel.reorderSession,
                         // scrollController: sessionsScrollController,
                       ),
-                      // child: ListView.builder(
-                      //   controller: controller,
-                      //   physics: const BouncingScrollPhysics(),
-                      //   itemBuilder: (context, index) => AnimateIfVisible(
-                      //     key: ValueKey(
-                      //       sessionsModel.sessions.elementAt(index).uid,
-                      //     ),
-                      //     builder: (context, animation) => FadeTransition(
-                      //       opacity: Tween<double>(
-                      //         begin: 0,
-                      //         end: 1,
-                      //       ).animate(animation),
-                      //       child: SlideTransition(
-                      //         position: Tween<Offset>(
-                      //           begin: const Offset(0.5, 0),
-                      //           end: Offset.zero,
-                      //         ).animate(animation),
-                      //         child: SessionTile(
-                      //           session:
-                      //               sessionsModel.sessions.elementAt(index),
-                      //           index: index,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   itemCount: sessionsModel.sessions.length,
-                      // ),
                     ),
                   );
                 } else {

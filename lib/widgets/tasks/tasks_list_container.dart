@@ -40,7 +40,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            StateBuilder(
+            StateBuilder<TasksModel>(
               models: [tasksModel],
               builder: (context, _) {
                 if (tasksModel.allTasksCompleted) {
@@ -88,28 +88,6 @@ class _TasksListContainerState extends State<TasksListContainer> {
                             )
                             .toList(),
                       ),
-                      // child: ListView.builder(
-                      //   itemBuilder: (context, index) => AnimateIfVisible(
-                      //     key: ValueKey(tasksModel.tasks.elementAt(index).uuid),
-                      //     builder: (context, animation) => FadeTransition(
-                      //       opacity: Tween<double>(
-                      //         begin: 0,
-                      //         end: 1,
-                      //       ).animate(animation),
-                      //       child: SlideTransition(
-                      //         position: Tween<Offset>(
-                      //           begin: const Offset(0.5, 0),
-                      //           end: Offset.zero,
-                      //         ).animate(animation),
-                      //         child: TaskTile(
-                      //           task: tasksModel.tasks.elementAt(index),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   itemCount: tasksModel.tasks.length,
-                      //   shrinkWrap: true,
-                      // ),
                     ),
                   );
                 } else {

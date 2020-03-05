@@ -167,7 +167,8 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                       models: [currentSessionModel],
                                       builder: (context, _) =>
                                           AnimatedCrossFade(
-                                        firstChild: SessionsListContainer(),
+                                        firstChild:
+                                            const SessionsListContainer(),
                                         secondChild: const TasksListContainer(),
                                         crossFadeState:
                                             currentSessionModel.isTimerRunning

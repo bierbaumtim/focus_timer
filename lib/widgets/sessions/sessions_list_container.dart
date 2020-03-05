@@ -11,6 +11,8 @@ import '../soft/soft_container.dart';
 import 'session_tile.dart';
 
 class SessionsListContainer extends StatefulWidget {
+  const SessionsListContainer({Key key}) : super(key: key);
+
   @override
   _SessionsListContainerState createState() => _SessionsListContainerState();
 }
@@ -35,99 +37,103 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
     final sessionsModel = Injector.get<SessionsModel>();
     final currentSessionModel = Injector.get<CurrentSessionModel>();
 
-    return SoftContainer(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Stack(
-          children: <Widget>[
-            StateBuilder(
-              models: [sessionsModel, currentSessionModel],
-              builder: (context, _) {
-                if (currentSessionModel.allSessionsCompleted) {
-                  return const Center(
-                    child: Text(
-                      'You\'ve done all your tasks',
-                    ),
-                  );
-                } else if (sessionsModel.sessions.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      top: kToolbarHeight,
-                      bottom: kToolbarHeight + 8,
-                    ),
-                    child: AnimateIfVisibleWrapper(
-                      showItemInterval: const Duration(milliseconds: 150),
-                      child: ReorderableListView(
-                        children: sessionsModel.sessions
-                            .map<Widget>(
-                              (session) => AnimateIfVisible(
-                                key: ValueKey(
-                                  session.uid,
-                                ),
-                                builder: (context, animation) => FadeTransition(
-                                  opacity: Tween<double>(
-                                    begin: 0,
-                                    end: 1,
-                                  ).animate(animation),
-                                  child: SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(0.5, 0),
-                                      end: Offset.zero,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: SoftContainer(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Stack(
+            children: <Widget>[
+              StateBuilder(
+                models: [sessionsModel, currentSessionModel],
+                builder: (context, _) {
+                  if (currentSessionModel.allSessionsCompleted) {
+                    return const Center(
+                      child: Text(
+                        'You\'ve done all your tasks',
+                      ),
+                    );
+                  } else if (sessionsModel.sessions.isNotEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        top: kToolbarHeight,
+                        bottom: kToolbarHeight + 8,
+                      ),
+                      child: AnimateIfVisibleWrapper(
+                        showItemInterval: const Duration(milliseconds: 150),
+                        child: ReorderableListView(
+                          children: sessionsModel.sessions
+                              .map<Widget>(
+                                (session) => AnimateIfVisible(
+                                  key: ValueKey(
+                                    session.uid,
+                                  ),
+                                  builder: (context, animation) =>
+                                      FadeTransition(
+                                    opacity: Tween<double>(
+                                      begin: 0,
+                                      end: 1,
                                     ).animate(animation),
-                                    child: SessionTile(
-                                      session: session,
-                                      index: sessionsModel.sessions
-                                          .indexOf(session),
+                                    child: SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(0.5, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: SessionTile(
+                                        session: session,
+                                        index: sessionsModel.sessions
+                                            .indexOf(session),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                            .toList(),
-                        onReorder: sessionsModel.reorderSession,
-                        // scrollController: sessionsScrollController,
+                              )
+                              .toList(),
+                          onReorder: sessionsModel.reorderSession,
+                          // scrollController: sessionsScrollController,
+                        ),
                       ),
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text(
-                      'Add sessions',
-                    ),
-                  );
-                }
-              },
-            ),
-            const Positioned(
-              left: 12,
-              right: 12,
-              child: ListTile(
-                title: Text('Sessions'),
+                    );
+                  } else {
+                    return const Center(
+                      child: Text(
+                        'Add sessions',
+                      ),
+                    );
+                  }
+                },
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 12,
-              right: 12,
-              child: Center(
-                child: SoftButton(
-                  radius: 15,
-                  onTap: () => sessionsModel.addSession(null),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const <Widget>[
-                        Icon(Icons.add),
-                        SizedBox(width: 12),
-                        Text('Add Session'),
-                      ],
+              const Positioned(
+                left: 12,
+                right: 12,
+                child: ListTile(
+                  title: Text('Sessions'),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 12,
+                right: 12,
+                child: Center(
+                  child: SoftButton(
+                    radius: 15,
+                    onTap: () => sessionsModel.addSession(null),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const <Widget>[
+                          Icon(Icons.add),
+                          SizedBox(width: 12),
+                          Text('Add Session'),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

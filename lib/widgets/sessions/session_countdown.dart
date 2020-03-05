@@ -16,19 +16,19 @@ class SessionCountdown extends StatelessWidget {
 
     return StateBuilder<CurrentSessionModel>(
       models: [currentSessionModel],
-      disposeModels: false,
       builder: (context, model) {
         return Padding(
           padding: const EdgeInsets.all(24.0),
           child: Stack(
             children: [
-              if (model.value.isBreak || model.value.currentSession != null)
+              if (currentSessionModel.isBreak ||
+                  currentSessionModel.currentSession != null)
                 const CountdownTime()
               else
                 Align(
                   alignment: Alignment.center,
                   child: AutoSizeText(
-                    model.value.currentSessionIndex == -1
+                    currentSessionModel.currentSessionIndex == -1
                         ? 'Start with your first session'
                         : 'All sessions done.',
                     maxLines: 1,

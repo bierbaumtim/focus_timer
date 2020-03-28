@@ -50,7 +50,7 @@ class TopTimeBar extends StatelessWidget {
             opacity: animation['opacity'],
             child: Transform.translate(
               offset: Offset(0, animation['translation']),
-              child: StateBuilder(
+              child: StateBuilder<CurrentSessionModel>(
                 models: [currentSessionModel],
                 builder: (context, _) => Row(
                   mainAxisAlignment: currentSessionModel.isBreak ||

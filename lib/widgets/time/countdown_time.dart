@@ -27,19 +27,10 @@ class CountdownTime extends StatelessWidget {
         currentSessionModel,
       ],
       builder: (context, _) => Center(
-        child: isSmall
-            ? _SimpleTime(
-                duration: currentSessionModel.currentDuration,
-                isSmall: isSmall,
-              )
-            : useDigitalClock
-                ? _DigitalTime(
-                    duration: currentSessionModel.currentDuration,
-                  )
-                : _SimpleTime(
-                    duration: currentSessionModel.currentDuration,
-                    isSmall: isSmall,
-                  ),
+        child: _SimpleTime(
+          duration: currentSessionModel.currentDuration,
+          isSmall: isSmall,
+        ),
       ),
     );
   }

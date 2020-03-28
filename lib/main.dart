@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
 
     return StateBuilder<SettingsModel>(
       models: [settingsModel],
-      builder: (context, state) {
+      builder: (context, _) {
         final darkmode = settingsModel.darkmode;
 
         return MaterialApp(

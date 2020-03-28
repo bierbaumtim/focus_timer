@@ -124,35 +124,34 @@ class CurrentSessionModel extends StatesRebuilder {
       if (!isTimerRunning) {
         break;
       }
-      final tempCurrentDuation = currentDuration;
-      if (isBreak) {
+      if (isBreak || isSession) {
+        final tempCurrentDuation = currentDuration;
         currentDuration -= remainingTime;
         remainingTime -= tempCurrentDuation;
         if (currentDuration <= 0) {
-          isBreak = false;
-          getNextSession();
-          if (currentSession != null) {
-            currentDuration = currentSession.duration;
-            isSession = true;
+          if (isBreak) {
+            isBreak = false;
+            getNextSession();
+            if (currentSession != null) {
+              currentDuration = currentSession.duration;
+              isSession = true;
+            } else {
+              isSession = false;
+              isTimerRunning = false;
+              _timer?.cancel();
+              break;
+            }
           } else {
+            sessionsModel.updateSession(
+              currentSession.copyWith(
+                isCompleted: true,
+              ),
+            );
+            currentDuration =
+                _calculateBreakDuration(currentSessionIndex) - currentDuration;
             isSession = false;
-            isTimerRunning = false;
-            _timer?.cancel();
-            break;
+            isBreak = true;
           }
-        } else {
-          break;
-        }
-      } else if (isSession) {
-        currentDuration -= remainingTime;
-        remainingTime -= tempCurrentDuation;
-        if (currentDuration <= 0) {
-          sessionsModel.updateSession(
-            currentSession.copyWith(
-              isCompleted: true,
-            ),
-          );
-          currentDuration = _calculateBreakDuration(currentSessionIndex);
         } else {
           break;
         }
@@ -160,6 +159,16 @@ class CurrentSessionModel extends StatesRebuilder {
       print(currentDuration);
     }
   }
+
+  /// Session
+  /// currentDuration: 15min
+  /// tempCurrentDuration: 15min
+  /// elapsedSeconds: 16min
+  /// remainingTime: 16min
+  /// breakDuration: 5min
+  ///
+  /// currentDuration berechnen:
+  /// currentDuration: 15 - 16 = -1
 
   int _calculateBreakDuration(int index) {
     if (index <= 0) {

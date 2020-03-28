@@ -41,6 +41,9 @@ class Task extends Equatable {
         isCompleted,
       ];
 
+  @override
+  bool get stringify => true;
+
   factory Task.create(String name) => Task(
         name: name,
         uuid: Uuid().v4(),

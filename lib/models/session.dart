@@ -38,6 +38,9 @@ class Session extends Equatable {
         tasks,
         isCompleted,
       ];
+      
+  @override
+  bool get stringify => true;
 
   factory Session.create(int duration) => Session(
         uid: Uuid().v4(),

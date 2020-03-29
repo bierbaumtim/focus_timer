@@ -26,9 +26,6 @@ dependencies:
   flutter_icons: ^1.0.0+1
   md2_tab_indicator: ^1.0.2
   flip_panel: ^1.0.1
-  # reorderables: # ^0.2.12
-  #   git:
-  #     url: https://github.com/bierbaumtim/reorderables.git
   page_transition: ^1.1.5
   uuid: ^2.0.4
   wave: ^0.0.8

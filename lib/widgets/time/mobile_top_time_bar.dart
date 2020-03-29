@@ -52,6 +52,10 @@ class TopTimeBar extends StatelessWidget {
               offset: Offset(0, animation['translation']),
               child: StateBuilder<CurrentSessionModel>(
                 models: [currentSessionModel],
+                watch: (_) => [
+                  currentSessionModel.isBreak,
+                  currentSessionModel.isTimerRunning,
+                ],
                 builder: (context, _) => Row(
                   mainAxisAlignment: currentSessionModel.isBreak ||
                           currentSessionModel.isTimerRunning

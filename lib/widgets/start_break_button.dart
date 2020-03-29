@@ -49,11 +49,15 @@ class StartBreakButton extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Icon(
-                currentSessionModel.isTimerRunning
-                    ? Icons.pause
-                    : Icons.play_arrow,
-                size: 36,
+              child: StateBuilder<CurrentSessionModel>(
+                models: [currentSessionModel],
+                watch: (_) => currentSessionModel.isTimerRunning,
+                builder: (context, _) => Icon(
+                  currentSessionModel.isTimerRunning
+                      ? Icons.pause
+                      : Icons.play_arrow,
+                  size: 36,
+                ),
               ),
             ),
           ),

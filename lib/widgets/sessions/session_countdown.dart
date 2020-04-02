@@ -16,6 +16,10 @@ class SessionCountdown extends StatelessWidget {
 
     return StateBuilder<CurrentSessionModel>(
       models: [currentSessionModel],
+      watch: (_) => [
+        currentSessionModel.isBreak,
+        currentSessionModel.currentSession,
+      ],
       builder: (context, model) {
         return Padding(
           padding: const EdgeInsets.all(24.0),

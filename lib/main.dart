@@ -49,38 +49,40 @@ void main() async {
     useDesktop = true;
   }
 
-  runApp(Injector(
-    inject: [
-      Inject<SettingsModel>(
-        () => SettingsModel(
-          useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+  runApp(
+    Injector(
+      inject: [
+        Inject<SettingsModel>(
+          () => SettingsModel(
+            useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+          ),
         ),
-      ),
-      Inject<SessionSettingsModel>(
-        () => SessionSettingsModel(
-          useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+        Inject<SessionSettingsModel>(
+          () => SessionSettingsModel(
+            useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+          ),
         ),
-      ),
-      Inject<SessionsModel>(
-        () => SessionsModel(
-          useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
-          Injector.get<SessionSettingsModel>(),
+        Inject<SessionsModel>(
+          () => SessionsModel(
+            useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
+            Injector.get<SessionSettingsModel>(),
+          ),
         ),
-      ),
-      Inject<TasksModel>(
-        () => TasksModel(
-          useDesktop ? DesktopTasksRepository() : TasksRepository(),
+        Inject<TasksModel>(
+          () => TasksModel(
+            useDesktop ? DesktopTasksRepository() : TasksRepository(),
+          ),
         ),
-      ),
-      Inject<CurrentSessionModel>(
-        () => CurrentSessionModel(
-          Injector.get<SessionsModel>(),
-          Injector.get<SessionSettingsModel>(),
+        Inject<CurrentSessionModel>(
+          () => CurrentSessionModel(
+            Injector.get<SessionsModel>(),
+            Injector.get<SessionSettingsModel>(),
+          ),
         ),
-      ),
-    ],
-    builder: (context) => MyApp(),
-  ));
+      ],
+      builder: (context) => MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

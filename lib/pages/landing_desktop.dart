@@ -83,8 +83,9 @@ class _DesktopLandingState extends State<DesktopLanding> {
                           child: CurrentDateTimeContainer(),
                         ),
                       ),
-                      StateBuilder(
+                      StateBuilder<CurrentSessionModel>(
                         models: [currentSessionModel],
+                        watch: (_) => currentSessionModel.isBreak,
                         builder: (context, _) {
                           if (currentSessionModel.isBreak) {
                             return Center(
@@ -139,8 +140,10 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                             ),
                                           ),
                                         ),
-                                        StateBuilder(
+                                        StateBuilder<CurrentSessionModel>(
                                           models: [currentSessionModel],
+                                          watch: (_) =>
+                                              currentSessionModel.isSession,
                                           builder: (context, _) {
                                             if (currentSessionModel.isSession) {
                                               return Positioned(
@@ -163,8 +166,10 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                   ),
                                   const SizedBox(width: 96),
                                   Expanded(
-                                    child: StateBuilder(
+                                    child: StateBuilder<CurrentSessionModel>(
                                       models: [currentSessionModel],
+                                      watch: (_) =>
+                                          currentSessionModel.isTimerRunning,
                                       builder: (context, _) =>
                                           AnimatedCrossFade(
                                         firstChild:

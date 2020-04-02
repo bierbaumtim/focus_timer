@@ -116,8 +116,9 @@ class _MobileLandingState extends State<MobileLanding>
                       child: Container(
                         height: kToolbarHeight,
                         child: Center(
-                          child: StateBuilder(
+                          child: StateBuilder<CurrentSessionModel>(
                             models: [currentSessionModel],
+                            watch: (_) => currentSessionModel.isBreak,
                             builder: (context, _) {
                               if (currentSessionModel.isBreak) {
                                 return Container();

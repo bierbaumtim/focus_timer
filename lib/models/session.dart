@@ -10,7 +10,7 @@ part 'session.g.dart';
 
 @CopyWith()
 @HiveType(typeId: 0)
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Session extends Equatable {
   @HiveField(0)
   @JsonKey(name: 'uid', defaultValue: '')

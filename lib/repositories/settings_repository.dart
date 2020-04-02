@@ -45,7 +45,7 @@ class DesktopSettingsRepository implements ISettingsRepository {
   }
 
   @override
-  Future<void> saveSetting(String key, value) {
+  Future<void> saveSetting(String key, dynamic value) {
     // TODO: implement saveSetting
     return null;
   }

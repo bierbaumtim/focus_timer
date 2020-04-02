@@ -78,6 +78,6 @@ Session _$SessionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$SessionToJson(Session instance) => <String, dynamic>{
       'uid': instance.uid,
       'duration': instance.duration,
-      'tasks': instance.tasks,
+      'tasks': instance.tasks?.map((e) => e?.toJson())?.toList(),
       'isCompleted': instance.isCompleted,
     };

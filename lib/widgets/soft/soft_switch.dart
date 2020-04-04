@@ -71,9 +71,6 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
     }
     alignmentTween = Tween<double>(begin: -1, end: 1);
     alignmentAnimation = alignmentTween.animate(alignmentController);
-    alignmentController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -109,8 +106,8 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                 widget.onChanged(!widget.value);
               }
             },
-            child: Align(
-              alignment: Alignment(alignmentAnimation.value, 0),
+            child: AnimatedBuilder(
+              animation: alignmentAnimation,
               child: SizedBox(
                 height: 32.5,
                 width: 33.5,
@@ -142,6 +139,10 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+              ),
+              builder: (context, child) => Align(
+                alignment: Alignment(alignmentAnimation.value, 0),
+                child: child,
               ),
             ),
           ),

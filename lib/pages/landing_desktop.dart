@@ -128,7 +128,10 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                             delay: const Duration(
                                                 milliseconds: 500),
                                             builder: (context, animation) =>
-                                                Opacity(
+                                                AnimatedOpacity(
+                                              duration: const Duration(
+                                                milliseconds: 550,
+                                              ),
                                               opacity: animation,
                                               child: SoftContainer(
                                                 height: countdownHeight,
@@ -172,9 +175,14 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                           currentSessionModel.isTimerRunning,
                                       builder: (context, _) =>
                                           AnimatedCrossFade(
-                                        firstChild:
-                                            const SessionsListContainer(),
-                                        secondChild: const TasksListContainer(),
+                                        firstChild: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: const SessionsListContainer(),
+                                        ),
+                                        secondChild: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: const TasksListContainer(),
+                                        ),
                                         crossFadeState:
                                             currentSessionModel.isTimerRunning
                                                 ? CrossFadeState.showSecond

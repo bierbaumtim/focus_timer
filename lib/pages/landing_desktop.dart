@@ -7,7 +7,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
-import '../widgets/pageview_page.dart';
+import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
 import '../widgets/settings/settings_container.dart';
@@ -71,7 +71,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
             pageSnapping: true,
             childrenDelegate: SliverChildListDelegate(
               <Widget>[
-                Page(
+                page.Page(
                   child: Stack(
                     children: <Widget>[
                       SoftAppBar(
@@ -201,7 +201,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                     ],
                   ),
                 ),
-                Page(
+                page.Page(
                   child: Column(
                     children: <Widget>[
                       SoftAppBar(
@@ -233,7 +233,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                     ],
                   ),
                 ),
-                Page(
+                page.Page(
                   child: Column(
                     children: <Widget>[
                       SoftAppBar(

@@ -90,7 +90,7 @@ class _SessionsListContainerState extends State<SessionsListContainer> {
                               )
                               .toList(),
                           onReorder: sessionsModel.reorderSession,
-                          // scrollController: sessionsScrollController,
+                          scrollController: sessionsScrollController,
                         ),
                       ),
                     );

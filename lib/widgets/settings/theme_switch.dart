@@ -13,6 +13,7 @@ class ThemeSwitch extends StatelessWidget {
 
     return StateBuilder<SettingsModel>(
       models: [settingsModel],
+      watch: (_) => settingsModel.darkmode,
       builder: (context, _) => SoftSwitch(
         value: settingsModel.darkmode,
         activeChild: Icon(FontAwesome.moon_o),

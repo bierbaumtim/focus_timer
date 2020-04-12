@@ -23,9 +23,8 @@ class CountdownTime extends StatelessWidget {
     final currentSessionModel = Injector.get<CurrentSessionModel>();
 
     return StateBuilder<SessionsModel>(
-      models: [
-        currentSessionModel,
-      ],
+      models: [currentSessionModel],
+      watch: (_) => currentSessionModel.currentDuration,
       builder: (context, _) => Center(
         child: _SimpleTime(
           duration: currentSessionModel.currentDuration,

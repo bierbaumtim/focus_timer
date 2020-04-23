@@ -93,7 +93,7 @@ class _MobileLandingState extends State<MobileLanding>
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ControlledAnimation(
+                        child: PlayAnimation(
                           tween: fadeInTween,
                           duration: const Duration(milliseconds: 1500),
                           builder: (context, animation) => Opacity(

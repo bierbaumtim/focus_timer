@@ -14,29 +14,31 @@ class StartBreakButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentSessionModel = Injector.get<CurrentSessionModel>();
 
-    return ControlledAnimation(
-      tween: MultiTrackTween([
-        Track('opacity').add(
-          const Duration(milliseconds: 650),
+    return PlayAnimation(
+      tween: MultiTween<String>()
+        ..add(
+          'opacity',
           fadeInTween,
-        ),
-        Track('translation').add(
-          const Duration(milliseconds: 450),
+          const Duration(milliseconds: 650),
+        )
+        ..add(
+          'translation',
           Tween<double>(
             begin: 130,
             end: 0,
           ),
-          curve: Curves.easeInOut,
+          const Duration(milliseconds: 450),
+          Curves.easeInOut,
         ),
-      ]),
       duration: const Duration(milliseconds: 1500),
       delay: const Duration(milliseconds: 500),
-      builder: (context, animation) => Opacity(
-        opacity: animation['opacity'],
+      builder: (context, child, animation) => AnimatedOpacity(
+        duration: const Duration(milliseconds: 0),
+        opacity: animation.get('opacity'),
         child: Transform.translate(
           offset: Offset(
             0,
-            animation['translation'],
+            animation.get('translation'),
           ),
           child: SoftButton(
             radius: 15,

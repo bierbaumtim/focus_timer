@@ -30,26 +30,27 @@ class TopTimeBar extends StatelessWidget {
       alignment: alignment ?? Alignment.topCenter,
       child: Padding(
         padding: padding ?? EdgeInsets.fromLTRB(8, 0, 8, 8),
-        child: ControlledAnimation(
-          tween: MultiTrackTween([
-            Track('opacity').add(
-              const Duration(milliseconds: 650),
+        child: PlayAnimation(
+          tween: MultiTween()
+            ..add(
+              'opacity',
               fadeInTween,
-            ),
-            Track('translation').add(
-              const Duration(milliseconds: 450),
+              const Duration(milliseconds: 650),
+            )
+            ..add(
+              'translation',
               Tween<double>(
                 begin: -50,
                 end: 0,
               ),
-              curve: Curves.easeInOut,
+              const Duration(milliseconds: 450),
+              Curves.easeInOut,
             ),
-          ]),
           duration: const Duration(milliseconds: 1500),
-          builder: (context, animation) => Opacity(
-            opacity: animation['opacity'],
+          builder: (context, child, animation) => Opacity(
+            opacity: animation.get('opacity'),
             child: Transform.translate(
-              offset: Offset(0, animation['translation']),
+              offset: Offset(0, animation.get('translation')),
               child: StateBuilder<CurrentSessionModel>(
                 models: [currentSessionModel],
                 watch: (_) => [

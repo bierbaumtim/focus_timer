@@ -91,7 +91,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                             return Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(kToolbarHeight),
-                                child: ControlledAnimation(
+                                child: PlayAnimation(
                                   tween: fadeInTween,
                                   duration: const Duration(milliseconds: 750),
                                   delay: const Duration(milliseconds: 500),
@@ -121,7 +121,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                     child: Stack(
                                       children: <Widget>[
                                         Center(
-                                          child: ControlledAnimation(
+                                          child: PlayAnimation(
                                             tween: fadeInTween,
                                             duration: const Duration(
                                                 milliseconds: 1500),

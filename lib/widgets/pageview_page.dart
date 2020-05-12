@@ -14,11 +14,12 @@ class Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Theme(
-      data: useComplemtaryTheme ? (isDark ? lightTheme : darkTheme) : theme,
+      data: useComplemtaryTheme
+          ? (isDark ? lightTheme : darkTheme)
+          : Theme.of(context),
       child: Builder(
         builder: (context) => Container(
           color: Theme.of(context).canvasColor,

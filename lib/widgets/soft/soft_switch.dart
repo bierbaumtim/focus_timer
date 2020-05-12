@@ -45,11 +45,21 @@ class SoftSwitch extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(FlagProperty('value',
-        value: value, ifTrue: 'on', ifFalse: 'off', showName: true));
     properties.add(
-      ObjectFlagProperty<ValueChanged<bool>>('onChanged', onChanged,
-          ifNull: 'disabled'),
+      FlagProperty(
+        'value',
+        value: value,
+        ifTrue: 'on',
+        ifFalse: 'off',
+        showName: true,
+      ),
+    );
+    properties.add(
+      ObjectFlagProperty<ValueChanged<bool>>(
+        'onChanged',
+        onChanged,
+        ifNull: 'disabled',
+      ),
     );
   }
 }
@@ -71,9 +81,6 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
     }
     alignmentTween = Tween<double>(begin: -1, end: 1);
     alignmentAnimation = alignmentTween.animate(alignmentController);
-    alignmentController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -93,24 +100,24 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
     return SizedBox(
       height: 37.5,
       width: 75,
-      child: SoftContainer(
-        radius: 10,
-        inverted: true,
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: GestureDetector(
-            onTap: () {
-              if (alignmentController.isCompleted) {
-                alignmentController.reverse();
-              } else {
-                alignmentController.forward();
-              }
-              if (widget.onChanged != null) {
-                widget.onChanged(!widget.value);
-              }
-            },
-            child: Align(
-              alignment: Alignment(alignmentAnimation.value, 0),
+      child: GestureDetector(
+        onTap: () {
+          if (alignmentController.isCompleted) {
+            alignmentController.reverse();
+          } else {
+            alignmentController.forward();
+          }
+          if (widget.onChanged != null) {
+            widget.onChanged(!widget.value);
+          }
+        },
+        child: SoftContainer(
+          radius: 10,
+          inverted: true,
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: AnimatedBuilder(
+              animation: alignmentAnimation,
               child: SizedBox(
                 height: 32.5,
                 width: 33.5,
@@ -142,6 +149,10 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+              ),
+              builder: (context, child) => Align(
+                alignment: Alignment(alignmentAnimation.value, 0),
+                child: child,
               ),
             ),
           ),

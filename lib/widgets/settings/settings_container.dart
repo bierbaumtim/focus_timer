@@ -45,6 +45,7 @@ class SettingsContainer extends StatelessWidget {
                     title: Text('Sessions until break'),
                     subtitle: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.sessionUntilBreak,
                       builder: (context, _) => Text(
                         '${sessionSettingsModel.sessionUntilBreak} sessions',
                       ),
@@ -53,6 +54,7 @@ class SettingsContainer extends StatelessWidget {
                   ListTile(
                     title: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.sessionUntilBreak,
                       builder: (context, _) => Slider(
                         min: 1,
                         max: 10,
@@ -68,6 +70,7 @@ class SettingsContainer extends StatelessWidget {
                     title: Text('session duration'),
                     subtitle: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.sessionsDuration,
                       builder: (context, _) => Text(
                         timeToString(
                           sessionSettingsModel.sessionsDuration,
@@ -82,6 +85,7 @@ class SettingsContainer extends StatelessWidget {
                   ListTile(
                     title: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.sessionsDuration,
                       builder: (context, _) => Slider(
                         min: 300,
                         max: 5400,
@@ -95,6 +99,7 @@ class SettingsContainer extends StatelessWidget {
                     title: Text('short break duration'),
                     subtitle: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.shortBreakDuration,
                       builder: (context, _) => Text(
                         timeToString(
                           sessionSettingsModel.shortBreakDuration,
@@ -109,6 +114,7 @@ class SettingsContainer extends StatelessWidget {
                   ListTile(
                     title: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.shortBreakDuration,
                       builder: (context, _) => Slider(
                         min: 60,
                         max: 1800,
@@ -122,6 +128,7 @@ class SettingsContainer extends StatelessWidget {
                     title: Text('long break duration'),
                     subtitle: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.longBreakDuration,
                       builder: (context, _) => Text(
                         timeToString(
                           sessionSettingsModel.longBreakDuration,
@@ -136,6 +143,7 @@ class SettingsContainer extends StatelessWidget {
                   ListTile(
                     title: StateBuilder(
                       models: [sessionSettingsModel],
+                      watch: (_) => sessionSettingsModel.longBreakDuration,
                       builder: (context, _) => Slider(
                         min: 300,
                         max: 10800,

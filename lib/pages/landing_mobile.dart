@@ -9,7 +9,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
-import '../widgets/pageview_page.dart';
+import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/sessions/sessions_list_container.dart';
 import '../widgets/settings/settings_container.dart';
@@ -81,7 +81,7 @@ class _MobileLandingState extends State<MobileLanding>
         pageSnapping: true,
         childrenDelegate: SliverChildListDelegate(
           <Widget>[
-            Page(
+            page.Page(
               child: Column(
                 children: <Widget>[
                   SoftAppBar(
@@ -93,7 +93,7 @@ class _MobileLandingState extends State<MobileLanding>
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ControlledAnimation(
+                        child: PlayAnimation(
                           tween: fadeInTween,
                           duration: const Duration(milliseconds: 1500),
                           builder: (context, animation) => Opacity(
@@ -134,7 +134,7 @@ class _MobileLandingState extends State<MobileLanding>
                 ],
               ),
             ),
-            Page(
+            page.Page(
               child: Column(
                 children: <Widget>[
                   TopTimeBar(),
@@ -147,7 +147,7 @@ class _MobileLandingState extends State<MobileLanding>
                 ],
               ),
             ),
-            Page(
+            page.Page(
               child: Column(
                 children: <Widget>[
                   TopTimeBar(),
@@ -160,7 +160,7 @@ class _MobileLandingState extends State<MobileLanding>
                 ],
               ),
             ),
-            Page(
+            page.Page(
               child: Column(
                 children: const <Widget>[
                   TopTimeBar(),

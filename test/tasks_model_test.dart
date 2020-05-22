@@ -1,15 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:focus_timer/database/app_database.dart';
 
 import 'package:mockito/mockito.dart';
 
-import 'package:focus_timer/models/task.dart';
 import 'package:focus_timer/repositories/mocks/mock_task_repository.dart';
 import 'package:focus_timer/state_models/tasks_model.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   final _defaultTasksList = List.generate(
     10,
-    (index) => Task.create('Test $index'),
+    (index) => Task(
+      name: 'Test $index',
+      isCompleted: false,
+      uuid: Uuid().v4(),
+    ),
   );
 
   group('TasksModel tests', () {
@@ -32,7 +37,11 @@ void main() {
     });
 
     test('add task', () {
-      final newTask = Task.create('New Task Test');
+      final newTask = Task(
+        name: 'New Task Test',
+        isCompleted: false,
+        uuid: Uuid().v4(),
+      );
 
       model.addTask(newTask);
 
@@ -44,7 +53,9 @@ void main() {
     test(
       'update task',
       () {
-        final task = _defaultTasksList[1]..toggleIsCompleted();
+        final task = _defaultTasksList[1].copyWith(
+          isCompleted: !_defaultTasksList[1].isCompleted,
+        );
 
         model.updateTask(task);
 

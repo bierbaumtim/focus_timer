@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/session.dart';
+import '../../database/app_database.dart';
 import '../../state_models/current_session_model.dart';
 import '../../state_models/session_model.dart';
 import '../soft/soft_button.dart';
@@ -20,14 +20,13 @@ class SessionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentSessionModel = Injector.get<CurrentSessionModel>();
-    final sessionsModel = Injector.get<SessionsModel>();
+    final currentSessionModel = context.watch<CurrentSessionModel>();
 
     final theme = Theme.of(context);
 
     return Dismissible(
-      key: ValueKey(session.uid),
-      onDismissed: (_) => sessionsModel.removeSession(session),
+      key: ValueKey(session.uuid),
+      onDismissed: (_) => context.read<SessionsModel>().removeSession(session),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,

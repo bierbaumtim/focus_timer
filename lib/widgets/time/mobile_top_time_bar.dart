@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:simple_animations/simple_animations.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:stacked/stacked.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/tween_constants.dart';
 import '../../state_models/current_session_model.dart';
@@ -24,8 +25,6 @@ class TopTimeBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentSessionModel = Injector.get<CurrentSessionModel>();
-
     return Align(
       alignment: alignment ?? Alignment.topCenter,
       child: Padding(
@@ -51,15 +50,11 @@ class TopTimeBar extends StatelessWidget {
             opacity: animation.get('opacity'),
             child: Transform.translate(
               offset: Offset(0, animation.get('translation')),
-              child: StateBuilder<CurrentSessionModel>(
-                models: [currentSessionModel],
-                watch: (_) => [
-                  currentSessionModel.isBreak,
-                  currentSessionModel.isTimerRunning,
-                ],
-                builder: (context, _) => Row(
-                  mainAxisAlignment: currentSessionModel.isBreak ||
-                          currentSessionModel.isTimerRunning
+              child: ViewModelBuilder<CurrentSessionModel>.reactive(
+                viewModelBuilder: () => context.read<CurrentSessionModel>(),
+                disposeViewModel: false,
+                builder: (context, model, child) => Row(
+                  mainAxisAlignment: model.isBreak || model.isTimerRunning
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.center,
                   children: <Widget>[
@@ -68,8 +63,7 @@ class TopTimeBar extends StatelessWidget {
                           EdgeInsets.only(top: 8.0, bottom: 8),
                       child: CurrentDateTimeContainer(),
                     ),
-                    if (currentSessionModel.isBreak ||
-                        currentSessionModel.isTimerRunning)
+                    if (model.isBreak || model.isTimerRunning)
                       Padding(
                         padding: contentPadding ??
                             EdgeInsets.only(top: 8.0, bottom: 8),

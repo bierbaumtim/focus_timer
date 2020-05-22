@@ -1,12 +1,13 @@
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:flutter/foundation.dart';
 
 import '../repositories/interfaces/settings_repository_interface.dart';
 import '../utils/settings_utils.dart';
 
-class SettingsModel extends StatesRebuilder {
+class SettingsModel extends ChangeNotifier {
   final ISettingsRepository repository;
 
-  SettingsModel(this.repository) {
+  SettingsModel(this.repository) : assert(repository != null) {
+    _settings = <String, dynamic>{};
     loadSettings();
   }
 
@@ -16,13 +17,14 @@ class SettingsModel extends StatesRebuilder {
 
   Map<String, dynamic> get settings => _settings;
 
-  void loadSettings() => _settings = repository.loadSettings();
+  Future<void> loadSettings() async {
+    _settings = await repository.loadSettings();
+    notifyListeners();
+  }
 
   void changeDarkmode(bool value) {
     _settings = addOrUpdateSetting('darkmode', value, _settings);
     repository.saveSetting('darkmode', value);
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 }

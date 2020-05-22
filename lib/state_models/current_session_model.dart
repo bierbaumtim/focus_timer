@@ -3,15 +3,14 @@ import 'dart:io';
 
 import 'package:dartx/dartx.dart';
 import 'package:flutter/foundation.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../database/app_database.dart';
 import '../extensions/num_extensions.dart';
-import '../models/session.dart';
 import 'session_model.dart';
 import 'session_settings_model.dart';
 
-class CurrentSessionModel extends StatesRebuilder {
+class CurrentSessionModel extends ChangeNotifier {
   final SessionsModel sessionsModel;
   final SessionSettingsModel sessionSettingsModel;
 
@@ -22,7 +21,7 @@ class CurrentSessionModel extends StatesRebuilder {
   int get _sessionUntilBreak => sessionSettingsModel.sessionUntilBreak;
 
   Session currentSession;
-  bool isBreak, isSession, allSessionsCompleted, isTimerRunning;
+  bool isBreak, isSession, isTimerRunning;
   int currentDuration, currentSessionIndex;
 
   Timer _timer;
@@ -33,7 +32,6 @@ class CurrentSessionModel extends StatesRebuilder {
     isBreak = false;
     isTimerRunning = false;
     isSession = false;
-    allSessionsCompleted = false;
     currentSessionIndex = -1;
     currentDuration = 0;
   }
@@ -58,9 +56,7 @@ class CurrentSessionModel extends StatesRebuilder {
     }
     isSession = false;
     isTimerRunning = true;
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 
   void startSession([int index = -1]) {
@@ -77,17 +73,13 @@ class CurrentSessionModel extends StatesRebuilder {
       );
     }
     isBreak = false;
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 
   void updateCurrentSession(Session session) {
-    if (currentSession.uid == session.uid) {
+    if (currentSession.uuid == session.uuid) {
       currentSession = session;
-      if (hasObservers) {
-        rebuildStates();
-      }
+      notifyListeners();
     }
   }
 
@@ -96,9 +88,7 @@ class CurrentSessionModel extends StatesRebuilder {
       _disableWakelock();
       _timer?.cancel();
       isTimerRunning = false;
-      if (hasObservers) {
-        rebuildStates();
-      }
+      notifyListeners();
     }
   }
 
@@ -112,9 +102,7 @@ class CurrentSessionModel extends StatesRebuilder {
         (timer) => _decreaseDurationByOne(),
       );
       isTimerRunning = true;
-      if (hasObservers) {
-        rebuildStates();
-      }
+      notifyListeners();
     }
   }
 
@@ -215,18 +203,18 @@ class CurrentSessionModel extends StatesRebuilder {
         startBreak();
       }
     } else {
-      if (hasObservers) {
-        rebuildStates();
-      }
+      notifyListeners();
     }
   }
 
   /// Disposes the models
   ///
   /// Cancel every listeners and timer.
+  @override
   void dispose() {
     _disableWakelock();
     _timer.cancel();
+    super.dispose();
   }
 
   void _enableWakelock() {

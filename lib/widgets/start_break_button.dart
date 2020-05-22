@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:simple_animations/simple_animations.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:stacked/stacked.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
@@ -12,8 +13,6 @@ class StartBreakButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentSessionModel = Injector.get<CurrentSessionModel>();
-
     return PlayAnimation(
       tween: MultiTween<String>()
         ..add(
@@ -43,6 +42,7 @@ class StartBreakButton extends StatelessWidget {
           child: SoftButton(
             radius: 15,
             onTap: () {
+              final currentSessionModel = context.read<CurrentSessionModel>();
               if (currentSessionModel.isTimerRunning) {
                 currentSessionModel.stopTimer();
               } else {
@@ -51,13 +51,11 @@ class StartBreakButton extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: StateBuilder<CurrentSessionModel>(
-                models: [currentSessionModel],
-                watch: (_) => currentSessionModel.isTimerRunning,
-                builder: (context, _) => Icon(
-                  currentSessionModel.isTimerRunning
-                      ? Icons.pause
-                      : Icons.play_arrow,
+              child: ViewModelBuilder<CurrentSessionModel>.reactive(
+                viewModelBuilder: () => context.read<CurrentSessionModel>(),
+                disposeViewModel: false,
+                builder: (context, model, child) => Icon(
+                  model.isTimerRunning ? Icons.pause : Icons.play_arrow,
                   size: 36,
                 ),
               ),

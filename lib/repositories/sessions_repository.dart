@@ -1,15 +1,14 @@
-import 'package:hive/hive.dart';
-
-import '../constants/hive_constants.dart';
-import '../models/session.dart';
+import '../database/app_database.dart';
+import '../database/daos/sessions_dao.dart';
 import 'interfaces/sessions_repository_interface.dart';
 
 class SessionsRepository implements ISessionsRepository {
+  final SessionsDao sessionsDao;
+
+  const SessionsRepository(this.sessionsDao);
+
   @override
-  List<Session> loadSessions() {
-    final sessionsBox = Hive.box(kSessionsHiveBox);
-    return sessionsBox.values?.whereType<Session>()?.toList();
-  }
+  Future<List<Session>> loadSessions() => sessionsDao.loadAllSessions;
 
   @override
   Future<void> saveSessions(List<Session> sessions) async {
@@ -19,57 +18,14 @@ class SessionsRepository implements ISessionsRepository {
   }
 
   @override
-  Future<void> saveSession(Session session) {
-    final sessionsBox = Hive.box(kSessionsHiveBox);
-    return sessionsBox.put(session.uid, session);
-  }
+  Future<int> saveSession(Session session) =>
+      sessionsDao.insertSession(session);
 
   @override
-  Future<void> updateSession(Session session) {
-    final sessionsBox = Hive.box(kSessionsHiveBox);
-    return sessionsBox.put(session.uid, session);
-  }
+  Future<bool> updateSession(Session session) =>
+      sessionsDao.updateSession(session);
 
   @override
-  Future<void> removeSession(Session session) {
-    final sessionsBox = Hive.box(kSessionsHiveBox);
-    return sessionsBox.delete(session.uid);
-  }
-}
-
-class DesktopSessionsRepository implements ISessionsRepository {
-  @override
-  List<Session> loadSessions() {
-    // TODO: implement loadSessions
-    // throw UnimplementedError();
-    return null;
-  }
-
-  @override
-  Future<void> removeSession(Session session) {
-    // TODO: implement removeSession
-    // throw UnimplementedError();
-    return null;
-  }
-
-  @override
-  Future<void> saveSession(Session session) {
-    // TODO: implement saveSession
-    // throw UnimplementedError();
-    return null;
-  }
-
-  @override
-  Future<void> saveSessions(List<Session> sessions) {
-    // TODO: implement saveSessions
-    // throw UnimplementedError();
-    return null;
-  }
-
-  @override
-  Future<void> updateSession(Session session) {
-    // TODO: implement updateSession
-    // throw UnimplementedError();
-    return null;
-  }
+  Future<int> removeSession(Session session) =>
+      sessionsDao.deleteSession(session);
 }

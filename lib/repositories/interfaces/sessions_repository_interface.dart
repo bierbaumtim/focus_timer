@@ -1,9 +1,9 @@
-import '../../models/session.dart';
+import '../../database/app_database.dart';
 
 abstract class ISessionsRepository {
-  List<Session> loadSessions();
-  Future<void> saveSession(Session session);
+  Future<List<Session>> loadSessions();
+  Future<int> saveSession(Session session);
   Future<void> saveSessions(List<Session> sessions);
-  Future<void> updateSession(Session session);
-  Future<void> removeSession(Session session);
+  Future<bool> updateSession(Session session);
+  Future<int> removeSession(Session session);
 }

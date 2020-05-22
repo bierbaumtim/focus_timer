@@ -1,14 +1,20 @@
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:dartx/dartx.dart';
 
 import '../repositories/interfaces/settings_repository_interface.dart';
 import '../utils/settings_utils.dart';
 
-class SessionSettingsModel extends StatesRebuilder {
+class SessionSettingsModel extends ChangeNotifier {
   final ISettingsRepository repository;
 
   SessionSettingsModel(this.repository) : assert(repository != null) {
-    _settings = repository.loadSettings();
+    _settings = <String, dynamic>{};
+    loadSettings();
+  }
+
+  Future<void> loadSettings() async {
+    _settings = await repository.loadSettings();
+    notifyListeners();
   }
 
   Map<String, dynamic> _settings;
@@ -36,9 +42,7 @@ class SessionSettingsModel extends StatesRebuilder {
       _settings,
     );
     repository.saveSetting('sessions_duration', duration);
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 
   void setShortBreakDuration(double duration) {
@@ -48,9 +52,7 @@ class SessionSettingsModel extends StatesRebuilder {
       _settings,
     );
     repository.saveSetting('short_break_duration', duration);
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 
   void setLongBreakDuration(double duration) {
@@ -60,9 +62,7 @@ class SessionSettingsModel extends StatesRebuilder {
       _settings,
     );
     repository.saveSetting('long_break_duration', duration);
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 
   void setSessionsUntilBreak(int sessions) {
@@ -72,8 +72,6 @@ class SessionSettingsModel extends StatesRebuilder {
       _settings,
     );
     repository.saveSetting('sessions_until_break', sessions);
-    if (hasObservers) {
-      rebuildStates();
-    }
+    notifyListeners();
   }
 }

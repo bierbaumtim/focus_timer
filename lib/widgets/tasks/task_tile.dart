@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:stacked/stacked.dart';
 
-import '../../models/task.dart';
+import '../../database/app_database.dart';
 import '../../state_models/tasks_model.dart';
 import '../soft/soft_container.dart';
 
-class TaskTile extends StatelessWidget {
+class TaskTile extends ViewModelWidget<TasksModel> {
   final Task task;
 
   const TaskTile({
@@ -15,13 +15,12 @@ class TaskTile extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, TasksModel model) {
     final theme = Theme.of(context);
-    final taskModel = Injector.get<TasksModel>();
 
     return Dismissible(
       key: ValueKey(task.uuid),
-      onDismissed: (_) => taskModel.removeTask(task),
+      onDismissed: (_) => model.removeTask(task),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
@@ -31,7 +30,8 @@ class TaskTile extends StatelessWidget {
           radius: 15,
           child: CheckboxListTile(
             value: task.isCompleted,
-            onChanged: (_) => taskModel.updateTask(task..toggleIsCompleted()),
+            onChanged: (_) =>
+                model.updateTask(task.copyWith(isCompleted: !task.isCompleted)),
             title: AnimatedDefaultTextStyle(
               child: Text(
                 task.name,

@@ -1,18 +1,24 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:focus_timer/models/session.dart';
 
+import 'package:focus_timer/database/app_database.dart';
 import 'package:focus_timer/repositories/mocks/mock_sessions_repository.dart';
 import 'package:focus_timer/repositories/mocks/mock_settings_repository.dart';
 import 'package:focus_timer/state_models/session_model.dart';
 import 'package:focus_timer/state_models/session_settings_model.dart';
+
 import 'package:mockito/mockito.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   group('SessionModel tests ->', () {
     group('first start tests ->', () {
       final sessionsRepo = MockSessionsRepository();
       final settingsRepo = MockSettingsRepository();
-      final testSession = Session.create(3600);
+      final testSession = Session(
+        duration: 3600,
+        isCompleted: false,
+        uuid: Uuid().v4(),
+      );
 
       SessionsModel sessionsModel;
       SessionSettingsModel settingsModel;
@@ -40,7 +46,11 @@ void main() {
       });
 
       test('add Session at position 5', () {
-        final positionSession = Session.create(3600);
+        final positionSession = Session(
+          duration: 3600,
+          isCompleted: false,
+          uuid: Uuid().v4(),
+        );
         sessionsModel.addSession(positionSession, position: 5);
 
         expect(sessionsModel.sessions.length, equals(13));

@@ -1,14 +1,13 @@
-import 'package:flip_panel/flip_panel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:stacked/stacked.dart';
+import 'package:flip_panel/flip_panel.dart';
 
 import '../../state_models/current_session_model.dart';
-import '../../state_models/session_model.dart';
 import '../../utils/time_utils.dart';
 
-class CountdownTime extends StatelessWidget {
+class CountdownTime extends ViewModelWidget<CurrentSessionModel> {
   final bool isSmall;
   final bool useDigitalClock;
 
@@ -19,17 +18,11 @@ class CountdownTime extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final currentSessionModel = Injector.get<CurrentSessionModel>();
-
-    return StateBuilder<SessionsModel>(
-      models: [currentSessionModel],
-      watch: (_) => currentSessionModel.currentDuration,
-      builder: (context, _) => Center(
-        child: _SimpleTime(
-          duration: currentSessionModel.currentDuration,
-          isSmall: isSmall,
-        ),
+  Widget build(BuildContext context, CurrentSessionModel model) {
+    return Center(
+      child: _SimpleTime(
+        duration: model.currentDuration,
+        isSmall: isSmall,
       ),
     );
   }

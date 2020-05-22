@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/task.dart';
 import '../../state_models/tasks_model.dart';
 import '../soft/soft_button.dart';
 import '../soft/soft_container.dart';
@@ -82,9 +81,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
 
   void createTask(String taskName) {
     if (taskName.isNotEmpty) {
-      final model = Injector.get<TasksModel>();
-      final task = Task.create(taskName);
-      model.addTask(task);
+      context.read<TasksModel>().createTask(taskName);
       taskNameController.clear();
     }
   }

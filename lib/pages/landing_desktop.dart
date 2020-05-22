@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:simple_animations/simple_animations.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:provider/provider.dart';
+import 'package:stacked/stacked.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
@@ -45,8 +46,6 @@ class _DesktopLandingState extends State<DesktopLanding> {
     final theme = Theme.of(context);
     final countdownHeight = MediaQuery.of(context).size.height / 3;
 
-    final currentSessionModel = Injector.get<CurrentSessionModel>();
-
     return Scaffold(
       body: SafeArea(
         child: RawKeyboardListener(
@@ -83,26 +82,29 @@ class _DesktopLandingState extends State<DesktopLanding> {
                           child: CurrentDateTimeContainer(),
                         ),
                       ),
-                      StateBuilder<CurrentSessionModel>(
-                        models: [currentSessionModel],
-                        watch: (_) => currentSessionModel.isBreak,
-                        builder: (context, _) {
-                          if (currentSessionModel.isBreak) {
+                      ViewModelBuilder<CurrentSessionModel>.reactive(
+                        viewModelBuilder: () =>
+                            context.read<CurrentSessionModel>(),
+                        disposeViewModel: false,
+                        builder: (context, model, child) {
+                          if (model.isBreak) {
                             return Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(kToolbarHeight),
-                                child: PlayAnimation(
+                                child: PlayAnimation<double>(
                                   tween: fadeInTween,
                                   duration: const Duration(milliseconds: 750),
                                   delay: const Duration(milliseconds: 500),
-                                  builder: (context, animation) => Opacity(
+                                  builder: (context, child, animation) =>
+                                      Opacity(
                                     opacity: animation,
-                                    child: SoftContainer(
-                                      height: countdownHeight * 1.5,
-                                      radius: (countdownHeight * 1.5) / 10,
-                                      child: Center(
-                                        child: SessionCountdown(),
-                                      ),
+                                    child: child,
+                                  ),
+                                  child: SoftContainer(
+                                    height: countdownHeight * 1.5,
+                                    radius: (countdownHeight * 1.5) / 10,
+                                    child: Center(
+                                      child: SessionCountdown(),
                                     ),
                                   ),
                                 ),
@@ -121,75 +123,60 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                     child: Stack(
                                       children: <Widget>[
                                         Center(
-                                          child: PlayAnimation(
+                                          child: PlayAnimation<double>(
                                             tween: fadeInTween,
                                             duration: const Duration(
                                                 milliseconds: 1500),
                                             delay: const Duration(
                                                 milliseconds: 500),
-                                            builder: (context, animation) =>
-                                                AnimatedOpacity(
+                                            builder:
+                                                (context, child, animation) =>
+                                                    AnimatedOpacity(
                                               duration: const Duration(
                                                 milliseconds: 550,
                                               ),
                                               opacity: animation,
-                                              child: SoftContainer(
-                                                height: countdownHeight,
-                                                radius: countdownHeight / 10,
-                                                child: Center(
-                                                  child: SessionCountdown(),
-                                                ),
+                                              child: child,
+                                            ),
+                                            child: SoftContainer(
+                                              height: countdownHeight,
+                                              radius: countdownHeight / 10,
+                                              child: Center(
+                                                child: SessionCountdown(),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        StateBuilder<CurrentSessionModel>(
-                                          models: [currentSessionModel],
-                                          watch: (_) =>
-                                              currentSessionModel.isSession,
-                                          builder: (context, _) {
-                                            if (currentSessionModel.isSession) {
-                                              return Positioned(
-                                                left: 0,
-                                                right: 0,
-                                                bottom: 0,
-                                                top: 2 * countdownHeight,
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: StartBreakButton(),
-                                                ),
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          },
-                                        ),
+                                        if (model.isSession)
+                                          Positioned(
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            top: 2 * countdownHeight,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: StartBreakButton(),
+                                            ),
+                                          )
                                       ],
                                     ),
                                   ),
                                   const SizedBox(width: 96),
                                   Expanded(
-                                    child: StateBuilder<CurrentSessionModel>(
-                                      models: [currentSessionModel],
-                                      watch: (_) =>
-                                          currentSessionModel.isTimerRunning,
-                                      builder: (context, _) =>
-                                          AnimatedCrossFade(
-                                        firstChild: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: const SessionsListContainer(),
-                                        ),
-                                        secondChild: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: const TasksListContainer(),
-                                        ),
-                                        crossFadeState:
-                                            currentSessionModel.isTimerRunning
-                                                ? CrossFadeState.showSecond
-                                                : CrossFadeState.showFirst,
-                                        duration:
-                                            const Duration(milliseconds: 750),
+                                    child: AnimatedCrossFade(
+                                      firstChild: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: const SessionsListContainer(),
                                       ),
+                                      secondChild: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: const TasksListContainer(),
+                                      ),
+                                      crossFadeState: model.isTimerRunning
+                                          ? CrossFadeState.showSecond
+                                          : CrossFadeState.showFirst,
+                                      duration:
+                                          const Duration(milliseconds: 750),
                                     ),
                                   ),
                                 ],

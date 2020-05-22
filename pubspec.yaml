@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
   auto_size_text: ^2.1.0
   after_layout: ^1.0.7+2
-  simple_animations: ^2.0.1
+  simple_animations: ^2.2.1
   auto_animated: ^2.1.0
   flutter_icons: ^1.1.0
   md2_tab_indicator: ^1.0.2
@@ -43,14 +43,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-  states_rebuilder: ^1.15.0
+  path_provider: ^1.6.8
+  shared_preferences: ^0.5.7+3
+  shared_preferences_web: '>=0.1.2+7 <2.0.0'
+  supercharged: ^1.6.0
 
-  path_provider: ^1.6.7
-  shared_preferences: ^0.5.7+2
-  supercharged: ^1.4.0
+  provider: ^4.1.2
+  stacked: ^1.5.4
 
-  hive: ^1.4.1+1
-  hive_flutter: ^0.3.0+2
+  # DB
+  moor: ^3.1.0
+  moor_ffi: ^0.6.0
 
   mockito: ^4.1.1
 
@@ -58,19 +61,18 @@ dependencies:
     git:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/flutter_plugins/path_provider_fde
-      ref: 4340dec47dd88206ed421d8c1c9ecdff2ba02fff
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  build_runner: ^1.8.0
-  hive_generator: ^0.7.0+2
+  build_runner: ^1.10.0
+  moor_generator: ^3.1.0
   json_serializable: ^3.3.0
   copy_with_extension_gen: ">=1.1.0 <2.0.0"
 
   effective_dart: ^1.2.0
-  lint: ^1.1.1
+  lint: ^1.2.0
   # pedantic: ^1.9.0
 
 # For information on the generic Dart part of this file, see the

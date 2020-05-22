@@ -4,16 +4,16 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:stacked/stacked.dart';
 
-import 'constants/hive_constants.dart';
 import 'constants/theme_constants.dart';
-import 'models/session.dart';
-import 'models/task.dart';
+import 'database/app_database.dart';
+import 'database/daos/sessions_dao.dart';
+import 'database/daos/tasks_dao.dart';
+import 'database/platforms/platform_db.dart';
 import 'pages/landing_desktop.dart';
 import 'pages/landing_mobile.dart';
 import 'repositories/sessions_repository.dart';
@@ -28,82 +28,61 @@ import 'state_models/tasks_model.dart';
 /// ignore: avoid_void_async
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  bool useDesktop;
 
   if (!kIsWeb) {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-    } else {
-      await Hive.initFlutter();
     }
   }
 
-  if (kIsWeb || Platform.isAndroid || Platform.isIOS) {
-    Hive.registerAdapter<Task>(TaskAdapter());
-    Hive.registerAdapter<Session>(SessionAdapter());
-    await Hive.openBox(kTasksHiveBox);
-    await Hive.openBox(kSessionsHiveBox);
-    await Hive.openBox(kSettingsHiveBox);
-    useDesktop = false;
-  } else {
-    useDesktop = true;
-  }
+  final db = AppDatabase(constructQueryExecutor(logStatements: true));
 
   runApp(
-    Injector(
-      inject: [
-        Inject<SettingsModel>(
-          () => SettingsModel(
-            useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SettingsModel>(
+          create: (context) => SettingsModel(
+            SettingsRepository(),
           ),
         ),
-        Inject<SessionSettingsModel>(
-          () => SessionSettingsModel(
-            useDesktop ? DesktopSettingsRepository() : SettingsRepository(),
+        ChangeNotifierProvider<SessionSettingsModel>(
+          create: (context) => SessionSettingsModel(
+            SettingsRepository(),
           ),
         ),
-        Inject<SessionsModel>(
-          () => SessionsModel(
-            useDesktop ? DesktopSessionsRepository() : SessionsRepository(),
-            Injector.get<SessionSettingsModel>(),
+        ChangeNotifierProvider<TasksModel>(
+          create: (context) => TasksModel(
+            TasksRepository(TasksDao(db)),
           ),
         ),
-        Inject<TasksModel>(
-          () => TasksModel(
-            useDesktop ? DesktopTasksRepository() : TasksRepository(),
+        ChangeNotifierProvider<SessionsModel>(
+          create: (context) => SessionsModel(
+            SessionsRepository(SessionsDao(db)),
+            context.read<SessionSettingsModel>(),
           ),
         ),
-        Inject<CurrentSessionModel>(
-          () => CurrentSessionModel(
-            Injector.get<SessionsModel>(),
-            Injector.get<SessionSettingsModel>(),
+        ChangeNotifierProvider<CurrentSessionModel>(
+          create: (context) => CurrentSessionModel(
+            context.read<SessionsModel>(),
+            context.read<SessionSettingsModel>(),
           ),
         ),
       ],
-      builder: (context) => MyApp(),
+      child: MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ViewModelWidget<SettingsModel> {
   @override
-  Widget build(BuildContext context) {
-    final settingsModel = Injector.get<SettingsModel>();
-
-    return StateBuilder<SettingsModel>(
-      models: [settingsModel],
-      builder: (context, _) {
-        final darkmode = settingsModel.darkmode;
-
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: darkmode ? darkTheme : lightTheme,
-          debugShowCheckedModeBanner: false,
-          darkTheme: darkTheme,
-          themeMode: darkmode ? ThemeMode.dark : ThemeMode.light,
-          home: const MyHomePage(),
-        );
-      },
+  Widget build(BuildContext context, SettingsModel model) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: model.darkmode ? darkTheme : lightTheme,
+      debugShowCheckedModeBanner: false,
+      darkTheme: darkTheme,
+      themeMode: model.darkmode ? ThemeMode.dark : ThemeMode.light,
+      home: const MyHomePage(),
     );
   }
 }

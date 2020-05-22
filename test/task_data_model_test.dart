@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:focus_timer/models/task.dart';
+import 'package:focus_timer/database/app_database.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {
@@ -11,52 +11,35 @@ void main() {
           name: 'Test Name',
           uuid: uuid,
           isCompleted: true,
-          sessionUId: '',
         );
 
         expect(task, isA<Task>());
         expect(task.name, equals('Test Name'));
-        expect(task.sessionUId, equals(''));
         expect(task.isCompleted, isTrue);
         expect(task.uuid, equals(uuid));
-        expect(
-          task.props,
-          equals(
-            [
-              'Test Name',
-              uuid,
-              '',
-              true,
-            ],
-          ),
-        );
       });
 
       test('factory constructor', () {
-        final task = Task.create('Test Name');
+        final task = Task(
+          name: 'Test Name',
+          isCompleted: false,
+          uuid: Uuid().v4(),
+        );
 
         expect(task, isA<Task>());
         expect(task.name, equals('Test Name'));
-        expect(task.sessionUId, equals(''));
         expect(task.isCompleted, isFalse);
         expect(task.uuid.isNotEmpty, isTrue);
-        expect(
-          task.props,
-          equals(
-            [
-              'Test Name',
-              task.uuid,
-              '',
-              false,
-            ],
-          ),
-        );
       });
     });
 
     group('json convert tests ->', () {
       test('json encoding', () {
-        final task = Task.create('Test Name');
+        final task = Task(
+          name: 'Test Name',
+          isCompleted: false,
+          uuid: Uuid().v4(),
+        );
         final json = task.toJson();
 
         expect(
@@ -65,7 +48,6 @@ void main() {
             <String, dynamic>{
               'name': 'Test Name',
               'uuid': task.uuid,
-              'session_uuid': '',
               'iscompleted': false,
             },
           ),
@@ -78,27 +60,14 @@ void main() {
           <String, dynamic>{
             'name': 'Test Name',
             'uuid': uuid,
-            'session_uuid': '',
             'iscompleted': false,
           },
         );
 
         expect(task, isA<Task>());
         expect(task.name, equals('Test Name'));
-        expect(task.sessionUId, equals(''));
         expect(task.isCompleted, isFalse);
         expect(task.uuid, equals(uuid));
-        expect(
-          task.props,
-          equals(
-            [
-              'Test Name',
-              uuid,
-              '',
-              false,
-            ],
-          ),
-        );
       });
     });
   });

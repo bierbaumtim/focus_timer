@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:simple_animations/simple_animations.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:provider/provider.dart';
+import 'package:stacked/stacked.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
@@ -48,7 +49,7 @@ class _MobileLandingState extends State<MobileLanding>
     super.didChangeAppLifecycleState(state);
     if (!kIsWeb) {
       if (Platform.isIOS || Platform.isAndroid) {
-        final currentSessionModel = Injector.get<CurrentSessionModel>();
+        final currentSessionModel = context.read<CurrentSessionModel>();
         if (state == AppLifecycleState.paused) {
           _userLeavedTime = DateTime.now();
           currentSessionModel.stopTimer();
@@ -71,8 +72,6 @@ class _MobileLandingState extends State<MobileLanding>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final currentSessionModel = Injector.get<CurrentSessionModel>();
-
     final containerSize = MediaQuery.of(context).size.width * 0.8;
 
     return Scaffold(
@@ -93,17 +92,18 @@ class _MobileLandingState extends State<MobileLanding>
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: PlayAnimation(
+                        child: PlayAnimation<double>(
                           tween: fadeInTween,
                           duration: const Duration(milliseconds: 1500),
-                          builder: (context, animation) => Opacity(
+                          builder: (context, child, animation) => Opacity(
                             opacity: animation,
-                            child: SoftContainer(
-                              width: containerSize,
-                              height: containerSize,
-                              radius: containerSize / 1.8,
-                              child: const SessionCountdown(),
-                            ),
+                            child: child,
+                          ),
+                          child: SoftContainer(
+                            width: containerSize,
+                            height: containerSize,
+                            radius: containerSize / 1.8,
+                            child: const SessionCountdown(),
                           ),
                         ),
                       ),
@@ -116,16 +116,18 @@ class _MobileLandingState extends State<MobileLanding>
                       child: Container(
                         height: kToolbarHeight,
                         child: Center(
-                          child: StateBuilder<CurrentSessionModel>(
-                            models: [currentSessionModel],
-                            watch: (_) => currentSessionModel.isBreak,
-                            builder: (context, _) {
-                              if (currentSessionModel.isBreak) {
+                          child: ViewModelBuilder<CurrentSessionModel>.reactive(
+                            viewModelBuilder: () =>
+                                context.read<CurrentSessionModel>(),
+                            disposeViewModel: false,
+                            builder: (context, model, child) {
+                              if (model.isBreak) {
                                 return Container();
                               } else {
-                                return StartBreakButton();
+                                return child;
                               }
                             },
+                            staticChild: StartBreakButton(),
                           ),
                         ),
                       ),

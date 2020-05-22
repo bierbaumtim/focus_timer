@@ -1,56 +1,21 @@
-import 'package:hive/hive.dart';
-
-import '../constants/hive_constants.dart';
-import '../models/task.dart';
+import '../database/app_database.dart';
+import '../database/daos/tasks_dao.dart';
 import 'interfaces/tasks_repository_interface.dart';
 
 class TasksRepository implements ITasksRepository {
-  @override
-  List<Task> loadTasks() {
-    final tasksBox = Hive.box(kTasksHiveBox);
-    return tasksBox.values?.whereType<Task>()?.toList() ?? <Task>[];
-  }
+  final TasksDao tasksDao;
+
+  const TasksRepository(this.tasksDao);
 
   @override
-  Future<void> removeTask(Task task) {
-    final tasksBox = Hive.box(kTasksHiveBox);
-    return tasksBox.delete(task.uuid);
-  }
+  Future<List<Task>> loadTasks() => tasksDao.getAllTasks;
 
   @override
-  Future<void> saveTask(Task task) {
-    final tasksBox = Hive.box(kTasksHiveBox);
-    return tasksBox.put(task.uuid, task);
-  }
+  Future<int> removeTask(Task task) => tasksDao.deleteTask(task);
 
   @override
-  Future<void> updateTask(Task task) {
-    final tasksBox = Hive.box(kTasksHiveBox);
-    return tasksBox.put(task.uuid, task);
-  }
-}
-
-class DesktopTasksRepository implements ITasksRepository {
-  @override
-  List<Task> loadTasks() {
-    return <Task>[];
-  }
+  Future<int> saveTask(Task task) => tasksDao.insertTask(task);
 
   @override
-  Future<void> removeTask(Task task) {
-    // TODO: implement removeTask
-    return null;
-  }
-
-  @override
-  Future<void> saveTask(Task task) {
-    // TODO: implement saveTask
-    return null;
-  }
-
-  @override
-  Future<void> updateTask(Task task) {
-    // TODO: implement updateTask
-    return null;
-  }
+  Future<bool> updateTask(Task task) => tasksDao.updateTask(task);
 }

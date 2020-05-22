@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-final Tween fadeInTween = Tween<double>(begin: 0, end: 1);
+final Tween<double> fadeInTween = Tween<double>(begin: 0, end: 1);

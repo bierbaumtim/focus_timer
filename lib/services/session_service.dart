@@ -1,4 +1,4 @@
-import '../models/session.dart';
+import '../database/app_database.dart';
 import '../state_models/current_session_model.dart';
 import '../state_models/session_model.dart';
 

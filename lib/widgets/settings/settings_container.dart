@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:provider/provider.dart';
+import 'package:stacked/stacked.dart';
 
 import '../../state_models/session_settings_model.dart';
 import '../../utils/time_utils.dart';
@@ -12,8 +13,6 @@ class SettingsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sessionSettingsModel = Injector.get<SessionSettingsModel>();
-
     return SoftContainer(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -35,45 +34,36 @@ class SettingsContainer extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: <Widget>[
-                  ListTile(
-                    title: Text('Darkmode'),
-                    trailing: ThemeSwitch(),
-                  ),
-                  ListTile(
-                    title: Text('Sessions until break'),
-                    subtitle: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.sessionUntilBreak,
-                      builder: (context, _) => Text(
-                        '${sessionSettingsModel.sessionUntilBreak} sessions',
+              child: ViewModelBuilder<SessionSettingsModel>.reactive(
+                viewModelBuilder: () => context.read<SessionSettingsModel>(),
+                disposeViewModel: false,
+                builder: (context, model, child) => ListView(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Darkmode'),
+                      trailing: ThemeSwitch(),
+                    ),
+                    ListTile(
+                      title: Text('Sessions until break'),
+                      subtitle: Text(
+                        '${model.sessionUntilBreak} sessions',
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.sessionUntilBreak,
-                      builder: (context, _) => Slider(
+                    ListTile(
+                      title: Slider(
                         min: 1,
                         max: 10,
                         divisions: 10,
-                        value:
-                            sessionSettingsModel.sessionUntilBreak.toDouble(),
-                        onChanged: (sessions) => sessionSettingsModel
-                            .setSessionsUntilBreak(sessions.toInt()),
+                        value: model.sessionUntilBreak.toDouble(),
+                        onChanged: (sessions) =>
+                            model.setSessionsUntilBreak(sessions.toInt()),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: Text('session duration'),
-                    subtitle: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.sessionsDuration,
-                      builder: (context, _) => Text(
+                    ListTile(
+                      title: Text('session duration'),
+                      subtitle: Text(
                         timeToString(
-                          sessionSettingsModel.sessionsDuration,
+                          model.sessionsDuration,
                           hoursDelimiter: ' hours ',
                           minutesDelimiter: ' minutes ',
                           secondsDelimiter: ' seconds',
@@ -81,28 +71,20 @@ class SettingsContainer extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.sessionsDuration,
-                      builder: (context, _) => Slider(
+                    ListTile(
+                      title: Slider(
                         min: 300,
                         max: 5400,
                         divisions: 85,
-                        value: sessionSettingsModel.sessionsDuration,
-                        onChanged: sessionSettingsModel.setSessionDuration,
+                        value: model.sessionsDuration,
+                        onChanged: model.setSessionDuration,
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: Text('short break duration'),
-                    subtitle: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.shortBreakDuration,
-                      builder: (context, _) => Text(
+                    ListTile(
+                      title: Text('short break duration'),
+                      subtitle: Text(
                         timeToString(
-                          sessionSettingsModel.shortBreakDuration,
+                          model.shortBreakDuration,
                           hoursDelimiter: ' hours ',
                           minutesDelimiter: ' minutes ',
                           secondsDelimiter: ' seconds',
@@ -110,28 +92,20 @@ class SettingsContainer extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.shortBreakDuration,
-                      builder: (context, _) => Slider(
+                    ListTile(
+                      title: Slider(
                         min: 60,
                         max: 1800,
                         divisions: 28,
-                        value: sessionSettingsModel.shortBreakDuration,
-                        onChanged: sessionSettingsModel.setShortBreakDuration,
+                        value: model.shortBreakDuration,
+                        onChanged: model.setShortBreakDuration,
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: Text('long break duration'),
-                    subtitle: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.longBreakDuration,
-                      builder: (context, _) => Text(
+                    ListTile(
+                      title: Text('long break duration'),
+                      subtitle: Text(
                         timeToString(
-                          sessionSettingsModel.longBreakDuration,
+                          model.longBreakDuration,
                           hoursDelimiter: ' hours ',
                           minutesDelimiter: ' minutes ',
                           secondsDelimiter: ' seconds',
@@ -139,21 +113,17 @@ class SettingsContainer extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: StateBuilder(
-                      models: [sessionSettingsModel],
-                      watch: (_) => sessionSettingsModel.longBreakDuration,
-                      builder: (context, _) => Slider(
+                    ListTile(
+                      title: Slider(
                         min: 300,
                         max: 10800,
                         divisions: 175,
-                        value: sessionSettingsModel.longBreakDuration,
-                        onChanged: sessionSettingsModel.setLongBreakDuration,
+                        value: model.longBreakDuration,
+                        onChanged: model.setLongBreakDuration,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

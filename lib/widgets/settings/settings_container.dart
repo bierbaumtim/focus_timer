@@ -38,6 +38,7 @@ class SettingsContainer extends StatelessWidget {
                 viewModelBuilder: () => context.read<SessionSettingsModel>(),
                 disposeViewModel: false,
                 builder: (context, model, child) => ListView(
+                  physics: BouncingScrollPhysics(),
                   children: <Widget>[
                     ListTile(
                       title: Text('Darkmode'),

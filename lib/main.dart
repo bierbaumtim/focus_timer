@@ -1,7 +1,3 @@
-import 'dart:io';
-import 'dart:math' as math;
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,12 +24,6 @@ import 'state_models/tasks_model.dart';
 /// ignore: avoid_void_async
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (!kIsWeb) {
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-    }
-  }
 
   final db = AppDatabase(constructQueryExecutor(logStatements: true));
 
@@ -103,38 +93,4 @@ class _MyHomePageState extends State<MyHomePage> {
       desktop: DesktopLanding(),
     );
   }
-}
-
-class ClockElementPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.green
-      ..strokeWidth = 20;
-    final path = Path();
-
-    // Method to convert degree to radians
-    num degToRad(num deg) => deg * (math.pi / 180.0);
-
-    path.moveTo(size.width * 0.15, 0);
-    path.lineTo(0, size.height * 0.05);
-    path.lineTo(0, size.height * 0.95);
-    // path.lineTo(size.width * 0.15, size.height);
-    path.addArc(
-      Rect.fromLTWH(
-          0, size.height * 0.85, size.width * 0.5, size.height * 0.15),
-      degToRad(-180) as double,
-      degToRad(-90) as double,
-    );
-    path.lineTo(size.width, size.height * 0.925);
-    path.lineTo(size.width, size.height * 0.075);
-    path.close();
-
-    canvas.drawPath(path, paint);
-
-    // canvas.drawRect(Rect.fromLTWH(0, 0, 20, 100), paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

@@ -17,7 +17,7 @@ class SessionCountdown extends ViewModelWidget<CurrentSessionModel> {
       padding: const EdgeInsets.all(24.0),
       child: Stack(
         children: [
-          if (model.isBreak || model.currentSession != null)
+          if (model.isBreak || model.currentSessionIndex != -1)
             const CountdownTime()
           else
             Align(

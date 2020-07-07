@@ -1,34 +1,27 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dartx/dartx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:wakelock/wakelock.dart';
 
-import '../database/app_database.dart';
-import '../extensions/num_extensions.dart';
-import 'session_model.dart';
 import 'session_settings_model.dart';
 
 class CurrentSessionModel extends ChangeNotifier {
-  final SessionsModel sessionsModel;
   final SessionSettingsModel sessionSettingsModel;
-
-  List<Session> get sessions => sessionsModel.sessions;
 
   double get _shortBreakDuration => sessionSettingsModel.shortBreakDuration;
   double get _longBreakDuration => sessionSettingsModel.longBreakDuration;
+  int get _sessionDuration => sessionSettingsModel.sessionsDuration.toInt();
   int get _sessionUntilBreak => sessionSettingsModel.sessionUntilBreak;
+  int get _maxSessionAmount => 12;
 
-  Session currentSession;
   bool isBreak, isSession, isTimerRunning;
   int currentDuration, currentSessionIndex;
 
   Timer _timer;
 
-  CurrentSessionModel(this.sessionsModel, this.sessionSettingsModel)
-      : assert(sessionSettingsModel != null),
-        assert(sessionsModel != null) {
+  CurrentSessionModel(this.sessionSettingsModel)
+      : assert(sessionSettingsModel != null) {
     isBreak = false;
     isTimerRunning = false;
     isSession = false;
@@ -37,12 +30,8 @@ class CurrentSessionModel extends ChangeNotifier {
   }
 
   void startBreak() {
-    final session = currentSession.copyWith(
-      isCompleted: true,
-    );
-    sessionsModel.updateSession(session);
     _timer?.cancel();
-    if (currentSessionIndex < sessions.lastIndex) {
+    if (currentSessionIndex < _maxSessionAmount) {
       isBreak = true;
       currentDuration = _calculateBreakDuration(currentSessionIndex);
       _enableWakelock();
@@ -59,10 +48,9 @@ class CurrentSessionModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void startSession([int index = -1]) {
-    if (sessions.isNotEmpty) {
-      getNextSession(index);
-      currentDuration = currentSession?.duration ?? 0;
+  void startSession() {
+    if (currentSessionIndex < _maxSessionAmount) {
+      currentDuration = _sessionDuration;
       isTimerRunning = true;
       isSession = true;
       _enableWakelock();
@@ -74,13 +62,6 @@ class CurrentSessionModel extends ChangeNotifier {
     }
     isBreak = false;
     notifyListeners();
-  }
-
-  void updateCurrentSession(Session session) {
-    if (currentSession.uuid == session.uuid) {
-      currentSession = session;
-      notifyListeners();
-    }
   }
 
   void stopTimer() {
@@ -119,9 +100,9 @@ class CurrentSessionModel extends ChangeNotifier {
         if (currentDuration <= 0) {
           if (isBreak) {
             isBreak = false;
-            getNextSession();
-            if (currentSession != null) {
-              currentDuration = currentSession.duration;
+            currentSessionIndex++;
+            if (currentSessionIndex <= _maxSessionAmount) {
+              currentDuration = _sessionDuration;
               isSession = true;
             } else {
               isSession = false;
@@ -130,11 +111,6 @@ class CurrentSessionModel extends ChangeNotifier {
               break;
             }
           } else {
-            sessionsModel.updateSession(
-              currentSession.copyWith(
-                isCompleted: true,
-              ),
-            );
             currentDuration =
                 _calculateBreakDuration(currentSessionIndex) - currentDuration;
             isSession = false;
@@ -165,22 +141,6 @@ class CurrentSessionModel extends ChangeNotifier {
       return index % _sessionUntilBreak != 0
           ? _shortBreakDuration.toInt()
           : _longBreakDuration.toInt();
-    }
-  }
-
-  void getNextSession([int index = -1]) {
-    if (index.isBetween(0, sessions.length - 1)) {
-      currentSession = sessions.elementAt(index);
-      currentSessionIndex = index;
-    } else if (currentSessionIndex == -1) {
-      currentSession = sessions.first;
-      currentSessionIndex = 0;
-    } else if (currentSessionIndex + 1 <= sessions.lastIndex) {
-      currentSessionIndex++;
-      currentSession = sessions.elementAt(currentSessionIndex);
-    } else {
-      currentSession = null;
-      currentSessionIndex = sessions.length;
     }
   }
 

@@ -7,16 +7,13 @@ import 'package:stacked/stacked.dart';
 
 import 'constants/theme_constants.dart';
 import 'database/app_database.dart';
-import 'database/daos/sessions_dao.dart';
 import 'database/daos/tasks_dao.dart';
 import 'database/platforms/platform_db.dart';
 import 'pages/landing_desktop.dart';
 import 'pages/landing_mobile.dart';
-import 'repositories/sessions_repository.dart';
 import 'repositories/settings_repository.dart';
 import 'repositories/tasks_repository.dart';
 import 'state_models/current_session_model.dart';
-import 'state_models/session_model.dart';
 import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
@@ -45,15 +42,8 @@ void main() async {
             TasksRepository(TasksDao(db)),
           ),
         ),
-        ChangeNotifierProvider<SessionsModel>(
-          create: (context) => SessionsModel(
-            SessionsRepository(SessionsDao(db)),
-            context.read<SessionSettingsModel>(),
-          ),
-        ),
         ChangeNotifierProvider<CurrentSessionModel>(
           create: (context) => CurrentSessionModel(
-            context.read<SessionsModel>(),
             context.read<SessionSettingsModel>(),
           ),
         ),

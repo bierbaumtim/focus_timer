@@ -11,8 +11,8 @@ analyzer:
     missing_required_param: warning
     # treat missing returns as a warning (not a hint)
     missing_return: warning
-    return_of_invalid_type: ignore
-    argument_type_not_assignable: ignore
+    return_of_invalid_type: warning
+    argument_type_not_assignable: warning
 
 linter:
   rules:

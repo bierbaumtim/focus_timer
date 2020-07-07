@@ -11,7 +11,7 @@ class SettingsModel extends ChangeNotifier {
     loadSettings();
   }
 
-  bool get darkmode => _settings['darkmode'] ?? true;
+  bool get darkmode => _settings['darkmode'] as bool ?? true;
 
   Map<String, dynamic> _settings;
 

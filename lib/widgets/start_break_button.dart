@@ -33,11 +33,11 @@ class StartBreakButton extends StatelessWidget {
       delay: const Duration(milliseconds: 500),
       builder: (context, child, animation) => AnimatedOpacity(
         duration: const Duration(milliseconds: 0),
-        opacity: animation.get('opacity'),
+        opacity: animation.get('opacity') as double,
         child: Transform.translate(
           offset: Offset(
             0,
-            animation.get('translation'),
+            animation.get('translation') as double,
           ),
           child: SoftButton(
             radius: 15,

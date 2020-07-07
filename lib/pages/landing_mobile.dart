@@ -12,7 +12,6 @@ import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
-import '../widgets/sessions/sessions_list_container.dart';
 import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
@@ -131,19 +130,6 @@ class _MobileLandingState extends State<MobileLanding>
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            page.Page(
-              child: Column(
-                children: <Widget>[
-                  TopTimeBar(),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SessionsListContainer(),
                     ),
                   ),
                 ],

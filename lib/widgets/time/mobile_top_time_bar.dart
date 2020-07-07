@@ -47,9 +47,9 @@ class TopTimeBar extends StatelessWidget {
             ),
           duration: const Duration(milliseconds: 1500),
           builder: (context, child, animation) => Opacity(
-            opacity: animation.get('opacity'),
+            opacity: animation.get('opacity') as double,
             child: Transform.translate(
-              offset: Offset(0, animation.get('translation')),
+              offset: Offset(0, animation.get('translation') as double),
               child: ViewModelBuilder<CurrentSessionModel>.reactive(
                 viewModelBuilder: () => context.read<CurrentSessionModel>(),
                 disposeViewModel: false,

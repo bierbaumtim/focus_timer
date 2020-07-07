@@ -10,7 +10,6 @@ import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
-import '../widgets/sessions/sessions_list_container.dart';
 import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
@@ -25,31 +24,32 @@ class DesktopLanding extends StatefulWidget {
 
 class _DesktopLandingState extends State<DesktopLanding> {
   PageController pageController;
-  FocusNode _keyBoardNode;
+  FocusNode keyBoardNode;
 
   @override
   void initState() {
     super.initState();
     pageController = PageController(initialPage: 0);
-    _keyBoardNode = FocusNode();
+    keyBoardNode = FocusNode();
   }
 
   @override
   void dispose() {
     pageController.dispose();
+    keyBoardNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(_keyBoardNode);
+    FocusScope.of(context).requestFocus(keyBoardNode);
     final theme = Theme.of(context);
     final countdownHeight = MediaQuery.of(context).size.height / 3;
 
     return Scaffold(
       body: SafeArea(
         child: RawKeyboardListener(
-          focusNode: _keyBoardNode,
+          focusNode: keyBoardNode,
           onKey: (event) async {
             if (event.logicalKey.keyId == LogicalKeyboardKey.arrowDown.keyId) {
               await pageController.nextPage(
@@ -162,22 +162,9 @@ class _DesktopLandingState extends State<DesktopLanding> {
                                     ),
                                   ),
                                   const SizedBox(width: 96),
-                                  Expanded(
-                                    child: AnimatedCrossFade(
-                                      firstChild: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: const SessionsListContainer(),
-                                      ),
-                                      secondChild: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: const TasksListContainer(),
-                                      ),
-                                      crossFadeState: model.isTimerRunning
-                                          ? CrossFadeState.showSecond
-                                          : CrossFadeState.showFirst,
-                                      duration:
-                                          const Duration(milliseconds: 750),
-                                    ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: const TasksListContainer(),
                                   ),
                                 ],
                               ),
@@ -199,22 +186,10 @@ class _DesktopLandingState extends State<DesktopLanding> {
                           contentPadding: const EdgeInsets.all(4),
                         ),
                       ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(kToolbarHeight),
-                                child: SessionsListContainer(),
-                              ),
-                            ),
-                            const Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(kToolbarHeight),
-                                child: TasksListContainer(),
-                              ),
-                            ),
-                          ],
+                      const Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(kToolbarHeight),
+                          child: TasksListContainer(),
                         ),
                       ),
                     ],

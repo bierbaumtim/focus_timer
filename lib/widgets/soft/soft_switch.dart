@@ -66,8 +66,8 @@ class SoftSwitch extends StatefulWidget {
 
 class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
   AnimationController alignmentController;
-  Tween alignmentTween;
-  Animation alignmentAnimation;
+  Tween<double> alignmentTween;
+  Animation<double> alignmentAnimation;
 
   @override
   void initState() {

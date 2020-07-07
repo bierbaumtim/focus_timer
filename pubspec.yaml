@@ -20,21 +20,15 @@ dependencies:
   flutter:
     sdk: flutter
   auto_size_text: ^2.1.0
-  after_layout: ^1.0.7+2
   simple_animations: ^2.2.1
   auto_animated: ^2.1.0
   flutter_icons: ^1.1.0
-  md2_tab_indicator: ^1.0.2
   flip_panel: ^1.0.1
-  page_transition: ^1.1.5
-  uuid: ^2.0.4
+  uuid: ^2.2.0
   wave: ^0.0.8
-  overlay_support: ^1.0.4
-  flutter_sticky_header: ^0.4.2
-  equatable: ^1.2.0
   responsive_builder: ^0.2.0+1
   dartx: ^0.4.0
-  wakelock: ^0.1.4+1
+  wakelock: ^0.1.4+2
 
   json_annotation: ^3.0.1
   copy_with_extension: ">=1.2.0 <2.0.0"
@@ -53,7 +47,7 @@ dependencies:
 
   # DB
   moor: ^3.1.0
-  moor_ffi: ^0.6.0
+  moor_ffi: ^0.7.0
 
   mockito: ^4.1.1
 
@@ -71,7 +65,7 @@ dev_dependencies:
   json_serializable: ^3.3.0
   copy_with_extension_gen: ">=1.1.0 <2.0.0"
 
-  effective_dart: ^1.2.0
+  effective_dart: ^1.2.3
   lint: ^1.2.0
   # pedantic: ^1.9.0
 

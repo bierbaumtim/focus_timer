@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:simple_animations/simple_animations.dart';
-import 'package:stacked/stacked.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/tween_constants.dart';
@@ -50,9 +49,7 @@ class TopTimeBar extends StatelessWidget {
             opacity: animation.get('opacity') as double,
             child: Transform.translate(
               offset: Offset(0, animation.get('translation') as double),
-              child: ViewModelBuilder<CurrentSessionModel>.reactive(
-                viewModelBuilder: () => context.read<CurrentSessionModel>(),
-                disposeViewModel: false,
+              child: Consumer<CurrentSessionModel>(
                 builder: (context, model, child) => Row(
                   mainAxisAlignment: model.isBreak || model.isTimerRunning
                       ? MainAxisAlignment.spaceBetween

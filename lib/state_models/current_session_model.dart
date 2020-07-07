@@ -120,7 +120,6 @@ class CurrentSessionModel extends ChangeNotifier {
           break;
         }
       }
-      print(currentDuration);
     }
   }
 

@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 
 import 'package:simple_animations/simple_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:stacked/stacked.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
@@ -115,18 +114,15 @@ class _MobileLandingState extends State<MobileLanding>
                       child: Container(
                         height: kToolbarHeight,
                         child: Center(
-                          child: ViewModelBuilder<CurrentSessionModel>.reactive(
-                            viewModelBuilder: () =>
-                                context.read<CurrentSessionModel>(),
-                            disposeViewModel: false,
+                          child: Consumer<CurrentSessionModel>(
                             builder: (context, model, child) {
                               if (model.isBreak) {
-                                return Container();
+                                return const SizedBox();
                               } else {
                                 return child;
                               }
                             },
-                            staticChild: StartBreakButton(),
+                            child: StartBreakButton(),
                           ),
                         ),
                       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:stacked/stacked.dart';
 
 import '../../state_models/session_settings_model.dart';
 import '../../utils/time_utils.dart';
@@ -34,9 +33,7 @@ class SettingsContainer extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ViewModelBuilder<SessionSettingsModel>.reactive(
-                viewModelBuilder: () => context.read<SessionSettingsModel>(),
-                disposeViewModel: false,
+              child: Consumer<SessionSettingsModel>(
                 builder: (context, model, child) => ListView(
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[

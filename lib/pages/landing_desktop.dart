@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'package:simple_animations/simple_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:stacked/stacked.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
@@ -71,7 +70,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
             childrenDelegate: SliverChildListDelegate(
               <Widget>[
                 page.Page(
-                  child: Stack(
+                  child: Column(
                     children: <Widget>[
                       SoftAppBar(
                         height: kToolbarHeight + 14,
@@ -82,95 +81,96 @@ class _DesktopLandingState extends State<DesktopLanding> {
                           child: CurrentDateTimeContainer(),
                         ),
                       ),
-                      ViewModelBuilder<CurrentSessionModel>.reactive(
-                        viewModelBuilder: () =>
-                            context.read<CurrentSessionModel>(),
-                        disposeViewModel: false,
-                        builder: (context, model, child) {
-                          if (model.isBreak) {
-                            return Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(kToolbarHeight),
-                                child: PlayAnimation<double>(
-                                  tween: fadeInTween,
-                                  duration: const Duration(milliseconds: 750),
-                                  delay: const Duration(milliseconds: 500),
-                                  builder: (context, child, animation) =>
-                                      Opacity(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
-                                  child: SoftContainer(
-                                    height: countdownHeight * 1.5,
-                                    radius: (countdownHeight * 1.5) / 10,
-                                    child: Center(
-                                      child: SessionCountdown(),
+                      Expanded(
+                        child: Consumer<CurrentSessionModel>(
+                          builder: (context, model, child) {
+                            if (model.isBreak) {
+                              return Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(kToolbarHeight),
+                                  child: PlayAnimation<double>(
+                                    tween: fadeInTween,
+                                    duration: const Duration(milliseconds: 750),
+                                    delay: const Duration(milliseconds: 500),
+                                    builder: (context, child, animation) =>
+                                        Opacity(
+                                      opacity: animation,
+                                      child: child,
+                                    ),
+                                    child: SoftContainer(
+                                      height: countdownHeight * 1.5,
+                                      radius: (countdownHeight * 1.5) / 10,
+                                      child: Center(
+                                        child: SessionCountdown(),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          } else {
-                            return Positioned(
-                              left: kToolbarHeight,
-                              right: kToolbarHeight,
-                              bottom: kToolbarHeight - 20,
-                              top: kToolbarHeight + 20,
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 2,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Center(
-                                          child: PlayAnimation<double>(
-                                            tween: fadeInTween,
-                                            duration: const Duration(
-                                                milliseconds: 1500),
-                                            delay: const Duration(
-                                                milliseconds: 500),
-                                            builder:
-                                                (context, child, animation) =>
-                                                    AnimatedOpacity(
-                                              duration: const Duration(
-                                                milliseconds: 550,
-                                              ),
-                                              opacity: animation,
-                                              child: child,
-                                            ),
-                                            child: SoftContainer(
-                                              height: countdownHeight,
-                                              radius: countdownHeight / 10,
-                                              child: Center(
-                                                child: SessionCountdown(),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        if (model.isSession)
-                                          Positioned(
-                                            left: 0,
-                                            right: 0,
-                                            bottom: 0,
-                                            top: 2 * countdownHeight,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: StartBreakButton(),
-                                            ),
-                                          )
-                                      ],
+                              );
+                            } else {
+                              return Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  kToolbarHeight,
+                                  kToolbarHeight + 20,
+                                  kToolbarHeight,
+                                  kToolbarHeight - 20,
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Stack(
+                                    //     children: <Widget>[
+                                    //       Center(
+                                    //         child: PlayAnimation<double>(
+                                    //           tween: fadeInTween,
+                                    //           duration: const Duration(
+                                    //               milliseconds: 1500),
+                                    //           delay: const Duration(
+                                    //               milliseconds: 500),
+                                    //           builder:
+                                    //               (context, child, animation) =>
+                                    //                   AnimatedOpacity(
+                                    //             duration: const Duration(
+                                    //               milliseconds: 550,
+                                    //             ),
+                                    //             opacity: animation,
+                                    //             child: child,
+                                    //           ),
+                                    //           child: SoftContainer(
+                                    //             height: countdownHeight,
+                                    //             radius: countdownHeight / 10,
+                                    //             child: Center(
+                                    //               child: SessionCountdown(),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //       if (model.isSession)
+                                    //         Positioned(
+                                    //           left: 0,
+                                    //           right: 0,
+                                    //           bottom: 0,
+                                    //           top: 2 * countdownHeight,
+                                    //           child: Align(
+                                    //             alignment: Alignment.center,
+                                    //             child: StartBreakButton(),
+                                    //           ),
+                                    //         )
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    const SizedBox(width: 96),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const TasksListContainer(),
                                     ),
-                                  ),
-                                  const SizedBox(width: 96),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const TasksListContainer(),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        },
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),

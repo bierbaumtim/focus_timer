@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:simple_animations/simple_animations.dart';
-import 'package:stacked/stacked.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/tween_constants.dart';
@@ -51,9 +50,7 @@ class StartBreakButton extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: ViewModelBuilder<CurrentSessionModel>.reactive(
-                viewModelBuilder: () => context.read<CurrentSessionModel>(),
-                disposeViewModel: false,
+              child: Consumer<CurrentSessionModel>(
                 builder: (context, model, child) => Icon(
                   model.isTimerRunning ? Icons.pause : Icons.play_arrow,
                   size: 36,

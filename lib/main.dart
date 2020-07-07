@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:stacked/stacked.dart';
+// import 'package:moor_ffi/open_helper.dart';
 
 import 'constants/theme_constants.dart';
 import 'database/app_database.dart';
@@ -18,9 +18,23 @@ import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
 
+// DynamicLibrary _openOnLinux() {
+//   final script = File(Platform.script.toFilePath());
+//   final libraryNextToScript = File('${script.path}/sqlite3.so');
+//   return DynamicLibrary.open(libraryNextToScript.path);
+// }
+
+// DynamicLibrary _openOnWindows() {
+//   final script = File(Platform.script.toFilePath());
+//   final libraryNextToScript = File('${script.path}/sqlite3.dll');
+//   return DynamicLibrary.open(libraryNextToScript.path);
+// }
+
 /// ignore: avoid_void_async
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // open.overrideFor(OperatingSystem.windows, _openOnWindows);
+  // open.overrideFor(OperatingSystem.linux, _openOnLinux);
 
   final db = AppDatabase(constructQueryExecutor(logStatements: true));
 
@@ -53,28 +67,25 @@ void main() async {
   );
 }
 
-class MyApp extends ViewModelWidget<SettingsModel> {
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context, SettingsModel model) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: model.darkmode ? darkTheme : lightTheme,
-      debugShowCheckedModeBanner: false,
-      darkTheme: darkTheme,
-      themeMode: model.darkmode ? ThemeMode.dark : ThemeMode.light,
-      home: const MyHomePage(),
+  Widget build(BuildContext context) {
+    return Consumer<SettingsModel>(
+      builder: (context, model, _) => MaterialApp(
+        title: 'Focus Timer',
+        theme: model.darkmode ? darkTheme : lightTheme,
+        debugShowCheckedModeBanner: false,
+        darkTheme: darkTheme,
+        themeMode: model.darkmode ? ThemeMode.dark : ThemeMode.light,
+        home: const MyHomePage(),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({Key key}) : super(key: key);
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(

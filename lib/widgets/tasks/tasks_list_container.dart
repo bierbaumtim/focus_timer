@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_animated/auto_animated.dart';
-import 'package:stacked/stacked.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_models/tasks_model.dart';
@@ -51,9 +50,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
                 ),
               ),
               Expanded(
-                child: ViewModelBuilder<TasksModel>.reactive(
-                  viewModelBuilder: () => context.read<TasksModel>(),
-                  disposeViewModel: false,
+                child: Consumer<TasksModel>(
                   builder: (context, model, child) {
                     if (model.allTasksCompleted) {
                       return const Positioned(

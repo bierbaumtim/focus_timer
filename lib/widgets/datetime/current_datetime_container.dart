@@ -25,14 +25,14 @@ class CurrentDateTimeContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const CurrentTimeText(fontsize: 20),
-            const SizedBox(width: 2.5),
+            const CurrentTimeText(),
+            const SizedBox(width: 2.75),
             Container(
               width: 10,
-              height: 2,
+              height: 1.25,
               color: Theme.of(context).textTheme.bodyText2.color,
             ),
-            const SizedBox(width: 2.5),
+            const SizedBox(width: 2.75),
             const CurrentDateText(),
           ],
         ),

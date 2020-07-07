@@ -46,12 +46,27 @@ class _CurrentTimeTextState extends State<CurrentTimeText> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 720;
+    final isTablet = !isMobile && width < 960;
+    final isDesktop = !isTablet;
+    TextStyle basicStyle;
+    if (isMobile) {
+      basicStyle = theme.textTheme.subtitle1;
+    } else if (isTablet) {
+      basicStyle = theme.textTheme.headline6;
+    } else if (isDesktop) {
+      basicStyle = theme.textTheme.headline5;
+    } else {
+      basicStyle = theme.textTheme.bodyText1;
+    }
+
     return Text(
       currentTime,
       maxLines: 1,
-      style: theme.textTheme.headline6.copyWith(
-        fontSize: widget.fontsize ?? 110,
-        shadows: [],
+      style: basicStyle.copyWith(
+        fontSize: widget.fontsize,
+        shadows: <Shadow>[],
       ),
     );
   }

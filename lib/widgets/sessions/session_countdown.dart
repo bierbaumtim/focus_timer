@@ -18,7 +18,7 @@ class SessionCountdown extends StatelessWidget {
       child: Consumer<CurrentSessionModel>(
         builder: (context, model, child) => Stack(
           children: <Widget>[
-            if (model.isBreak || model.currentSessionIndex != -1)
+            if (model.isTimerRunning)
               child
             else
               Align(

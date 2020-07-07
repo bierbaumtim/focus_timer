@@ -7,11 +7,25 @@ class CurrentDateText extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 720;
+    final isTablet = !isMobile && width < 960;
+    final isDesktop = !isTablet;
+    TextStyle basicStyle;
+    if (isMobile) {
+      basicStyle = theme.textTheme.subtitle1;
+    } else if (isTablet) {
+      basicStyle = theme.textTheme.headline6;
+    } else if (isDesktop) {
+      basicStyle = theme.textTheme.headline5;
+    } else {
+      basicStyle = theme.textTheme.bodyText1;
+    }
+
     return Text(
       dateToText,
-      style: theme.textTheme.headline6.copyWith(
-        fontSize: 20,
-        shadows: [],
+      style: basicStyle.copyWith(
+        shadows: <Shadow>[],
       ),
     );
   }

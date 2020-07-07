@@ -44,6 +44,8 @@ class StartBreakButton extends StatelessWidget {
               final currentSessionModel = context.read<CurrentSessionModel>();
               if (currentSessionModel.isTimerRunning) {
                 currentSessionModel.stopTimer();
+              } else if (currentSessionModel.currentSessionIndex < 0) {
+                currentSessionModel.startSession();
               } else {
                 currentSessionModel.restartTimer();
               }

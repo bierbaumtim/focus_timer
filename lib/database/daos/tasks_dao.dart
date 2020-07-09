@@ -9,16 +9,11 @@ part 'tasks_dao.g.dart';
 class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
   TasksDao(AppDatabase attachedDatabase) : super(attachedDatabase);
 
-  Future<List<Task>> get getAllTasks => (select(tasks)).get();
+  Future<List<Task>> get getAllTasks => select(tasks).get();
 
-  Future<int> insertTask(Task task) =>
-      into(tasks).insert(task.toCompanion(true));
+  Future<int> insertTask(Task task) => into(tasks).insert(task);
 
-  Future<bool> updateTask(Task task) =>
-      (update(tasks)..whereSamePrimaryKey(task.toCompanion(true)))
-          .replace(task.toCompanion(true));
+  Future<bool> updateTask(Task task) => update(tasks).replace(task);
 
-  Future<int> deleteTask(Task task) =>
-      (delete(tasks)..whereSamePrimaryKey(task.toCompanion(true)))
-          .delete(task.toCompanion(true));
+  Future<int> deleteTask(Task task) => delete(tasks).delete(task);
 }

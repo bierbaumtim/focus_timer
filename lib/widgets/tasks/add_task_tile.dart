@@ -37,15 +37,16 @@ class _AddTaskTileState extends State<AddTaskTile> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SoftContainer(
-      radius: 20,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: SoftContainer(
+              radius: 20,
               child: ListTile(
                 title: TextField(
                   controller: taskNameController,
@@ -59,22 +60,26 @@ class _AddTaskTileState extends State<AddTaskTile> {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
-            SoftButton(
-              radius: 15,
-              onTap: () {
-                if (taskNameController.text.isNotEmpty) {
-                  createTask(taskNameController.text);
-                }
-              },
+          ),
+          const SizedBox(width: 16),
+          SoftButton(
+            radius: 15,
+            onTap: () {
+              if (taskNameController.text.isNotEmpty) {
+                createTask(taskNameController.text);
+              }
+            },
+            child: SizedBox(
+              height: 50,
+              width: 50,
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.add),
               ),
             ),
-            const SizedBox(width: 4),
-          ],
-        ),
+          ),
+          const SizedBox(width: 4),
+        ],
       ),
     );
   }

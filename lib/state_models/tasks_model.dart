@@ -9,15 +9,21 @@ class TasksModel extends ChangeNotifier {
 
   TasksModel(this.repository) : assert(repository != null) {
     _allTasksCompleted = false;
+    _filterTasks = true;
     _tasks = <Task>[];
     loadTasks();
   }
 
   List<Task> _tasks;
-  bool _allTasksCompleted;
+  bool _allTasksCompleted, _filterTasks;
+
+  List<Task> get filteredTasks => _filterTasks
+      ? tasks.where((element) => !element.isCompleted).toList()
+      : tasks;
 
   List<Task> get tasks => _tasks;
   bool get allTasksCompleted => _allTasksCompleted;
+  bool get filterTasks => _filterTasks;
 
   Future<void> loadTasks() async {
     _tasks = await repository.loadTasks();
@@ -54,6 +60,11 @@ class TasksModel extends ChangeNotifier {
   void reorderTasks(int oldIndex, int newIndex) {
     final oldTask = _tasks.removeAt(oldIndex);
     tasks.insert(newIndex, oldTask);
+    notifyListeners();
+  }
+
+  void toggleFilter({bool value}) {
+    _filterTasks = value ?? !_filterTasks;
     notifyListeners();
   }
 }

@@ -10,4 +10,17 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) {
+          return m.createAll();
+        },
+        onUpgrade: (m, from, to) async {
+          if (from == 1) {
+            // we added the dueDate property in the change from version 1
+            await m.deleteTable('sessions');
+          }
+        },
+      );
 }

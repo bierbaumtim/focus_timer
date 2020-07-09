@@ -6,12 +6,12 @@ List<Shadow> lightTextShadow = <Shadow>[
   Shadow(
     color: Colors.grey[500],
     offset: const Offset(5.0, 5.0),
-    blurRadius: 15.0,
+    blurRadius: 10.0,
   ),
   Shadow(
     color: Colors.white,
     offset: const Offset(-5.0, -5.0),
-    blurRadius: 15.0,
+    blurRadius: 10.0,
   ),
 ];
 
@@ -19,12 +19,12 @@ List<Shadow> darkTextShadow = <Shadow>[
   Shadow(
     color: Colors.grey[900],
     offset: const Offset(5.0, 5.0),
-    blurRadius: 15.0,
+    blurRadius: 10.0,
   ),
   Shadow(
     color: Colors.grey[800],
     offset: const Offset(-5.0, -5.0),
-    blurRadius: 15.0,
+    blurRadius: 10.0,
   ),
 ];
 

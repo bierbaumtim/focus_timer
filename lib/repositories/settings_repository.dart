@@ -37,5 +37,9 @@ class SettingsRepository implements ISettingsRepository {
   }
 
   @override
-  Future<void> saveSettings(Map<String, dynamic> settings) {}
+  Future<void> saveSettings(Map<String, dynamic> settings) async {
+    for (var key in settings.keys) {
+      await saveSetting(key, settings[key]);
+    }
+  }
 }

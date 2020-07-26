@@ -28,6 +28,7 @@ dependencies:
   responsive_builder: ^0.2.0+1
   dartx: ^0.5.0
   wakelock: ^0.1.4+2
+  background_fetch: ^0.6.0
 
   json_annotation: ^3.0.1
   copy_with_extension: ">=1.2.0 <2.0.0"
@@ -38,7 +39,7 @@ dependencies:
 
   path_provider: ^1.6.11
   shared_preferences: ^0.5.8
-  shared_preferences_web: '>=0.1.2+7 <2.0.0'
+  shared_preferences_web: ">=0.1.2+7 <2.0.0"
   supercharged: ^1.7.0
 
   provider: ^4.3.1

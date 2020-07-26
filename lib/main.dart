@@ -17,6 +17,7 @@ import 'state_models/current_session_model.dart';
 import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
+import 'utils/background_utils.dart';
 
 // DynamicLibrary _openOnLinux() {
 //   final script = File(Platform.script.toFilePath());
@@ -83,8 +84,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key key}) : super(key: key);
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    BackgroundUtils().setupBackgroundTask();
+  }
 
   @override
   Widget build(BuildContext context) {

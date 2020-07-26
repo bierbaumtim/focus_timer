@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_timer/state_models/settings_model.dart';
 
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,57 @@ class SettingsContainer extends StatelessWidget {
           children: <Widget>[
             ListTile(
               title: Text('Settings'),
+              leading: IconButton(
+                icon: Icon(Icons.info),
+                onPressed: () async {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        appBar: AppBar(
+                          title: Text('BackgroundTask infos'),
+                        ),
+                        body: Consumer<SettingsModel>(
+                          builder: (context, value, child) => ListView(
+                            children: <Widget>[
+                              RaisedButton(
+                                onPressed: () => value.loadSettings(),
+                                child: Text('Refresh'),
+                              ),
+                              ListTile(
+                                title: Text('Config'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  value.backgroundTaskConfig,
+                                ),
+                              ),
+                              ListTile(
+                                title: Text('Startup'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  value.backgroundTaskStartup,
+                                ),
+                              ),
+                              ListTile(
+                                title: Text('Task'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  value.backgroundTaskCalc,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),

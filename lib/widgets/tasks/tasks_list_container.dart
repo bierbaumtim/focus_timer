@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:auto_animated/auto_animated.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_models/tasks_model.dart';
@@ -74,33 +73,17 @@ class _TasksListContainerState extends State<TasksListContainer> {
                     padding: const EdgeInsets.only(
                       bottom: 12,
                     ),
-                    child: AnimateIfVisibleWrapper(
-                      child: ReorderableListView(
-                        onReorder: model.reorderTasks,
-                        scrollController: tasksScrollController,
-                        children: model.filteredTasks
-                            .map<Widget>(
-                              (e) => AnimateIfVisible(
-                                key: ValueKey(e.uuid),
-                                builder: (context, animation) => FadeTransition(
-                                  opacity: Tween<double>(
-                                    begin: 0,
-                                    end: 1,
-                                  ).animate(animation),
-                                  child: SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(0.5, 0),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: TaskTile(
-                                      task: e,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
+                    child: ReorderableListView(
+                      onReorder: model.reorderTasks,
+                      scrollController: tasksScrollController,
+                      children: model.filteredTasks
+                          .map<Widget>(
+                            (e) => TaskTile(
+                              key: ValueKey(e.uuid),
+                              task: e,
+                            ),
+                          )
+                          .toList(),
                     ),
                   );
                 } else {

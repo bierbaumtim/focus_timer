@@ -20,6 +20,7 @@ class TaskTile extends StatelessWidget {
 
     return Dismissible(
       key: ValueKey(task.uuid),
+      direction: DismissDirection.startToEnd,
       onDismissed: (_) => context.read<TasksModel>().removeTask(task),
       child: Padding(
         padding: const EdgeInsets.symmetric(

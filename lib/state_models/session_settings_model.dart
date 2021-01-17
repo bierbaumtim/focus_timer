@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:dartx/dartx.dart';
+
+import 'package:supercharged/supercharged.dart';
 
 import '../repositories/interfaces/settings_repository_interface.dart';
 import '../utils/settings_utils.dart';

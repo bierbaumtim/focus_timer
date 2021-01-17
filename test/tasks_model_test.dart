@@ -8,6 +8,8 @@ import 'package:focus_timer/repositories/mocks/mock_task_repository.dart';
 import 'package:focus_timer/state_models/tasks_model.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   final _defaultTasksList = List.generate(
     10,
     (index) => Task(

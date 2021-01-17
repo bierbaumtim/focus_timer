@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:focus_timer/utils/time_utils.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  
   group('utils tests', () {
     group('time utils tests', () {
       test('60 seconds - 1 min', () {

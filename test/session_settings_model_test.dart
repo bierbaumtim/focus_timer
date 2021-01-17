@@ -7,6 +7,8 @@ import 'package:supercharged/supercharged.dart';
 import 'package:mockito/mockito.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('SessionSettingsModel tests ->', () {
     group('first start tests ->', () {
       final repo = MockSettingsRepository();

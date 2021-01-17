@@ -5,6 +5,8 @@ import 'package:focus_timer/extensions/num_extensions.dart';
 import 'package:focus_timer/extensions/text_style_extension.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  
   group('extensions tests ->', () {
     group('num extensions ->', () {
       test('isBetween false', () {

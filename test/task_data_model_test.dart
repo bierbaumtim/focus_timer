@@ -3,6 +3,8 @@ import 'package:focus_timer/models/task.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  
   group('Task data model tests ->', () {
     group('constructor tests ->', () {
       test('named constructor', () {

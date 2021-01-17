@@ -6,6 +6,8 @@ import 'package:focus_timer/state_models/settings_model.dart';
 import 'package:mockito/mockito.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  
   group('SettingsModel tests ->', () {
     group('first start tests ->', () {
       final repo = MockSettingsRepository();

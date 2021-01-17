@@ -46,9 +46,9 @@ void main() {
           json,
           equals(
             <String, dynamic>{
-              'name': 'Test Name',
               'uuid': task.uuid,
-              'iscompleted': false,
+              'name': 'Test Name',
+              'isCompleted': false,
             },
           ),
         );
@@ -58,9 +58,9 @@ void main() {
         final uuid = Uuid().v4();
         final task = Task.fromJson(
           <String, dynamic>{
-            'name': 'Test Name',
             'uuid': uuid,
-            'iscompleted': false,
+            'name': 'Test Name',
+            'isCompleted': false,
           },
         );
 

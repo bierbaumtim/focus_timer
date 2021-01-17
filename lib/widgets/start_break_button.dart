@@ -17,7 +17,7 @@ class StartBreakButton extends StatelessWidget {
         ..add(
           'opacity',
           fadeInTween,
-          const Duration(milliseconds: 650),
+          const Duration(milliseconds: 450),
         )
         ..add(
           'translation',
@@ -25,13 +25,13 @@ class StartBreakButton extends StatelessWidget {
             begin: 130,
             end: 0,
           ),
-          const Duration(milliseconds: 450),
+          const Duration(milliseconds: 350),
           Curves.easeInOut,
         ),
-      duration: const Duration(milliseconds: 1500),
-      delay: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 800),
+      delay: const Duration(milliseconds: 250),
       builder: (context, child, animation) => AnimatedOpacity(
-        duration: const Duration(milliseconds: 0),
+        duration: const Duration(),
         opacity: animation.get('opacity') as double,
         child: Transform.translate(
           offset: Offset(

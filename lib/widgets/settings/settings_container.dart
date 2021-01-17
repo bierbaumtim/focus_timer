@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:focus_timer/state_models/settings_model.dart';
 
 import 'package:provider/provider.dart';
 
@@ -18,7 +17,7 @@ class SettingsContainer extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: <Widget>[
-            ListTile(
+            const ListTile(
               title: Text('Settings'),
             ),
             Padding(
@@ -35,14 +34,14 @@ class SettingsContainer extends StatelessWidget {
             Expanded(
               child: Consumer<SessionSettingsModel>(
                 builder: (context, model, child) => ListView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   children: <Widget>[
                     ListTile(
-                      title: Text('Darkmode'),
+                      title: const Text('Darkmode'),
                       trailing: ThemeSwitch(),
                     ),
                     ListTile(
-                      title: Text('Sessions until break'),
+                      title: const Text('Sessions until break'),
                       subtitle: Text(
                         '${model.sessionUntilBreak} sessions',
                       ),
@@ -58,7 +57,7 @@ class SettingsContainer extends StatelessWidget {
                       ),
                     ),
                     ListTile(
-                      title: Text('session duration'),
+                      title: const Text('session duration'),
                       subtitle: Text(
                         timeToString(
                           model.sessionsDuration,
@@ -79,7 +78,7 @@ class SettingsContainer extends StatelessWidget {
                       ),
                     ),
                     ListTile(
-                      title: Text('short break duration'),
+                      title: const Text('short break duration'),
                       subtitle: Text(
                         timeToString(
                           model.shortBreakDuration,
@@ -100,7 +99,7 @@ class SettingsContainer extends StatelessWidget {
                       ),
                     ),
                     ListTile(
-                      title: Text('long break duration'),
+                      title: const Text('long break duration'),
                       subtitle: Text(
                         timeToString(
                           model.longBreakDuration,

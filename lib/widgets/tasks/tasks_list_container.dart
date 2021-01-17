@@ -42,7 +42,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
               left: 12,
             ),
             child: ListTile(
-              title: Text('Tasks'),
+              title: const Text('Tasks'),
               trailing: SoftButton(
                 onTap: () => context.read<TasksModel>().toggleFilter(),
                 child: Padding(
@@ -65,7 +65,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
                     padding: EdgeInsets.all(16),
                     child: Center(
                       child: Text(
-                        'You\'ve done all your tasks',
+                        "You've done all your tasks",
                       ),
                     ),
                   );

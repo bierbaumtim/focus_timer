@@ -8,9 +8,9 @@ List<Shadow> lightTextShadow = <Shadow>[
     offset: const Offset(5.0, 5.0),
     blurRadius: 10.0,
   ),
-  Shadow(
+  const Shadow(
     color: Colors.white,
-    offset: const Offset(-5.0, -5.0),
+    offset: Offset(-5.0, -5.0),
     blurRadius: 10.0,
   ),
 ];
@@ -60,7 +60,7 @@ ThemeData get lightTheme => ThemeData(
 ThemeData get darkTheme => ThemeData(
       brightness: Brightness.dark,
       accentColor: kSoftDarkTextColor,
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: kSoftDarkTextColor,
       ),
       textTheme: TextTheme(

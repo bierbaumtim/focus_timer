@@ -42,7 +42,6 @@ class _AddTaskTileState extends State<AddTaskTile> {
         horizontal: 8,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: SoftContainer(
@@ -69,10 +68,10 @@ class _AddTaskTileState extends State<AddTaskTile> {
                 createTask(taskNameController.text);
               }
             },
-            child: SizedBox(
+            child: const SizedBox(
               height: 50,
               width: 50,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.add),
               ),

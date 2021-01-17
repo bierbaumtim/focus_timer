@@ -12,7 +12,7 @@ class SettingsRepository implements ISettingsRepository {
   Future<Map<String, dynamic>> loadSettings() async {
     final settings = <String, dynamic>{};
     final keys = (await _prefs).getKeys();
-    for (var key in keys) {
+    for (final key in keys) {
       final value = (await _prefs).get(key);
       settings.putIfAbsent(key, () => value);
     }
@@ -38,7 +38,7 @@ class SettingsRepository implements ISettingsRepository {
 
   @override
   Future<void> saveSettings(Map<String, dynamic> settings) async {
-    for (var key in settings.keys) {
+    for (final key in settings.keys) {
       await saveSetting(key, settings[key]);
     }
   }

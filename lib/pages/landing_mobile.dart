@@ -16,7 +16,6 @@ import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
-import '../widgets/time/mobile_top_time_bar.dart';
 
 class MobileLanding extends StatefulWidget {
   @override
@@ -75,7 +74,6 @@ class _MobileLandingState extends State<MobileLanding>
     return Scaffold(
       body: PageView.custom(
         scrollDirection: Axis.vertical,
-        pageSnapping: true,
         childrenDelegate: SliverChildListDelegate(
           <Widget>[
             page.Page(
@@ -111,7 +109,7 @@ class _MobileLandingState extends State<MobileLanding>
                     flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Container(
+                      child: SizedBox(
                         height: kToolbarHeight,
                         child: Center(
                           child: Consumer<CurrentSessionModel>(
@@ -122,7 +120,7 @@ class _MobileLandingState extends State<MobileLanding>
                                 return child;
                               }
                             },
-                            child: StartBreakButton(),
+                            child: const StartBreakButton(),
                           ),
                         ),
                       ),
@@ -131,34 +129,19 @@ class _MobileLandingState extends State<MobileLanding>
                 ],
               ),
             ),
-            page.Page(
-              child: Column(
-                children: <Widget>[
-                  TopTimeBar(),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: TasksListContainer(),
-                    ),
-                  ),
-                ],
+            const page.Page(
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: TasksListContainer(),
               ),
             ),
-            page.Page(
-              child: Column(
-                children: const <Widget>[
-                  TopTimeBar(),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: SettingsContainer(),
-                    ),
-                  ),
-                ],
+            const page.Page(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: SettingsContainer(),
               ),
             ),
           ],
-          addAutomaticKeepAlives: true,
         ),
       ),
     );

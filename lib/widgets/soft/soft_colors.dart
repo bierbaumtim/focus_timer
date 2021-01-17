@@ -7,7 +7,7 @@ final Color kSoftLightBackgroundColor = Colors.grey[300];
 final Color kSoftLightBottomShadowColor = Colors.grey[500];
 
 /// light color for the top shadow
-final Color kSoftLightTopShadowColor = Colors.white;
+const Color kSoftLightTopShadowColor = Colors.white;
 
 /// Base color for dark theme
 final Color kSoftDarkBackgroundColor = Colors.grey[850];
@@ -22,7 +22,7 @@ const Color kSoftDarkTopShadowColor = Color(0xFF393939); // Colors.grey[800];
 final Color kSoftLightTextColor = Colors.grey[800];
 
 /// Color for text in dark theme
-final Color kSoftDarkTextColor = Colors.white;
+const Color kSoftDarkTextColor = Colors.white;
 
 Color kSoftButtonColor({@required bool isDark}) {
   assert(isDark != null);

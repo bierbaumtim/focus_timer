@@ -149,7 +149,7 @@ class CurrentSessionModel extends ChangeNotifier {
   /// [isBreak] is true it's starts
   /// the next session otherwise
   /// the next break.
-  void _decreaseDurationByOne() async {
+  Future<void> _decreaseDurationByOne() async {
     currentDuration -= 1;
     if (currentDuration < 0) {
       currentDuration = 0;

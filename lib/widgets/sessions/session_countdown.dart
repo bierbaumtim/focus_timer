@@ -21,8 +21,7 @@ class SessionCountdown extends StatelessWidget {
             if (model.isTimerRunning)
               child
             else
-              Align(
-                alignment: Alignment.center,
+              Center(
                 child: AutoSizeText(
                   model.currentSessionIndex == -1
                       ? 'Start with your first session'
@@ -30,7 +29,6 @@ class SessionCountdown extends StatelessWidget {
                   maxLines: 1,
                   style: theme.textTheme.headline6.copyWith(
                     fontSize: 110,
-                    shadows: [],
                   ),
                 ),
               ),

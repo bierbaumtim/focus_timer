@@ -118,6 +118,10 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
             padding: const EdgeInsets.all(4),
             child: AnimatedBuilder(
               animation: alignmentAnimation,
+              builder: (context, child) => Align(
+                alignment: Alignment(alignmentAnimation.value, 0),
+                child: child,
+              ),
               child: SizedBox(
                 height: 32.5,
                 width: 33.5,
@@ -149,10 +153,6 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-              ),
-              builder: (context, child) => Align(
-                alignment: Alignment(alignmentAnimation.value, 0),
-                child: child,
               ),
             ),
           ),

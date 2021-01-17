@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repositories/interfaces/settings_repository_interface.dart';
@@ -7,8 +8,8 @@ import '../utils/settings_utils.dart';
 class SettingsModel extends ChangeNotifier {
   final ISettingsRepository repository;
 
-  SettingsModel(this.repository) : assert(repository != null) {
-    _settings = <String, dynamic>{};
+  SettingsModel(this.repository) {
+    _settings = <String, Object?>{};
     loadSettings();
   }
 
@@ -21,9 +22,9 @@ class SettingsModel extends ChangeNotifier {
   String get backgroundTaskCalc =>
       _settings['background_task_calc'] as String ?? 'unknown';
 
-  Map<String, dynamic> _settings;
+  late Map<String, Object?> _settings;
 
-  Map<String, dynamic> get settings => _settings;
+  Map<String, Object?> get settings => _settings;
 
   Future<void> loadSettings() async {
     _settings = await repository.loadSettings();

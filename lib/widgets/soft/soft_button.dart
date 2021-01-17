@@ -6,22 +6,18 @@ import 'soft_decorations.dart';
 /// A Button implementing the Neomorphism design.
 /// {@endtemplate}
 class SoftButton extends StatefulWidget {
-  /// Forces the Button to use dark decorations
-  final bool useDarkTheme;
-
   /// The radius to apply to the [SoftButton]
-  final double radius;
+  final double? radius;
 
   /// The callback to call when tapping the [SoftButton]
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// Widget placed inside the button
-  final Widget child;
+  final Widget? child;
 
   /// {@macro softbutton}
   const SoftButton({
-    Key key,
-    this.useDarkTheme,
+    Key? key,
     this.onTap,
     this.radius,
     this.child,
@@ -32,7 +28,7 @@ class SoftButton extends StatefulWidget {
 }
 
 class _SoftButtonState extends State<SoftButton> {
-  bool invertColor;
+  late bool invertColor;
 
   @override
   void initState() {
@@ -52,11 +48,11 @@ class _SoftButtonState extends State<SoftButton> {
       child: Container(
         decoration: invertColor
             ? kSoftInvertedDecoration(
-                isDark: widget.useDarkTheme ?? isDark,
+                isDark: isDark,
                 radius: widget.radius,
               )
             : kSoftDecoration(
-                isDark: widget.useDarkTheme ?? isDark,
+                isDark: isDark,
                 radius: widget.radius,
               ),
         child: widget.child,

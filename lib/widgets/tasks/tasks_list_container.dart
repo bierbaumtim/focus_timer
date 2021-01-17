@@ -8,14 +8,14 @@ import 'add_task_tile.dart';
 import 'task_tile.dart';
 
 class TasksListContainer extends StatefulWidget {
-  const TasksListContainer({Key key}) : super(key: key);
+  const TasksListContainer({Key? key}) : super(key: key);
 
   @override
   _TasksListContainerState createState() => _TasksListContainerState();
 }
 
 class _TasksListContainerState extends State<TasksListContainer> {
-  ScrollController tasksScrollController;
+  late ScrollController tasksScrollController;
 
   @override
   void initState() {

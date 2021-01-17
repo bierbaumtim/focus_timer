@@ -8,7 +8,7 @@ import '../soft/soft_container.dart';
 import 'theme_switch.dart';
 
 class SettingsContainer extends StatelessWidget {
-  const SettingsContainer({Key key}) : super(key: key);
+  const SettingsContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class SettingsContainer extends StatelessWidget {
                 height: 2,
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText2
-                    .color
+                    .bodyText2!
+                    .color!
                     .withOpacity(0.75),
               ),
             ),

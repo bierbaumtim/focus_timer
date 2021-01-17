@@ -14,7 +14,7 @@ class AppDatabaseWeb implements IAppDatabase {
   AppDatabaseWeb._();
 
   /// Completer is used for transforming synchronous code into asynchronous code.
-  Completer<Database> _dbOpenCompleter;
+  Completer<Database>? _dbOpenCompleter;
 
   /// Database object accessor
   @override
@@ -31,14 +31,14 @@ class AppDatabaseWeb implements IAppDatabase {
     /// If the database is already opened, awaiting the future will happen instantly.
     /// Otherwise, awaiting the returned future will take some time - until complete() is called
     /// on the Completer in _openDatabase() below.
-    return _dbOpenCompleter.future;
+    return _dbOpenCompleter!.future;
   }
 
   Future<void> _openDatabase() async {
     final database = await databaseFactoryWeb.openDatabase(dbName);
 
     /// Any code awaiting the Completer's future will now start executing
-    _dbOpenCompleter.complete(database);
+    _dbOpenCompleter!.complete(database);
   }
 }
 

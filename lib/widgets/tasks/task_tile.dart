@@ -10,8 +10,8 @@ class TaskTile extends StatelessWidget {
   final Task task;
 
   const TaskTile({
-    Key key,
-    @required this.task,
+    Key? key,
+    required this.task,
   }) : super(key: key);
 
   @override
@@ -36,12 +36,13 @@ class TaskTile extends StatelessWidget {
                 .updateTask(task.copyWith(isCompleted: !task.isCompleted)),
             title: AnimatedDefaultTextStyle(
               style: task.isCompleted
-                  ? theme.textTheme.bodyText2.copyWith(
+                  ? theme.textTheme.bodyText2!.copyWith(
                       decoration: TextDecoration.lineThrough,
                       decorationThickness: 2.0,
-                      color: theme.textTheme.bodyText2.color.withOpacity(0.75),
+                      color:
+                          theme.textTheme.bodyText2!.color!.withOpacity(0.75),
                     )
-                  : theme.textTheme.bodyText2,
+                  : theme.textTheme.bodyText2!,
               duration: const Duration(milliseconds: 550),
               child: Text(
                 task.name,

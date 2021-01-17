@@ -20,7 +20,7 @@ void main() {
   group('TasksModel tests', () {
     final repo = MockTaskRepository();
 
-    TasksModel model;
+    late TasksModel model;
 
     when(repo.loadTasks()).thenAnswer((_) async => _defaultTasksList);
 

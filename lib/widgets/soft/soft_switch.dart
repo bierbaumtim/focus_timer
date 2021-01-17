@@ -23,7 +23,7 @@ class SoftSwitch extends StatefulWidget {
   /// The switch passes the new value to the callback but does not actually
   /// change state until the parent widget rebuilds the switch with the new
   /// value.
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
 
   /// Whether this switch is on or off.
   ///
@@ -32,11 +32,11 @@ class SoftSwitch extends StatefulWidget {
 
   /// {@macro softswitch}
   const SoftSwitch({
-    Key key,
-    this.activeChild,
-    this.deactiveChild,
+    Key? key,
+    required this.activeChild,
+    required this.deactiveChild,
     this.onChanged,
-    this.value,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -65,9 +65,9 @@ class SoftSwitch extends StatefulWidget {
 }
 
 class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
-  AnimationController alignmentController;
-  Tween<double> alignmentTween;
-  Animation<double> alignmentAnimation;
+  late AnimationController alignmentController;
+  late Tween<double> alignmentTween;
+  late Animation<double> alignmentAnimation;
 
   @override
   void initState() {
@@ -108,7 +108,7 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
             alignmentController.forward();
           }
           if (widget.onChanged != null) {
-            widget.onChanged(!widget.value);
+            widget.onChanged!(!widget.value);
           }
         },
         child: SoftContainer(
@@ -133,14 +133,14 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                       child: AnimatedCrossFade(
                         firstChild: IconTheme(
                           data: IconThemeData(
-                            color: Theme.of(context).textTheme.bodyText2.color,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
                             size: 20,
                           ),
                           child: widget.activeChild,
                         ),
                         secondChild: IconTheme(
                           data: IconThemeData(
-                            color: Theme.of(context).textTheme.bodyText2.color,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
                             size: 20,
                           ),
                           child: widget.deactiveChild,

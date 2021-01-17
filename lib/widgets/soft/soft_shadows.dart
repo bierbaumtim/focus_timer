@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'soft_colors.dart';
 
 /// The bottom shadow to apply to [SoftButton]
-BoxShadow kSoftBottomButtonShadow({bool isDark}) => BoxShadow(
+BoxShadow kSoftBottomButtonShadow({required bool isDark}) => BoxShadow(
       color: isDark ? kSoftDarkBottomShadowColor : kSoftLightBottomShadowColor,
       offset: const Offset(5.0, 5.0),
       blurRadius: 10,
@@ -11,7 +11,7 @@ BoxShadow kSoftBottomButtonShadow({bool isDark}) => BoxShadow(
     );
 
 /// The top shadow to apply to [SoftButton]
-BoxShadow kSoftTopButtonShadow({bool isDark}) => BoxShadow(
+BoxShadow kSoftTopButtonShadow({required bool isDark}) => BoxShadow(
       color: isDark ? kSoftDarkTopShadowColor : kSoftLightTopShadowColor,
       offset: const Offset(-5.0, -5.0),
       blurRadius: 10,
@@ -19,7 +19,7 @@ BoxShadow kSoftTopButtonShadow({bool isDark}) => BoxShadow(
     );
 
 /// The inverted bottom shadow to apply to [SoftContainer]
-BoxShadow kSoftInvertedBottomButtonShadow({bool isDark}) => BoxShadow(
+BoxShadow kSoftInvertedBottomButtonShadow({required bool isDark}) => BoxShadow(
       color: isDark ? kSoftDarkTopShadowColor : kSoftLightTopShadowColor,
       offset: const Offset(5.0, 5.0),
       blurRadius: 3,
@@ -27,7 +27,7 @@ BoxShadow kSoftInvertedBottomButtonShadow({bool isDark}) => BoxShadow(
     );
 
 /// The inverted top shadow to apply to [SoftContainer]
-BoxShadow kSoftInvertedTopButtonShadow({bool isDark}) => BoxShadow(
+BoxShadow kSoftInvertedTopButtonShadow({required bool isDark}) => BoxShadow(
       color: isDark ? kSoftDarkBottomShadowColor : kSoftLightBottomShadowColor,
       offset: const Offset(-5.0, -5.0),
       blurRadius: 3,
@@ -35,7 +35,7 @@ BoxShadow kSoftInvertedTopButtonShadow({bool isDark}) => BoxShadow(
     );
 
 /// The bottom shadow to apply to [SoftContainer]
-BoxShadow kSoftBottomContainerShadow({bool isDark}) => BoxShadow(
+BoxShadow kSoftBottomContainerShadow({required bool isDark}) => BoxShadow(
       color: isDark ? kSoftDarkBottomShadowColor : kSoftLightBottomShadowColor,
       offset: const Offset(5.0, 5.0),
       blurRadius: 15.0,
@@ -43,7 +43,7 @@ BoxShadow kSoftBottomContainerShadow({bool isDark}) => BoxShadow(
     );
 
 /// The top shadow to apply to [SoftContainer]
-BoxShadow kSoftTopContainerShadow({bool isDark}) => BoxShadow(
+BoxShadow kSoftTopContainerShadow({required bool isDark}) => BoxShadow(
       color: isDark ? kSoftDarkTopShadowColor : kSoftLightTopShadowColor,
       offset: const Offset(-5.0, -5.0),
       blurRadius: 15.0,

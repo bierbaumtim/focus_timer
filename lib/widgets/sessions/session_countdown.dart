@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_models/current_session_model.dart';
 import '../time/countdown_time.dart';
 
 class SessionCountdown extends StatelessWidget {
-  const SessionCountdown({Key key}) : super(key: key);
+  const SessionCountdown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SessionCountdown extends StatelessWidget {
         builder: (context, model, child) => Stack(
           children: <Widget>[
             if (model.isTimerRunning)
-              child
+              child!
             else
               Center(
                 child: AutoSizeText(
@@ -27,7 +27,7 @@ class SessionCountdown extends StatelessWidget {
                       ? 'Start with your first session'
                       : 'All sessions done.',
                   maxLines: 1,
-                  style: theme.textTheme.headline6.copyWith(
+                  style: theme.textTheme.headline6!.copyWith(
                     fontSize: 110,
                   ),
                 ),

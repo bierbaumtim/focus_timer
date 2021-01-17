@@ -8,7 +8,7 @@ import '../state_models/current_session_model.dart';
 import 'soft/soft_button.dart';
 
 class StartBreakButton extends StatelessWidget {
-  const StartBreakButton({Key key}) : super(key: key);
+  const StartBreakButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,34 +30,35 @@ class StartBreakButton extends StatelessWidget {
         ),
       duration: const Duration(milliseconds: 800),
       delay: const Duration(milliseconds: 250),
-      builder: (context, child, animation) => AnimatedOpacity(
+      builder: (context, child, MultiTweenValues<String> animation) =>
+          AnimatedOpacity(
         duration: const Duration(),
         opacity: animation.get('opacity') as double,
         child: Transform.translate(
-          offset: Offset(
-            0,
-            animation.get('translation') as double,
-          ),
-          child: SoftButton(
-            radius: 15,
-            onTap: () {
-              final currentSessionModel = context.read<CurrentSessionModel>();
-              if (currentSessionModel.isTimerRunning) {
-                currentSessionModel.stopTimer();
-              } else if (currentSessionModel.currentSessionIndex < 0) {
-                currentSessionModel.startSession();
-              } else {
-                currentSessionModel.restartTimer();
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Consumer<CurrentSessionModel>(
-                builder: (context, model, child) => Icon(
-                  model.isTimerRunning ? Icons.pause : Icons.play_arrow,
-                  size: 36,
-                ),
-              ),
+            offset: Offset(
+              0,
+              animation.get('translation') as double,
+            ),
+            child: child!),
+      ),
+      child: SoftButton(
+        radius: 15,
+        onTap: () {
+          final currentSessionModel = context.read<CurrentSessionModel>();
+          if (currentSessionModel.isTimerRunning) {
+            currentSessionModel.stopTimer();
+          } else if (currentSessionModel.currentSessionIndex < 0) {
+            currentSessionModel.startSession();
+          } else {
+            currentSessionModel.restartTimer();
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Consumer<CurrentSessionModel>(
+            builder: (context, model, child) => Icon(
+              model.isTimerRunning ? Icons.pause : Icons.play_arrow,
+              size: 36,
             ),
           ),
         ),

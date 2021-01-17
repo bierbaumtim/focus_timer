@@ -15,13 +15,12 @@ class CurrentSessionModel extends ChangeNotifier {
   int get _sessionUntilBreak => sessionSettingsModel.sessionUntilBreak;
   int get _maxSessionAmount => 12;
 
-  bool isBreak, isSession, isTimerRunning;
-  int currentDuration, currentSessionIndex;
+  late bool isBreak, isSession, isTimerRunning;
+  late int currentDuration, currentSessionIndex;
 
-  Timer _timer;
+  Timer? _timer;
 
-  CurrentSessionModel(this.sessionSettingsModel)
-      : assert(sessionSettingsModel != null) {
+  CurrentSessionModel(this.sessionSettingsModel) {
     isBreak = false;
     isTimerRunning = false;
     isSession = false;
@@ -153,9 +152,9 @@ class CurrentSessionModel extends ChangeNotifier {
     currentDuration -= 1;
     if (currentDuration < 0) {
       currentDuration = 0;
-      _timer.cancel();
+      _timer?.cancel();
       await Future.delayed(const Duration(milliseconds: 500));
-      _timer.cancel();
+      _timer?.cancel();
       if (isBreak) {
         startSession();
       } else {
@@ -172,7 +171,7 @@ class CurrentSessionModel extends ChangeNotifier {
   @override
   void dispose() {
     _disableWakelock();
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 

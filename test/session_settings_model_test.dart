@@ -11,7 +11,7 @@ void main() {
     group('first start tests ->', () {
       final repo = MockSettingsRepository();
 
-      SessionSettingsModel model;
+      late SessionSettingsModel model;
 
       setUp(() {
         when(repo.loadSettings()).thenAnswer(
@@ -52,7 +52,7 @@ void main() {
     group('normal tests ->', () {
       final repo = MockSettingsRepository();
 
-      SessionSettingsModel model;
+      late SessionSettingsModel model;
 
       setUp(() {
         when(repo.loadSettings()).thenAnswer((_) async => _defaultSettings);

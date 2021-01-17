@@ -30,7 +30,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
           children: <Widget>[
             SoftAppBar(
               height: kToolbarHeight + 14,
-              titleStyle: theme.textTheme.headline6.copyWith(fontSize: 35),
+              titleStyle: theme.textTheme.headline6!.copyWith(fontSize: 35),
               centerWidget: const Center(
                 child: CurrentDateTimeContainer(),
               ),

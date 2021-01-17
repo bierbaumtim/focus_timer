@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_models/settings_model.dart';
@@ -12,8 +12,8 @@ class ThemeSwitch extends StatelessWidget {
     return Consumer<SettingsModel>(
       builder: (context, viewmodel, _) => SoftSwitch(
         value: viewmodel.darkmode,
-        activeChild: const Icon(FontAwesome.moon_o),
-        deactiveChild: const Icon(FontAwesome.sun_o),
+        activeChild: const FaIcon(FontAwesomeIcons.moon),
+        deactiveChild: const FaIcon(FontAwesomeIcons.sun),
         onChanged: viewmodel.changeDarkmode,
       ),
     );

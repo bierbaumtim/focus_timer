@@ -1,11 +1,15 @@
-include: package:effective_dart/analysis_options.yaml
-# include: package:lint/analysis_options.yaml
+# include: package:effective_dart/analysis_options.yaml
+include: package:lint/analysis_options.yaml
 # include: package:pedantic/analysis_options.1.9.0.yaml
 
 analyzer:
+  exclude:
+    - "**/*g.dart"
+
   strong-mode:
     implicit-casts: false
     # implicit-dynamic: false
+
   errors:
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning
@@ -19,3 +23,4 @@ linter:
     public_member_api_docs: false
     use_function_type_syntax_for_parameters: true
     prefer_relative_imports: true
+    sort_pub_dependencies: false

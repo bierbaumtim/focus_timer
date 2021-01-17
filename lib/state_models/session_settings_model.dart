@@ -8,8 +8,8 @@ import '../utils/settings_utils.dart';
 class SessionSettingsModel extends ChangeNotifier {
   final ISettingsRepository repository;
 
-  SessionSettingsModel(this.repository) : assert(repository != null) {
-    _settings = <String, dynamic>{};
+  SessionSettingsModel(this.repository) {
+    _settings = <String, dynamic?>{};
     loadSettings();
   }
 
@@ -18,9 +18,9 @@ class SessionSettingsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, dynamic> _settings;
+  late Map<String, dynamic?> _settings;
 
-  Map<String, dynamic> get settings => _settings;
+  Map<String, dynamic?> get settings => _settings;
 
   double get sessionsDuration =>
       _settings['sessions_duration'] as double ??

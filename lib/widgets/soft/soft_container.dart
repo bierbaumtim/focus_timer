@@ -9,30 +9,26 @@ import 'soft_decorations.dart';
 /// {@endtemplate}
 class SoftContainer extends StatelessWidget {
   /// The [child] contained by the container.
-  final Widget child;
+  final Widget? child;
 
   /// The radius to apply to the [container].
-  final double radius;
-
-  /// Forces the Widget to use dark decoration.
-  final bool useDarkTheme;
+  final double? radius;
 
   /// Indicates if the depth effect is inverted.
   final bool inverted;
 
   ///The constraints to apply to the [child].
-  final BoxConstraints constraints;
+  final BoxConstraints? constraints;
 
   /// {@macro softcontainer}
   SoftContainer({
-    Key key,
-    double width,
-    double height,
+    Key? key,
+    double? width,
+    double? height,
     this.radius,
     this.child,
-    this.useDarkTheme,
     this.inverted = false,
-    BoxConstraints constraints,
+    BoxConstraints? constraints,
   })  : constraints = (width != null || height != null)
             ? constraints?.tighten(width: width, height: height) ??
                 BoxConstraints.tightFor(width: width, height: height)
@@ -48,11 +44,11 @@ class SoftContainer extends StatelessWidget {
       constraints: constraints,
       decoration: inverted
           ? kSoftInvertedDecoration(
-              isDark: useDarkTheme ?? isDark,
+              isDark: isDark,
               radius: radius,
             )
           : kSoftDecoration(
-              isDark: useDarkTheme ?? isDark,
+              isDark: isDark,
               radius: radius,
             ),
       child: child,

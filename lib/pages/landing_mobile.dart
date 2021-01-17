@@ -24,12 +24,12 @@ class MobileLanding extends StatefulWidget {
 
 class _MobileLandingState extends State<MobileLanding>
     with WidgetsBindingObserver {
-  DateTime _userLeavedTime;
+  DateTime? _userLeavedTime;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     SystemChrome.setEnabledSystemUIOverlays([
       SystemUiOverlay.bottom,
     ]);
@@ -37,7 +37,7 @@ class _MobileLandingState extends State<MobileLanding>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -52,7 +52,7 @@ class _MobileLandingState extends State<MobileLanding>
           currentSessionModel.stopTimer();
         } else if (state == AppLifecycleState.resumed) {
           final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
-              _userLeavedTime.millisecondsSinceEpoch;
+              _userLeavedTime!.millisecondsSinceEpoch;
           final elapsedSeconds =
               Duration(milliseconds: elapsedMilliseconds).inSeconds;
           currentSessionModel.restartTimer();
@@ -117,7 +117,7 @@ class _MobileLandingState extends State<MobileLanding>
                               if (model.isBreak) {
                                 return const SizedBox();
                               } else {
-                                return child;
+                                return child!;
                               }
                             },
                             child: const StartBreakButton(),

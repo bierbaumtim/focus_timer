@@ -14,8 +14,8 @@ void main() {
       SessionSettingsModel model;
 
       setUp(() {
-        when(repo.loadSettings()).thenReturn(
-          <String, dynamic>{},
+        when(repo.loadSettings()).thenAnswer(
+          (_) async => <String, dynamic>{},
         );
 
         model = SessionSettingsModel(repo);
@@ -55,7 +55,7 @@ void main() {
       SessionSettingsModel model;
 
       setUp(() {
-        when(repo.loadSettings()).thenReturn(_defaultSettings);
+        when(repo.loadSettings()).thenAnswer((_) async => _defaultSettings);
 
         model = SessionSettingsModel(repo);
       });

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:stacked/stacked.dart';
+import 'package:provider/provider.dart';
 
-import '../../database/app_database.dart';
+import '../../models/task.dart';
 import '../../state_models/tasks_model.dart';
 import '../soft/soft_container.dart';
 
-class TaskTile extends ViewModelWidget<TasksModel> {
+class TaskTile extends StatelessWidget {
   final Task task;
 
   const TaskTile({
@@ -15,12 +15,12 @@ class TaskTile extends ViewModelWidget<TasksModel> {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, TasksModel model) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Dismissible(
       key: ValueKey(task.uuid),
-      onDismissed: (_) => model.removeTask(task),
+      onDismissed: (_) => context.read<TasksModel>().removeTask(task),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
@@ -30,12 +30,10 @@ class TaskTile extends ViewModelWidget<TasksModel> {
           radius: 15,
           child: CheckboxListTile(
             value: task.isCompleted,
-            onChanged: (_) =>
-                model.updateTask(task.copyWith(isCompleted: !task.isCompleted)),
+            onChanged: (_) => context
+                .read<TasksModel>()
+                .updateTask(task.copyWith(isCompleted: !task.isCompleted)),
             title: AnimatedDefaultTextStyle(
-              child: Text(
-                task.name,
-              ),
               style: task.isCompleted
                   ? theme.textTheme.bodyText2.copyWith(
                       decoration: TextDecoration.lineThrough,
@@ -43,7 +41,10 @@ class TaskTile extends ViewModelWidget<TasksModel> {
                       color: theme.textTheme.bodyText2.color.withOpacity(0.75),
                     )
                   : theme.textTheme.bodyText2,
-              duration: Duration(milliseconds: 550),
+              duration: const Duration(milliseconds: 550),
+              child: Text(
+                task.name,
+              ),
             ),
             activeColor:
                 theme.accentColor.withOpacity(task.isCompleted ? 0.75 : 1.0),

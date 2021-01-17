@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:focus_timer/database/app_database.dart';
+import 'package:focus_timer/models/task.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {

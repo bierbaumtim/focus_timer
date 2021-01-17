@@ -13,8 +13,8 @@ void main() {
       SettingsModel model;
 
       setUp(() {
-        when(repo.loadSettings()).thenReturn(
-          <String, dynamic>{},
+        when(repo.loadSettings()).thenAnswer(
+          (_) async => <String, dynamic>{},
         );
 
         model = SettingsModel(repo);
@@ -41,8 +41,8 @@ void main() {
       SettingsModel model;
 
       setUp(() {
-        when(repo.loadSettings()).thenReturn(
-          <String, dynamic>{'darkmode': false},
+        when(repo.loadSettings()).thenAnswer(
+          (_) async => <String, dynamic>{'darkmode': false},
         );
 
         model = SettingsModel(repo);

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:stacked/stacked.dart';
 import 'package:flip_panel/flip_panel.dart';
+import 'package:provider/provider.dart';
 
 import '../../state_models/current_session_model.dart';
 import '../../utils/time_utils.dart';
 
-class CountdownTime extends ViewModelWidget<CurrentSessionModel> {
+class CountdownTime extends StatelessWidget {
   final bool isSmall;
   final bool useDigitalClock;
 
@@ -18,11 +18,13 @@ class CountdownTime extends ViewModelWidget<CurrentSessionModel> {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, CurrentSessionModel model) {
-    return Center(
-      child: _SimpleTime(
-        duration: model.currentDuration,
-        isSmall: isSmall,
+  Widget build(BuildContext context) {
+    return Consumer<CurrentSessionModel>(
+      builder: (context, value, child) => Center(
+        child: _SimpleTime(
+          duration: value.currentDuration,
+          isSmall: isSmall,
+        ),
       ),
     );
   }
@@ -65,7 +67,7 @@ class _SimpleTime extends StatelessWidget {
       maxLines: 1,
       style: Theme.of(context).textTheme.headline6.copyWith(
         fontSize: 110,
-        shadows: [],
+        // shadows: [],
       ),
       maxFontSize: isSmall ? 20 : double.infinity,
     );

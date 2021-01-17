@@ -18,18 +18,19 @@ void main() {
 
     group('TextStyle extensions -> ', () {
       test('Black with opacity 0', () {
-        final style = TextStyle(color: Colors.black).colorWithOpacity(0);
+        final style = const TextStyle(color: Colors.black).colorWithOpacity(0);
 
         expect(
           style.color.alpha,
           equals(0),
         );
 
-        expect(style.color.value, equals(Color(0x00000000).value));
+        expect(style.color.value, equals(const Color(0x00000000).value));
       });
 
       test('Black with opacity 0.5', () {
-        final style = TextStyle(color: Colors.black).colorWithOpacity(0.5);
+        final style =
+            const TextStyle(color: Colors.black).colorWithOpacity(0.5);
 
         expect(
           style.color.alpha,
@@ -38,14 +39,14 @@ void main() {
       });
 
       test('Black with opacity 1', () {
-        final style = TextStyle(color: Colors.black).colorWithOpacity(1);
+        final style = const TextStyle(color: Colors.black).colorWithOpacity(1);
 
         expect(
           style.color.alpha,
           equals(255),
         );
 
-        expect(style.color.value, equals(Color(0xFF000000).value));
+        expect(style.color.value, equals(const Color(0xFF000000).value));
       });
     });
   });

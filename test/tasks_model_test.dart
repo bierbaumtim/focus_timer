@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:focus_timer/database/app_database.dart';
 
 import 'package:mockito/mockito.dart';
+import 'package:uuid/uuid.dart';
 
+import 'package:focus_timer/models/task.dart';
 import 'package:focus_timer/repositories/mocks/mock_task_repository.dart';
 import 'package:focus_timer/state_models/tasks_model.dart';
-import 'package:uuid/uuid.dart';
 
 void main() {
   final _defaultTasksList = List.generate(
@@ -22,7 +22,7 @@ void main() {
 
     TasksModel model;
 
-    when(repo.loadTasks()).thenReturn(_defaultTasksList);
+    when(repo.loadTasks()).thenAnswer((_) async => _defaultTasksList);
 
     setUp(() {
       model = TasksModel(repo);

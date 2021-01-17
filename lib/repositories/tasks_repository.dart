@@ -1,5 +1,5 @@
-import '../database/app_database.dart';
-import '../database/daos/tasks_dao.dart';
+import '../database/tasks_dao.dart';
+import '../models/task.dart';
 import 'interfaces/tasks_repository_interface.dart';
 
 class TasksRepository implements ITasksRepository {
@@ -14,8 +14,8 @@ class TasksRepository implements ITasksRepository {
   Future<int> removeTask(Task task) => tasksDao.deleteTask(task);
 
   @override
-  Future<int> saveTask(Task task) => tasksDao.insertTask(task);
+  Future<String> saveTask(Task task) => tasksDao.insertTask(task);
 
   @override
-  Future<bool> updateTask(Task task) => tasksDao.updateTask(task);
+  Future<int> updateTask(Task task) => tasksDao.updateTask(task);
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-// import 'package:moor_ffi/open_helper.dart';
 
 import 'constants/theme_constants.dart';
-import 'database/app_database.dart';
-import 'database/daos/tasks_dao.dart';
-import 'database/platforms/platform_db.dart';
+import 'database/app_database_interface.dart';
+import 'database/tasks_dao.dart';
 import 'pages/landing_desktop.dart';
 import 'pages/landing_mobile.dart';
 import 'repositories/settings_repository.dart';
@@ -18,25 +16,11 @@ import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
 
-// DynamicLibrary _openOnLinux() {
-//   final script = File(Platform.script.toFilePath());
-//   final libraryNextToScript = File('${script.path}/sqlite3.so');
-//   return DynamicLibrary.open(libraryNextToScript.path);
-// }
-
-// DynamicLibrary _openOnWindows() {
-//   final script = File(Platform.script.toFilePath());
-//   final libraryNextToScript = File('${script.path}/sqlite3.dll');
-//   return DynamicLibrary.open(libraryNextToScript.path);
-// }
-
 /// ignore: avoid_void_async
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // open.overrideFor(OperatingSystem.windows, _openOnWindows);
-  // open.overrideFor(OperatingSystem.linux, _openOnLinux);
 
-  final db = AppDatabase(constructQueryExecutor(logStatements: true));
+  final db = await IAppDatabase().database;
 
   runApp(
     MultiProvider(

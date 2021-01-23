@@ -2,12 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:simple_animations/simple_animations.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
@@ -30,9 +27,6 @@ class _MobileLandingState extends State<MobileLanding>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    SystemChrome.setEnabledSystemUIOverlays([
-      SystemUiOverlay.bottom,
-    ]);
   }
 
   @override
@@ -49,7 +43,7 @@ class _MobileLandingState extends State<MobileLanding>
         final currentSessionModel = context.read<CurrentSessionModel>();
         if (state == AppLifecycleState.paused) {
           _userLeavedTime = DateTime.now();
-          currentSessionModel.stopTimer();
+          currentSessionModel.pauseTimer();
         } else if (state == AppLifecycleState.resumed) {
           final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
               _userLeavedTime.millisecondsSinceEpoch;
@@ -57,9 +51,6 @@ class _MobileLandingState extends State<MobileLanding>
               Duration(milliseconds: elapsedMilliseconds).inSeconds;
           currentSessionModel.restartTimer();
           currentSessionModel.handleElapsedTimeInBackground(elapsedSeconds);
-          // if (currentSessionModel.isTimerRunning) {
-          //   currentSessionModel.currentDuration -= elapsedSeconds;
-          // }
         }
       }
     }
@@ -84,45 +75,115 @@ class _MobileLandingState extends State<MobileLanding>
                     titleStyle: theme.textTheme.headline6,
                   ),
                   Expanded(
-                    flex: 7,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PlayAnimation<double>(
-                          tween: fadeInTween,
-                          duration: const Duration(milliseconds: 1500),
-                          builder: (context, child, animation) => Opacity(
-                            opacity: animation,
-                            child: child,
+                    child: Consumer<CurrentSessionModel>(
+                      builder: (context, value, child) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 7,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SoftContainer(
+                                  width: containerSize,
+                                  height: containerSize,
+                                  radius: containerSize,
+                                  child: const SessionCountdown(),
+                                ),
+                              ),
+                            ),
                           ),
-                          child: SoftContainer(
-                            width: containerSize,
-                            height: containerSize,
-                            radius: containerSize / 1.8,
-                            child: const SessionCountdown(),
+                          if (value.isBreak)
+                            Expanded(
+                              flex: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 24,
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Text.rich(
+                                    TextSpan(
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                          text:
+                                              'Hier sind ein paar Tips für die Pause:\n\n',
+                                        ),
+                                        WidgetSpan(
+                                          child: DefaultTextStyle(
+                                            style: theme.textTheme.subtitle1,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 16.0,
+                                              ),
+                                              child: Table(
+                                                children: <TableRow>[
+                                                  if (value.isLongBreak) ...[
+                                                    TableRow(
+                                                      children: <Widget>[
+                                                        Text('* '),
+                                                        Text(
+                                                            'kurze Meditation'),
+                                                      ],
+                                                    ),
+                                                    TableRow(
+                                                      children: <Widget>[
+                                                        Text('* '),
+                                                        Text(
+                                                          'Reflektieren der bisherigen Aufgaben',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ] else ...[
+                                                    TableRow(
+                                                      children: <Widget>[
+                                                        Text('* '),
+                                                        Text('Liegestütz'),
+                                                      ],
+                                                    ),
+                                                    TableRow(
+                                                      children: <Widget>[
+                                                        Text('* '),
+                                                        Text('Trinken'),
+                                                      ],
+                                                    ),
+                                                    TableRow(
+                                                      children: <Widget>[
+                                                        Text('* '),
+                                                        Text('Atemübung'),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ],
+                                                columnWidths: {
+                                                  0: IntrinsicColumnWidth(),
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    style: theme.textTheme.subtitle1.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          Expanded(
+                            flex: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: SizedBox(
+                                height: kToolbarHeight,
+                                child: Center(
+                                  child: const StartBreakButton(),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: SizedBox(
-                        height: kToolbarHeight,
-                        child: Center(
-                          child: Consumer<CurrentSessionModel>(
-                            builder: (context, model, child) {
-                              if (model.isBreak) {
-                                return const SizedBox();
-                              } else {
-                                return child;
-                              }
-                            },
-                            child: const StartBreakButton(),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   ),

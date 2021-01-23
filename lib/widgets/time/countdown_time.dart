@@ -21,7 +21,7 @@ class CountdownTime extends StatelessWidget {
     return Consumer<CurrentSessionModel>(
       builder: (context, value, child) => Center(
         child: _SimpleTime(
-          duration: value.currentDuration,
+          duration: value.timeRemaining,
           isSmall: isSmall,
         ),
       ),

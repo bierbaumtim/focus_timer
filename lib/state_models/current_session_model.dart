@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:wakelock/wakelock.dart';
@@ -14,75 +13,69 @@ class CurrentSessionModel extends ChangeNotifier {
   int get _sessionDuration => sessionSettingsModel.sessionsDuration.toInt();
   int get _sessionUntilBreak => sessionSettingsModel.sessionUntilBreak;
   int get _maxSessionAmount => 12;
+  int get _calculateBreakDuration =>
+      isLongBreak ? _shortBreakDuration.toInt() : _longBreakDuration.toInt();
 
-  bool isBreak, isSession, isTimerRunning;
-  int currentDuration, currentSessionIndex;
+  bool isBreak, isSession;
+  int currentSessionIndex;
 
-  Timer _timer;
+  bool get isTimerRunning => _timer.isActive;
+  bool get isTimerPaused => _timer.isPaused;
+  bool get isLongBreak =>
+      currentSessionIndex > 0 && currentSessionIndex % _sessionUntilBreak == 0;
+
+  int get timeRemaining => _timer.timeRemaining;
+
+  AdvancedTimer _timer;
 
   CurrentSessionModel(this.sessionSettingsModel)
       : assert(sessionSettingsModel != null) {
     isBreak = false;
-    isTimerRunning = false;
     isSession = false;
     currentSessionIndex = -1;
-    currentDuration = 0;
+    _timer = AdvancedTimer(
+      onFinished: _onTimerFinished,
+      onTick: notifyListeners,
+    );
   }
 
-  void startBreak() {
-    _timer?.cancel();
+  void _startBreak() {
+    _timer.stop();
     if (currentSessionIndex < _maxSessionAmount) {
       isBreak = true;
-      currentDuration = _calculateBreakDuration(currentSessionIndex);
-      _enableWakelock();
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (_) => _decreaseDurationByOne(),
-      );
+      Wakelock.enable();
+      _timer.start(_calculateBreakDuration);
     } else {
       isBreak = false;
-      _disableWakelock();
+      Wakelock.disable();
     }
     isSession = false;
-    isTimerRunning = true;
     notifyListeners();
   }
 
   void startSession() {
+    currentSessionIndex++;
     if (currentSessionIndex < _maxSessionAmount) {
-      currentDuration = _sessionDuration;
-      isTimerRunning = true;
       isSession = true;
-      _enableWakelock();
-      _timer?.cancel();
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (timer) => _decreaseDurationByOne(),
-      );
+      Wakelock.enable();
+      _timer.start(_sessionDuration);
     }
     isBreak = false;
     notifyListeners();
   }
 
-  void stopTimer() {
+  void pauseTimer() {
     if (isSession && isTimerRunning) {
-      _disableWakelock();
-      _timer?.cancel();
-      isTimerRunning = false;
+      Wakelock.disable();
+      _timer.pause();
       notifyListeners();
     }
   }
 
   void restartTimer() {
     if (isSession && !isTimerRunning) {
-      _enableWakelock();
-      _timer?.cancel();
-      _decreaseDurationByOne();
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (timer) => _decreaseDurationByOne(),
-      );
-      isTimerRunning = true;
+      Wakelock.enable();
+      _timer.resume();
       notifyListeners();
     }
   }
@@ -94,25 +87,24 @@ class CurrentSessionModel extends ChangeNotifier {
         break;
       }
       if (isBreak || isSession) {
-        final tempCurrentDuation = currentDuration;
-        currentDuration -= remainingTime;
+        final tempCurrentDuation = _timer.timeRemaining;
+        _timer.timeRemaining -= remainingTime;
         remainingTime -= tempCurrentDuation;
-        if (currentDuration <= 0) {
+        if (_timer.timeRemaining <= 0) {
           if (isBreak) {
             isBreak = false;
             currentSessionIndex++;
             if (currentSessionIndex <= _maxSessionAmount) {
-              currentDuration = _sessionDuration;
+              _timer.timeRemaining = _sessionDuration;
               isSession = true;
             } else {
               isSession = false;
-              isTimerRunning = false;
-              _timer?.cancel();
+              _timer.stop();
               break;
             }
           } else {
-            currentDuration =
-                _calculateBreakDuration(currentSessionIndex) - currentDuration;
+            _timer.timeRemaining =
+                _calculateBreakDuration - _timer.timeRemaining;
             isSession = false;
             isBreak = true;
           }
@@ -133,36 +125,17 @@ class CurrentSessionModel extends ChangeNotifier {
   /// currentDuration berechnen:
   /// currentDuration: 15 - 16 = -1
 
-  int _calculateBreakDuration(int index) {
-    if (index <= 0) {
-      return _shortBreakDuration.toInt();
-    } else {
-      return index % _sessionUntilBreak != 0
-          ? _shortBreakDuration.toInt()
-          : _longBreakDuration.toInt();
-    }
-  }
-
   /// Handles a tick by the [Timer]
   ///
   /// When the duration is over and
   /// [isBreak] is true it's starts
   /// the next session otherwise
   /// the next break.
-  Future<void> _decreaseDurationByOne() async {
-    currentDuration -= 1;
-    if (currentDuration < 0) {
-      currentDuration = 0;
-      _timer.cancel();
-      await Future.delayed(const Duration(milliseconds: 500));
-      _timer.cancel();
-      if (isBreak) {
-        startSession();
-      } else {
-        startBreak();
-      }
+  Future<void> _onTimerFinished() async {
+    if (isBreak) {
+      startSession();
     } else {
-      notifyListeners();
+      _startBreak();
     }
   }
 
@@ -171,24 +144,71 @@ class CurrentSessionModel extends ChangeNotifier {
   /// Cancel every listeners and timer.
   @override
   void dispose() {
-    _disableWakelock();
-    _timer.cancel();
+    Wakelock.disable();
+    _timer.stop();
     super.dispose();
   }
+}
 
-  void _enableWakelock() {
-    if (!kIsWeb) {
-      if (Platform.isAndroid || Platform.isIOS) {
-        Wakelock.enable();
-      }
+class AdvancedTimer {
+  final VoidCallback onFinished;
+  final VoidCallback onTick;
+
+  Timer _timer;
+
+  bool _isPaused;
+  int _timeRemaining;
+
+  AdvancedTimer({
+    @required this.onFinished,
+    @required this.onTick,
+  }) {
+    _isPaused = false;
+    _timeRemaining = 0;
+  }
+
+  bool get isActive => _timer?.isActive ?? false;
+  bool get isPaused => _isPaused ?? false;
+  int get timeRemaining => _timeRemaining ?? 0;
+
+  set timeRemaining(int duration) {
+    if (duration > 0) {
+      timeRemaining = duration;
     }
   }
 
-  void _disableWakelock() {
-    if (!kIsWeb) {
-      if (Platform.isAndroid || Platform.isIOS) {
-        Wakelock.disable();
-      }
+  void _handleTick() {
+    _timeRemaining--;
+    onTick();
+    if (_timeRemaining <= 0) {
+      _timer.cancel();
+      onFinished();
     }
+  }
+
+  void start(int duration) {
+    _timeRemaining = duration;
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => _handleTick(),
+    );
+  }
+
+  void pause() {
+    _timer.cancel();
+    _isPaused = true;
+  }
+
+  void resume() {
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => _handleTick(),
+    );
+    _isPaused = false;
+  }
+
+  void stop() {
+    _timer.cancel();
+    _timeRemaining = 0;
   }
 }

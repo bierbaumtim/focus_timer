@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:simple_animations/simple_animations.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/sessions/session_countdown.dart';
@@ -22,7 +20,6 @@ class _DesktopLandingState extends State<DesktopLanding> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final countdownHeight = MediaQuery.of(context).size.height / 3;
 
     return Scaffold(
       body: SafeArea(
@@ -38,85 +35,34 @@ class _DesktopLandingState extends State<DesktopLanding> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  Flexible(
+                  Expanded(
                     flex: 2,
-                    child: Consumer<CurrentSessionModel>(
-                      builder: (context, model, child) {
-                        if (model.isBreak) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(kToolbarHeight),
-                              child: PlayAnimation<double>(
-                                tween: fadeInTween,
-                                duration: const Duration(milliseconds: 750),
-                                delay: const Duration(milliseconds: 500),
-                                builder: (context, child, animation) => Opacity(
-                                  opacity: animation,
-                                  child: child,
-                                ),
-                                child: SoftContainer(
-                                  height: countdownHeight * 1.5,
-                                  radius: (countdownHeight * 1.5) / 10,
-                                  child: const Center(
-                                    child: SessionCountdown(),
-                                  ),
-                                ),
+                    child: Stack(
+                      children: <Widget>[
+                        _TimerSection(),
+                        const Positioned(
+                          left: 16,
+                          bottom: 20,
+                          child: SoftButton(
+                            radius: 15,
+                            child: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Icon(Icons.settings),
                               ),
                             ),
-                          );
-                        } else {
-                          return Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(kToolbarHeight),
-                                child: Stack(
-                                  children: [
-                                    Center(
-                                      child: SoftContainer(
-                                        height: countdownHeight,
-                                        radius: countdownHeight / 10,
-                                        child: const Center(
-                                          child: SessionCountdown(),
-                                        ),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      left: 0,
-                                      right: 0,
-                                      bottom: kToolbarHeight,
-                                      child: Center(
-                                        child: StartBreakButton(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Positioned(
-                                left: 16,
-                                bottom: 20,
-                                child: SoftButton(
-                                  radius: 15,
-                                  child: SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Icon(Icons.settings),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                      },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const VerticalDivider(
+                  VerticalDivider(
                     indent: 8,
                     endIndent: 24,
                   ),
-                  const Flexible(
+                  Flexible(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: TasksListContainer(),
@@ -127,36 +73,99 @@ class _DesktopLandingState extends State<DesktopLanding> {
             ),
           ],
         ),
-        // child: PageView.custom(
-        //   controller: pageController,
-        //   scrollDirection: Axis.vertical,
-        //   childrenDelegate: SliverChildListDelegate(
-        //     <Widget>[
-        //       page.Page(
-        //         child: Column(
-        //           children: <Widget>[
-        //             SoftAppBar(
-        //               height: kToolbarHeight + 14,
-        //               titleStyle:
-        //                   theme.textTheme.headline6.copyWith(fontSize: 35),
-        //               centerWidget: const TopTimeBar(
-        //                 contentPadding: EdgeInsets.all(4),
-        //               ),
-        //             ),
-        //             const Expanded(
-        //               child: Center(
-        //                 child: Padding(
-        //                   padding: EdgeInsets.all(24),
-        //                   child: SettingsContainer(),
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+      ),
+    );
+  }
+}
+
+class _TimerSection extends StatelessWidget {
+  const _TimerSection({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final countdownHeight = MediaQuery.of(context).size.height / 3;
+
+    return Consumer<CurrentSessionModel>(
+      builder: (context, model, child) => Padding(
+        padding: const EdgeInsets.all(kToolbarHeight),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Flexible(
+                    flex: model.isBreak ? 4 : 1,
+                    child: Center(
+                      child: SoftContainer(
+                        height: countdownHeight,
+                        radius: countdownHeight / 10,
+                        child: const SessionCountdown(),
+                      ),
+                    ),
+                  ),
+                  if (model.isBreak) ...[
+                    const SizedBox(height: 72),
+                    Flexible(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 24),
+                        child: Text.rich(
+                          TextSpan(
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text:
+                                    'Hier sind ein paar Tips für die Pause:\n\n',
+                                style: theme.textTheme.headline5.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              TextSpan(
+                                children: [
+                                  if (model.isLongBreak) ...[
+                                    TextSpan(
+                                      text: '* kurze Meditation\n',
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '* Reflektieren der bisherigen Aufgaben',
+                                    ),
+                                  ] else ...[
+                                    TextSpan(
+                                      text: '* Mache ein paar Liegestütz\n',
+                                    ),
+                                    TextSpan(
+                                      text: '* Trink etwas\n',
+                                    ),
+                                    TextSpan(
+                                      text: '* Mache eine kurze Atemübung',
+                                    ),
+                                  ],
+                                ],
+                                style: theme.textTheme.headline6,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: kToolbarHeight,
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: StartBreakButton(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

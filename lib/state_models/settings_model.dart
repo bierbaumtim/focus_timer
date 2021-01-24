@@ -44,6 +44,7 @@ class SettingsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ignore: avoid_positional_boolean_parameters
   void changeDarkmode(bool value) {
     _settings = addOrUpdateSetting('darkmode', value, _settings);
     repository.saveSetting('darkmode', value);

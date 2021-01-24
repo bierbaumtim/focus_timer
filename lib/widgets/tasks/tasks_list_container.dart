@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../state_models/tasks_model.dart';
 import '../soft/soft_button.dart';
@@ -31,6 +32,18 @@ class _TasksListContainerState extends State<TasksListContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final hintTextStyle = getValueForScreenType<TextStyle>(
+      context: context,
+      mobile: theme.textTheme.bodyText1,
+      desktop: theme.textTheme.headline6,
+    );
+    final headerTextStyle = getValueForScreenType<TextStyle>(
+      context: context,
+      mobile: theme.textTheme.subtitle1,
+      desktop: theme.textTheme.headline5,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
@@ -41,7 +54,10 @@ class _TasksListContainerState extends State<TasksListContainer> {
               left: 12,
             ),
             child: ListTile(
-              title: const Text('Tasks'),
+              title: Text(
+                'Tasks',
+                style: headerTextStyle,
+              ),
               trailing: SoftButton(
                 onTap: () => context.read<TasksModel>().toggleFilter(),
                 child: Padding(
@@ -60,11 +76,12 @@ class _TasksListContainerState extends State<TasksListContainer> {
             child: Consumer<TasksModel>(
               builder: (context, model, child) {
                 if (model.allTasksCompleted) {
-                  return const Padding(
+                  return Padding(
                     padding: EdgeInsets.all(16),
                     child: Center(
                       child: Text(
                         "You've done all your tasks",
+                        style: hintTextStyle,
                       ),
                     ),
                   );
@@ -87,12 +104,13 @@ class _TasksListContainerState extends State<TasksListContainer> {
                     ),
                   );
                 } else {
-                  return const Padding(
+                  return Padding(
                     padding: EdgeInsets.all(16),
                     child: Center(
                       child: Text(
                         'Add tasks that you want to complete in future sessions',
                         textAlign: TextAlign.center,
+                        style: hintTextStyle,
                       ),
                     ),
                   );

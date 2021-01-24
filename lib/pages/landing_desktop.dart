@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import '../routes/flyout_overlay_route.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/sessions/session_countdown.dart';
+import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/soft_appbar.dart';
 import '../widgets/soft/soft_button.dart';
 import '../widgets/soft/soft_container.dart';
@@ -40,17 +42,40 @@ class _DesktopLandingState extends State<DesktopLanding> {
                     child: Stack(
                       children: <Widget>[
                         _TimerSection(),
-                        const Positioned(
+                        Positioned(
                           left: 16,
                           bottom: 20,
-                          child: SoftButton(
-                            radius: 15,
-                            child: SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Icon(Icons.settings),
+                          child: Builder(
+                            builder: (context) => SoftButton(
+                              radius: 15,
+                              onTap: () {
+                                final renderBox =
+                                    context.findRenderObject() as RenderBox;
+                                final offset = renderBox.localToGlobal(
+                                  Offset.zero,
+                                );
+
+                                Navigator.of(context).push(
+                                  FlyoutOverlayRoute(
+                                    builder: (context) => SettingsContainer(
+                                      width: 400,
+                                      height: 626,
+                                      shrinkWrap: true,
+                                    ),
+                                    bottomPosition: Offset(
+                                      offset.dx,
+                                      offset.dy + renderBox.size.height,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Icon(Icons.settings),
+                                ),
                               ),
                             ),
                           ),

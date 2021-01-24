@@ -8,14 +8,25 @@ import '../soft/soft_container.dart';
 import 'theme_switch.dart';
 
 class SettingsContainer extends StatelessWidget {
-  const SettingsContainer({Key key}) : super(key: key);
+  final double height, width;
+  final bool shrinkWrap;
+
+  const SettingsContainer({
+    Key key,
+    this.height,
+    this.width,
+    this.shrinkWrap = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SoftContainer(
+      height: height,
+      width: width,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
+          mainAxisSize: shrinkWrap ? MainAxisSize.min : MainAxisSize.max,
           children: <Widget>[
             const ListTile(
               title: Text('Settings'),
@@ -35,6 +46,7 @@ class SettingsContainer extends StatelessWidget {
               child: Consumer<SessionSettingsModel>(
                 builder: (context, model, child) => ListView(
                   physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
                   children: <Widget>[
                     ListTile(
                       title: const Text('Darkmode'),

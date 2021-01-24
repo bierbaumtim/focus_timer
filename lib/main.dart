@@ -26,17 +26,17 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<SettingsModel>(
-          create: (context) => SettingsModel(
+          create: (_) => SettingsModel(
             SettingsRepository(),
           ),
         ),
         ChangeNotifierProvider<SessionSettingsModel>(
-          create: (context) => SessionSettingsModel(
+          create: (_) => SessionSettingsModel(
             SettingsRepository(),
           ),
         ),
         ChangeNotifierProvider<TasksModel>(
-          create: (context) => TasksModel(
+          create: (_) => TasksModel(
             TasksRepository(TasksDao(db)),
           ),
         ),

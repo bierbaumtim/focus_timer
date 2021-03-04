@@ -16,8 +16,8 @@ class CurrentSessionModel extends ChangeNotifier {
   int get _calculateBreakDuration =>
       isLongBreak ? _shortBreakDuration.toInt() : _longBreakDuration.toInt();
 
-  bool isBreak, isSession;
-  int currentSessionIndex;
+  late bool isBreak, isSession;
+  late int currentSessionIndex;
 
   bool get isTimerRunning => _timer.isActive;
   bool get isTimerPaused => _timer.isPaused;
@@ -26,10 +26,9 @@ class CurrentSessionModel extends ChangeNotifier {
 
   int get timeRemaining => _timer.timeRemaining;
 
-  AdvancedTimer _timer;
+  late AdvancedTimer _timer;
 
-  CurrentSessionModel(this.sessionSettingsModel)
-      : assert(sessionSettingsModel != null) {
+  CurrentSessionModel(this.sessionSettingsModel) {
     isBreak = false;
     isSession = false;
     currentSessionIndex = -1;
@@ -154,22 +153,22 @@ class AdvancedTimer {
   final VoidCallback onFinished;
   final VoidCallback onTick;
 
-  Timer _timer;
+  Timer? _timer;
 
-  bool _isPaused;
-  int _timeRemaining;
+  late bool _isPaused;
+  late int _timeRemaining;
 
   AdvancedTimer({
-    @required this.onFinished,
-    @required this.onTick,
+    required this.onFinished,
+    required this.onTick,
   }) {
     _isPaused = false;
     _timeRemaining = 0;
   }
 
   bool get isActive => _timer?.isActive ?? false;
-  bool get isPaused => _isPaused ?? false;
-  int get timeRemaining => _timeRemaining ?? 0;
+  bool get isPaused => _isPaused;
+  int get timeRemaining => _timeRemaining;
 
   set timeRemaining(int duration) {
     if (duration > 0) {
@@ -181,7 +180,7 @@ class AdvancedTimer {
     _timeRemaining--;
     onTick();
     if (_timeRemaining <= 0) {
-      _timer.cancel();
+      _timer!.cancel();
       onFinished();
     }
   }
@@ -195,7 +194,7 @@ class AdvancedTimer {
   }
 
   void pause() {
-    _timer.cancel();
+    _timer?.cancel();
     _isPaused = true;
   }
 
@@ -208,7 +207,7 @@ class AdvancedTimer {
   }
 
   void stop() {
-    _timer.cancel();
+    _timer?.cancel();
     _timeRemaining = 0;
   }
 }

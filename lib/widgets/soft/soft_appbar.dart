@@ -4,15 +4,15 @@ import '../settings/theme_switch.dart';
 
 class SoftAppBar extends StatelessWidget {
   const SoftAppBar({
-    Key key,
+    Key? key,
     this.centerWidget,
     this.titleStyle,
     this.height = kToolbarHeight,
   }) : super(key: key);
 
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
   final double height;
-  final Widget centerWidget;
+  final Widget? centerWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,9 @@ class SoftAppBar extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Focus Timer',
-                style: titleStyle ?? theme.textTheme.headline6,
+                style: titleStyle ?? theme.textTheme.headline6!,
               ),
-              if (centerWidget != null) Expanded(child: centerWidget),
+              if (centerWidget != null) Expanded(child: centerWidget!),
               ThemeSwitch(),
             ],
           ),

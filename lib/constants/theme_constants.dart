@@ -4,7 +4,7 @@ import '../widgets/soft/soft_colors.dart';
 
 List<Shadow> lightTextShadow = <Shadow>[
   Shadow(
-    color: Colors.grey[500],
+    color: Colors.grey[500]!,
     offset: const Offset(5.0, 5.0),
     blurRadius: 10.0,
   ),
@@ -17,12 +17,12 @@ List<Shadow> lightTextShadow = <Shadow>[
 
 List<Shadow> darkTextShadow = <Shadow>[
   Shadow(
-    color: Colors.grey[900],
+    color: Colors.grey[900]!,
     offset: const Offset(5.0, 5.0),
     blurRadius: 10.0,
   ),
   Shadow(
-    color: Colors.grey[800],
+    color: Colors.grey[800]!,
     offset: const Offset(-5.0, -5.0),
     blurRadius: 10.0,
   ),

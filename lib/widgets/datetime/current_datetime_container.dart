@@ -5,11 +5,11 @@ import 'current_date_time_text.dart';
 
 class CurrentDateTimeContainer extends StatelessWidget {
   const CurrentDateTimeContainer({
-    Key key,
+    Key? key,
     this.useDarkTheme,
   }) : super(key: key);
 
-  final bool useDarkTheme;
+  final bool? useDarkTheme;
 
   @override
   Widget build(BuildContext context) {

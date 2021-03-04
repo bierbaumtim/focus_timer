@@ -8,11 +8,11 @@ import '../soft/soft_container.dart';
 import 'theme_switch.dart';
 
 class SettingsContainer extends StatelessWidget {
-  final double height, width;
+  final double? height, width;
   final bool shrinkWrap;
 
   const SettingsContainer({
-    Key key,
+    Key? key,
     this.height,
     this.width,
     this.shrinkWrap = false,
@@ -37,8 +37,8 @@ class SettingsContainer extends StatelessWidget {
                 height: 2,
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText2
-                    .color
+                    .bodyText2!
+                    .color!
                     .withOpacity(0.75),
               ),
             ),

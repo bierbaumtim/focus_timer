@@ -4,8 +4,8 @@ class Page extends StatelessWidget {
   final Widget child;
 
   const Page({
-    Key key,
-    this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

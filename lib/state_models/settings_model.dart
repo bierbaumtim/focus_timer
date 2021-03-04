@@ -7,21 +7,21 @@ import '../utils/settings_utils.dart';
 class SettingsModel extends ChangeNotifier {
   final ISettingsRepository repository;
 
-  SettingsModel(this.repository) : assert(repository != null) {
+  SettingsModel(this.repository) {
     _settings = <String, dynamic>{};
     loadSettings();
   }
 
-  bool get darkmode => _settings['darkmode'] as bool ?? true;
+  bool get darkmode => _settings['darkmode'] as bool? ?? true;
 
   String get backgroundTaskConfig =>
-      _settings['background_task_config'] as String ?? 'unknown';
+      _settings['background_task_config'] as String? ?? 'unknown';
   String get backgroundTaskStartup =>
-      _settings['background_task_startup'] as String ?? 'unknown';
+      _settings['background_task_startup'] as String? ?? 'unknown';
   String get backgroundTaskCalc =>
-      _settings['background_task_calc'] as String ?? 'unknown';
+      _settings['background_task_calc'] as String? ?? 'unknown';
 
-  Map<String, dynamic> _settings;
+  late Map<String, dynamic> _settings;
 
   Map<String, dynamic> get settings => _settings;
 

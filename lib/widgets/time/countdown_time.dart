@@ -11,7 +11,7 @@ class CountdownTime extends StatelessWidget {
   final bool useDigitalClock;
 
   const CountdownTime({
-    Key key,
+    Key? key,
     this.isSmall = false,
     this.useDigitalClock = false,
   }) : super(key: key);
@@ -78,8 +78,8 @@ class _SimpleTime extends StatelessWidget {
   final bool isSmall;
 
   const _SimpleTime({
-    Key key,
-    @required this.duration,
+    Key? key,
+    required this.duration,
     this.isSmall = false,
   }) : super(key: key);
   @override
@@ -87,7 +87,7 @@ class _SimpleTime extends StatelessWidget {
     return AutoSizeText(
       timeToString(duration),
       maxLines: 1,
-      style: Theme.of(context).textTheme.headline6.copyWith(
+      style: Theme.of(context).textTheme.headline6!.copyWith(
             fontSize: 110,
             // shadows: [],
           ),

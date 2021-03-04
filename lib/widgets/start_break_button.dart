@@ -8,7 +8,7 @@ import '../state_models/current_session_model.dart';
 import 'soft/soft_button.dart';
 
 class StartBreakButton extends StatelessWidget {
-  const StartBreakButton({Key key}) : super(key: key);
+  const StartBreakButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,8 @@ class StartBreakButton extends StatelessWidget {
         ),
       duration: const Duration(milliseconds: 800),
       delay: const Duration(milliseconds: 250),
-      builder: (context, child, animation) => AnimatedOpacity(
+      builder: (context, child, MultiTweenValues<String> animation) =>
+          AnimatedOpacity(
         duration: const Duration(),
         opacity: animation.get('opacity') as double,
         child: Transform.translate(

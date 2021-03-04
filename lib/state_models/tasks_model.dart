@@ -8,15 +8,15 @@ import '../repositories/interfaces/tasks_repository_interface.dart';
 class TasksModel extends ChangeNotifier {
   final ITasksRepository repository;
 
-  TasksModel(this.repository) : assert(repository != null) {
+  TasksModel(this.repository) {
     _allTasksCompleted = false;
     _filterTasks = true;
     _tasks = <Task>[];
     loadTasks();
   }
 
-  List<Task> _tasks;
-  bool _allTasksCompleted, _filterTasks;
+  late List<Task> _tasks;
+  late bool _allTasksCompleted, _filterTasks;
 
   List<Task> get filteredTasks => _filterTasks
       ? tasks.where((element) => !element.isCompleted).toList()
@@ -64,7 +64,7 @@ class TasksModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFilter({bool value}) {
+  void toggleFilter({bool? value}) {
     _filterTasks = value ?? !_filterTasks;
     notifyListeners();
   }

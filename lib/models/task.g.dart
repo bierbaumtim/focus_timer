@@ -9,8 +9,8 @@ part of 'task.dart';
 Task _$TaskFromJson(Map<String, dynamic> json) {
   return Task(
     uuid: json['uuid'] as String,
-    name: json['name'] as String ?? '',
-    isCompleted: json['isCompleted'] as bool ?? false,
+    name: json['name'] as String? ?? '',
+    isCompleted: json['isCompleted'] as bool? ?? false,
   );
 }
 

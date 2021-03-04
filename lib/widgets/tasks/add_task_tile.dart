@@ -12,14 +12,14 @@ import '../soft/soft_container.dart';
 /// {@endtemplate}
 class AddTaskTile extends StatefulWidget {
   /// {@macro addtasktile}
-  const AddTaskTile({Key key}) : super(key: key);
+  const AddTaskTile({Key? key}) : super(key: key);
 
   @override
   _AddTaskTileState createState() => _AddTaskTileState();
 }
 
 class _AddTaskTileState extends State<AddTaskTile> {
-  TextEditingController taskNameController;
+  late TextEditingController taskNameController;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
                   decoration: InputDecoration.collapsed(
                     hintText: 'Task hinzufügen...',
                     hintStyle: TextStyle(
-                      color: theme.textTheme.headline6.color,
+                      color: theme.textTheme.headline6!.color,
                     ),
                   ),
                   onSubmitted: createTask,

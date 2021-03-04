@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -16,14 +15,14 @@ class Task {
   final bool isCompleted;
 
   const Task({
-    @required this.uuid,
-    @required this.name,
-    @required this.isCompleted,
+    required this.uuid,
+    required this.name,
+    required this.isCompleted,
   });
 
   factory Task.create({
-    @required String name,
-    @required bool isCompleted,
+    required String name,
+    required bool isCompleted,
   }) =>
       Task(
         uuid: Uuid().v4(),
@@ -31,7 +30,7 @@ class Task {
         isCompleted: isCompleted,
       );
 
-  Task copyWith({String name, bool isCompleted}) => Task(
+  Task copyWith({String? name, bool? isCompleted}) => Task(
         uuid: uuid,
         name: name ?? this.name,
         isCompleted: isCompleted ?? this.isCompleted,

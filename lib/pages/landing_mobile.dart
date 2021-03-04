@@ -21,17 +21,17 @@ class MobileLanding extends StatefulWidget {
 
 class _MobileLandingState extends State<MobileLanding>
     with WidgetsBindingObserver {
-  DateTime _userLeavedTime;
+  DateTime? _userLeavedTime;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -46,7 +46,7 @@ class _MobileLandingState extends State<MobileLanding>
           currentSessionModel.pauseTimer();
         } else if (state == AppLifecycleState.resumed) {
           final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
-              _userLeavedTime.millisecondsSinceEpoch;
+              _userLeavedTime!.millisecondsSinceEpoch;
           final elapsedSeconds =
               Duration(milliseconds: elapsedMilliseconds).inSeconds;
           currentSessionModel.restartTimer();
@@ -72,7 +72,7 @@ class _MobileLandingState extends State<MobileLanding>
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.headline6,
+                    titleStyle: theme.textTheme.headline6!,
                   ),
                   Expanded(
                     child: Consumer<CurrentSessionModel>(
@@ -111,7 +111,7 @@ class _MobileLandingState extends State<MobileLanding>
                                         ),
                                         WidgetSpan(
                                           child: DefaultTextStyle(
-                                            style: theme.textTheme.subtitle1,
+                                            style: theme.textTheme.subtitle1!,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                 left: 16.0,
@@ -164,7 +164,7 @@ class _MobileLandingState extends State<MobileLanding>
                                         ),
                                       ],
                                     ),
-                                    style: theme.textTheme.subtitle1.copyWith(
+                                    style: theme.textTheme.subtitle1!.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

@@ -14,7 +14,7 @@ class BackgroundUtils {
         ),
         backgroundTask,
       );
-    } on dynamic catch (_) {} finally {
+    } on Object catch (_) {} finally {
       await BackgroundFetch.registerHeadlessTask(backgroundTask);
       status = await BackgroundFetch.start();
     }

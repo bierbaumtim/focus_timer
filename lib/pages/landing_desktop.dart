@@ -29,7 +29,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
           children: <Widget>[
             SoftAppBar(
               height: kToolbarHeight + 14,
-              titleStyle: theme.textTheme.headline6.copyWith(fontSize: 35),
+              titleStyle: theme.textTheme.headline6!.copyWith(fontSize: 35),
               centerWidget: const Center(
                 child: CurrentDateTimeContainer(),
               ),
@@ -104,7 +104,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
 }
 
 class _TimerSection extends StatelessWidget {
-  const _TimerSection({Key key}) : super(key: key);
+  const _TimerSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +143,7 @@ class _TimerSection extends StatelessWidget {
                               TextSpan(
                                 text:
                                     'Hier sind ein paar Tips für die Pause:\n\n',
-                                style: theme.textTheme.headline5.copyWith(
+                                style: theme.textTheme.headline5!.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

@@ -7,10 +7,10 @@ import 'soft_decorations.dart';
 /// {@endtemplate}
 class SoftButton extends StatefulWidget {
   /// Forces the Button to use dark decorations
-  final bool useDarkTheme;
+  final bool? useDarkTheme;
 
   /// The radius to apply to the [SoftButton]
-  final double radius;
+  final double? radius;
 
   /// The callback to call when tapping the [SoftButton]
   final VoidCallback onTap;
@@ -20,11 +20,11 @@ class SoftButton extends StatefulWidget {
 
   /// {@macro softbutton}
   const SoftButton({
-    Key key,
+    Key? key,
     this.useDarkTheme,
-    this.onTap,
+    required this.onTap,
     this.radius,
-    this.child,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class SoftButton extends StatefulWidget {
 }
 
 class _SoftButtonState extends State<SoftButton> {
-  bool invertColor;
+  late bool invertColor;
 
   @override
   void initState() {

@@ -1,8 +1,8 @@
 String timeToString(
   num duration, {
-  String hoursDelimiter,
-  String minutesDelimiter,
-  String secondsDelimiter,
+  String? hoursDelimiter,
+  String? minutesDelimiter,
+  String? secondsDelimiter,
   bool hideZeroSeconds = false,
 }) {
   var timeString = '';

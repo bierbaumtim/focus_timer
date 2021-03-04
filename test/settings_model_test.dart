@@ -12,7 +12,7 @@ void main() {
     group('first start tests ->', () {
       final repo = MockSettingsRepository();
 
-      SettingsModel model;
+      late SettingsModel model;
 
       setUp(() {
         when(repo.loadSettings()).thenAnswer(
@@ -40,7 +40,7 @@ void main() {
     group('normal tests ->', () {
       final repo = MockSettingsRepository();
 
-      SettingsModel model;
+      late SettingsModel model;
 
       setUp(() {
         when(repo.loadSettings()).thenAnswer(

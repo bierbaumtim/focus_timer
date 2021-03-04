@@ -9,14 +9,14 @@ import 'add_task_tile.dart';
 import 'task_tile.dart';
 
 class TasksListContainer extends StatefulWidget {
-  const TasksListContainer({Key key}) : super(key: key);
+  const TasksListContainer({Key? key}) : super(key: key);
 
   @override
   _TasksListContainerState createState() => _TasksListContainerState();
 }
 
 class _TasksListContainerState extends State<TasksListContainer> {
-  ScrollController tasksScrollController;
+  late ScrollController tasksScrollController;
 
   @override
   void initState() {
@@ -35,12 +35,12 @@ class _TasksListContainerState extends State<TasksListContainer> {
     final theme = Theme.of(context);
     final hintTextStyle = getValueForScreenType<TextStyle>(
       context: context,
-      mobile: theme.textTheme.bodyText1,
+      mobile: theme.textTheme.bodyText1!,
       desktop: theme.textTheme.headline6,
     );
     final headerTextStyle = getValueForScreenType<TextStyle>(
       context: context,
-      mobile: theme.textTheme.subtitle1,
+      mobile: theme.textTheme.subtitle1!,
       desktop: theme.textTheme.headline5,
     );
 

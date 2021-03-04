@@ -9,12 +9,11 @@ import 'countdown_time.dart';
 
 class TopTimeBar extends StatelessWidget {
   const TopTimeBar({
-    Key key,
+    Key? key,
     this.alignment = Alignment.topCenter,
-    this.padding,
-    this.contentPadding,
-  })  : assert(alignment != null),
-        super(key: key);
+    this.padding = const EdgeInsets.fromLTRB(8, 0, 8, 8),
+    this.contentPadding = const EdgeInsets.only(top: 8.0, bottom: 8),
+  }) : super(key: key);
 
   final Alignment alignment;
   final EdgeInsetsGeometry padding;
@@ -23,9 +22,9 @@ class TopTimeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: alignment ?? Alignment.topCenter,
+      alignment: alignment,
       child: Padding(
-        padding: padding ?? const EdgeInsets.fromLTRB(8, 0, 8, 8),
+        padding: padding,
         child: Consumer<CurrentSessionModel>(
           builder: (context, model, child) => Row(
             mainAxisAlignment: model.isBreak || model.isTimerRunning
@@ -33,14 +32,12 @@ class TopTimeBar extends StatelessWidget {
                 : MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: contentPadding ??
-                    const EdgeInsets.only(top: 8.0, bottom: 8),
+                padding: contentPadding,
                 child: const CurrentDateTimeContainer(),
               ),
               if (model.isBreak || model.isTimerRunning)
                 Padding(
-                  padding: contentPadding ??
-                      const EdgeInsets.only(top: 8.0, bottom: 8),
+                  padding: contentPadding,
                   child: SoftContainer(
                     child: const Padding(
                       padding: EdgeInsets.symmetric(

@@ -23,11 +23,11 @@ void main() {
         final style = const TextStyle(color: Colors.black).colorWithOpacity(0);
 
         expect(
-          style.color.alpha,
+          style.color!.alpha,
           equals(0),
         );
 
-        expect(style.color.value, equals(const Color(0x00000000).value));
+        expect(style.color!.value, equals(const Color(0x00000000).value));
       });
 
       test('Black with opacity 0.5', () {
@@ -35,7 +35,7 @@ void main() {
             const TextStyle(color: Colors.black).colorWithOpacity(0.5);
 
         expect(
-          style.color.alpha,
+          style.color!.alpha,
           equals(128),
         );
       });
@@ -44,11 +44,11 @@ void main() {
         final style = const TextStyle(color: Colors.black).colorWithOpacity(1);
 
         expect(
-          style.color.alpha,
+          style.color!.alpha,
           equals(255),
         );
 
-        expect(style.color.value, equals(const Color(0xFF000000).value));
+        expect(style.color!.value, equals(const Color(0xFF000000).value));
       });
     });
   });

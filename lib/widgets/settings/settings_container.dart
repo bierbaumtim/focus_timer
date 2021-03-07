@@ -83,8 +83,8 @@ class SettingsContainer extends StatelessWidget {
                     ListTile(
                       title: Slider(
                         min: 300,
-                        max: 5400,
-                        divisions: 85,
+                        max: 3600,
+                        divisions: 55,
                         value: model.sessionsDuration,
                         onChanged: model.setSessionDuration,
                       ),
@@ -104,8 +104,8 @@ class SettingsContainer extends StatelessWidget {
                     ListTile(
                       title: Slider(
                         min: 60,
-                        max: 1800,
-                        divisions: 28,
+                        max: 900,
+                        divisions: 24,
                         value: model.shortBreakDuration,
                         onChanged: model.setShortBreakDuration,
                       ),
@@ -125,8 +125,8 @@ class SettingsContainer extends StatelessWidget {
                     ListTile(
                       title: Slider(
                         min: 300,
-                        max: 10800,
-                        divisions: 175,
+                        max: 5400,
+                        divisions: 85,
                         value: model.longBreakDuration,
                         onChanged: model.setLongBreakDuration,
                       ),

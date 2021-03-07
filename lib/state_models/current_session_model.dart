@@ -36,6 +36,23 @@ class CurrentSessionModel extends ChangeNotifier {
       onFinished: _onTimerFinished,
       onTick: notifyListeners,
     );
+    sessionSettingsModel.addListener(
+      refresh,
+    );
+  }
+
+  void refresh() {
+    notifyListeners();
+  }
+
+  void onStartBreakButtonTapped() {
+    if (isTimerRunning) {
+      pauseTimer();
+    } else if (currentSessionIndex < 0) {
+      startSession();
+    } else {
+      restartTimer();
+    }
   }
 
   void _startBreak() {
@@ -143,6 +160,7 @@ class CurrentSessionModel extends ChangeNotifier {
   /// Cancel every listeners and timer.
   @override
   void dispose() {
+    sessionSettingsModel.removeListener(refresh);
     Wakelock.disable();
     _timer.stop();
     super.dispose();

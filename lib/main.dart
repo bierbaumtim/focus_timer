@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -72,10 +73,47 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: MobileLanding(),
-      tablet: DesktopLanding(),
-      desktop: DesktopLanding(),
+    return FocusableActionDetector(
+      autofocus: true,
+      actions: {
+        StartStopTimerIntent: CallbackAction(
+          onInvoke: (e) =>
+              context.read<CurrentSessionModel>().onStartBreakButtonTapped(),
+        ),
+        SwitchThemeIntent: CallbackAction(
+          onInvoke: (e) {
+            final settingsViewmodel = context.read<SettingsModel>();
+            settingsViewmodel.changeDarkmode(!settingsViewmodel.darkmode);
+          },
+        ),
+      },
+      shortcuts: {
+        startTopTimerKeySet: StartStopTimerIntent(),
+        switchThemeKeySet: SwitchThemeIntent(),
+      },
+      child: ScreenTypeLayout(
+        mobile: MobileLanding(),
+        tablet: DesktopLanding(),
+        desktop: DesktopLanding(),
+      ),
     );
   }
 }
+
+class StartStopTimerIntent extends Intent {}
+
+final startTopTimerKeySet = LogicalKeySet(
+  LogicalKeyboardKey.control,
+  LogicalKeyboardKey.shift,
+  LogicalKeyboardKey.keyP,
+);
+
+class SwitchThemeIntent extends Intent {}
+
+final switchThemeKeySet = LogicalKeySet(
+  LogicalKeyboardKey.control,
+  LogicalKeyboardKey.shift,
+  LogicalKeyboardKey.keyT,
+);
+
+class OpenSettingsIntent extends Intent {}

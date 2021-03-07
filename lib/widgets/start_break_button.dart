@@ -41,16 +41,8 @@ class StartBreakButton extends StatelessWidget {
           ),
           child: SoftButton(
             radius: 15,
-            onTap: () {
-              final currentSessionModel = context.read<CurrentSessionModel>();
-              if (currentSessionModel.isTimerRunning) {
-                currentSessionModel.pauseTimer();
-              } else if (currentSessionModel.currentSessionIndex < 0) {
-                currentSessionModel.startSession();
-              } else {
-                currentSessionModel.restartTimer();
-              }
-            },
+            onTap: () =>
+                context.read<CurrentSessionModel>().onStartBreakButtonTapped(),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Consumer<CurrentSessionModel>(

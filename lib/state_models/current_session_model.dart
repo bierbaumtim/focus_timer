@@ -10,7 +10,7 @@ class CurrentSessionModel extends ChangeNotifier {
 
   double get _shortBreakDuration => sessionSettingsModel.shortBreakDuration;
   double get _longBreakDuration => sessionSettingsModel.longBreakDuration;
-  int get _sessionDuration => sessionSettingsModel.sessionsDuration.toInt();
+  int get sessionDuration => sessionSettingsModel.sessionsDuration.toInt();
   int get _sessionUntilBreak => sessionSettingsModel.sessionUntilBreak;
   int get _maxSessionAmount => 12;
   int get _calculateBreakDuration =>
@@ -57,7 +57,7 @@ class CurrentSessionModel extends ChangeNotifier {
     if (currentSessionIndex < _maxSessionAmount) {
       isSession = true;
       Wakelock.enable();
-      _timer.start(_sessionDuration);
+      _timer.start(sessionDuration);
     }
     isBreak = false;
     notifyListeners();
@@ -94,7 +94,7 @@ class CurrentSessionModel extends ChangeNotifier {
             isBreak = false;
             currentSessionIndex++;
             if (currentSessionIndex <= _maxSessionAmount) {
-              _timer.timeRemaining = _sessionDuration;
+              _timer.timeRemaining = sessionDuration;
               isSession = true;
             } else {
               isSession = false;

@@ -20,18 +20,23 @@ class SessionCountdown extends StatelessWidget {
           children: <Widget>[
             if (model.isTimerRunning || model.isTimerPaused)
               child!
+            else if (model.currentSessionIndex == -1)
+              Center(
+                child: SimpleTime(
+                  duration: model.sessionDuration,
+                  isSmall: false,
+                ),
+              )
             else
               Center(
                 child: AutoSizeText(
-                  model.currentSessionIndex == -1
-                      ? 'Start with your first session'
-                      : 'All sessions done.',
+                  'All sessions done.',
                   maxLines: 1,
                   style: theme.textTheme.headline6!.copyWith(
                     fontSize: 110,
                   ),
                 ),
-              ),
+              )
           ],
         ),
         child: const CountdownTime(),

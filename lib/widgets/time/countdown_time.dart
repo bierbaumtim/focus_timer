@@ -20,7 +20,7 @@ class CountdownTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CurrentSessionModel>(
       builder: (context, value, child) => Center(
-        child: _SimpleTime(
+        child: SimpleTime(
           duration: value.timeRemaining,
           isSmall: isSmall,
         ),
@@ -73,11 +73,11 @@ class CountdownTime extends StatelessWidget {
 //   }
 // }
 
-class _SimpleTime extends StatelessWidget {
+class SimpleTime extends StatelessWidget {
   final int duration;
   final bool isSmall;
 
-  const _SimpleTime({
+  const SimpleTime({
     Key? key,
     required this.duration,
     this.isSmall = false,
@@ -88,7 +88,7 @@ class _SimpleTime extends StatelessWidget {
       timeToString(duration),
       maxLines: 1,
       style: Theme.of(context).textTheme.headline6!.copyWith(
-            fontSize: 110,
+            fontSize: 130,
             // shadows: [],
           ),
       maxFontSize: isSmall ? 20 : double.infinity,

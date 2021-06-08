@@ -40,3 +40,5 @@ lib/generated_plugin_registrant.dart
 
 _ios/
 _android/
+_web/
+_windows/

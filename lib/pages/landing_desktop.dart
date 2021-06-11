@@ -13,12 +13,7 @@ import '../widgets/soft/soft_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
-class DesktopLanding extends StatefulWidget {
-  @override
-  _DesktopLandingState createState() => _DesktopLandingState();
-}
-
-class _DesktopLandingState extends State<DesktopLanding> {
+class DesktopLanding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

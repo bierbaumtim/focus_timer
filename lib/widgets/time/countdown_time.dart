@@ -89,7 +89,6 @@ class SimpleTime extends StatelessWidget {
       maxLines: 1,
       style: Theme.of(context).textTheme.headline6!.copyWith(
             fontSize: 130,
-            // shadows: [],
           ),
       maxFontSize: isSmall ? 20 : double.infinity,
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../soft/soft_container.dart';
 import 'current_date_time_text.dart';
 
 class CurrentDateTimeContainer extends StatelessWidget {
@@ -13,15 +12,12 @@ class CurrentDateTimeContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SoftContainer(
-      useDarkTheme: useDarkTheme,
-      child: const Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 4,
-          horizontal: 16,
-        ),
-        child: CurrentDateTimeText(),
+    return const Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 16,
       ),
+      child: CurrentDateTimeText(),
     );
   }
 }

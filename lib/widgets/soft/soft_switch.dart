@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../theming/custom_theme.dart';
 import 'soft_container.dart';
 
 /// {@template softswitch}
@@ -97,9 +98,11 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final decoration = CustomTheme.of(context);
+    final borderHeight = (decoration?.decoration.border?.bottom.width ?? 0) * 2;
+
     return SizedBox(
-      height: 37.5,
-      width: 75,
+      width: 75 + borderHeight,
       child: GestureDetector(
         onTap: () {
           if (alignmentController.isCompleted) {
@@ -123,8 +126,7 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                 child: child,
               ),
               child: SizedBox(
-                height: 32.5,
-                width: 33.5,
+                width: 33.5 + borderHeight,
                 child: SoftContainer(
                   radius: 10,
                   child: Padding(
@@ -134,14 +136,14 @@ class _SoftSwitchState extends State<SoftSwitch> with TickerProviderStateMixin {
                         firstChild: IconTheme(
                           data: IconThemeData(
                             color: Theme.of(context).textTheme.bodyText2!.color,
-                            size: 20,
+                            size: 18,
                           ),
                           child: widget.activeChild,
                         ),
                         secondChild: IconTheme(
                           data: IconThemeData(
                             color: Theme.of(context).textTheme.bodyText2!.color,
-                            size: 20,
+                            size: 18,
                           ),
                           child: widget.deactiveChild,
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../helper/enums.dart';
 import '../repositories/interfaces/settings_repository_interface.dart';
 import '../utils/settings_utils.dart';
 
@@ -13,6 +14,9 @@ class SettingsModel extends ChangeNotifier {
   }
 
   bool get darkmode => _settings['darkmode'] as bool? ?? true;
+  ThemeType get themeType => _themeTypeFromString(
+        _settings['theme_type'] as String?,
+      );
 
   String get backgroundTaskConfig =>
       _settings['background_task_config'] as String? ?? 'unknown';
@@ -49,5 +53,25 @@ class SettingsModel extends ChangeNotifier {
     _settings = addOrUpdateSetting('darkmode', value, _settings);
     repository.saveSetting('darkmode', value);
     notifyListeners();
+  }
+
+  void changeThemeType(ThemeType themeType) {
+    _settings = addOrUpdateSetting(
+      'theme_type',
+      themeType.toString(),
+      _settings,
+    );
+    repository.saveSetting('theme_type', themeType.toString());
+    notifyListeners();
+  }
+
+  ThemeType _themeTypeFromString(String? value) {
+    try {
+      return ThemeType.values.firstWhere(
+        (v) => v.toString().toLowerCase() == value?.toLowerCase(),
+      );
+    } on Object catch (_) {
+      return ThemeType.neomorphism;
+    }
   }
 }

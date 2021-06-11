@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'soft_decorations.dart';
+import '../theming/custom_theme.dart';
 
 /// {@template softcontainer}
 /// A Container which implements the Neomorphism design.
@@ -13,9 +13,6 @@ class SoftContainer extends StatelessWidget {
 
   /// The radius to apply to the [container].
   final double? radius;
-
-  /// Forces the Widget to use dark decoration.
-  final bool? useDarkTheme;
 
   /// Indicates if the depth effect is inverted.
   final bool inverted;
@@ -30,7 +27,6 @@ class SoftContainer extends StatelessWidget {
     double? height,
     this.radius,
     this.child,
-    this.useDarkTheme,
     this.inverted = false,
     BoxConstraints? constraints,
   })  : constraints = (width != null || height != null)
@@ -41,20 +37,19 @@ class SoftContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final customTheme = CustomTheme.of(context);
+    var decoration =
+        inverted ? customTheme?.invertedDecoration : customTheme?.decoration;
+
+    if (radius != null) {
+      decoration = decoration?.copyWith(
+        borderRadius: BorderRadius.circular(radius!),
+      );
+    }
 
     return Container(
       constraints: constraints,
-      decoration: inverted
-          ? kSoftInvertedDecoration(
-              isDark: useDarkTheme ?? isDark,
-              radius: radius,
-            )
-          : kSoftDecoration(
-              isDark: useDarkTheme ?? isDark,
-              radius: radius,
-            ),
+      decoration: decoration,
       child: child,
     );
   }

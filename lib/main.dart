@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'constants/theme_constants.dart';
 import 'database/app_database_interface.dart';
 import 'database/tasks_dao.dart';
 import 'pages/landing_desktop.dart';
@@ -16,6 +16,8 @@ import 'state_models/current_session_model.dart';
 import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
+import 'widgets/theming/custom_theme.dart';
+import 'widgets/theming/theme_resolver_factory.dart';
 
 /// ignore: avoid_void_async
 void main() async {
@@ -56,14 +58,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsModel>(
-      builder: (context, model, _) => MaterialApp(
-        title: 'Focus Timer',
-        theme: model.darkmode ? darkTheme : lightTheme,
-        debugShowCheckedModeBanner: false,
-        darkTheme: darkTheme,
-        themeMode: model.darkmode ? ThemeMode.dark : ThemeMode.light,
-        home: const MyHomePage(),
-      ),
+      builder: (context, model, _) {
+        final themeResolver = ThemeResolverFactory.create(model.themeType);
+
+        return MaterialApp(
+          title: 'Focus Timer',
+          theme: themeResolver
+              .resolve(
+                model.darkmode ? Brightness.dark : Brightness.light,
+              )
+              .theme,
+          debugShowCheckedModeBanner: false,
+          darkTheme: themeResolver.resolve(Brightness.dark).theme,
+          themeMode: model.darkmode ? ThemeMode.dark : ThemeMode.light,
+          builder: (context, child) => CustomTheme(
+            child: child!,
+            data:
+                themeResolver.resolve(Theme.of(context).brightness).customTheme,
+          ),
+          home: const MyHomePage(),
+        );
+      },
     );
   }
 }

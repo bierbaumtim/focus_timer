@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'soft_decorations.dart';
+import 'soft_container.dart';
 
 /// {@template softbutton}
 /// A Button implementing the Neomorphism design.
 /// {@endtemplate}
 class SoftButton extends StatefulWidget {
-  /// Forces the Button to use dark decorations
-  final bool? useDarkTheme;
-
   /// The radius to apply to the [SoftButton]
   final double? radius;
 
@@ -21,7 +18,6 @@ class SoftButton extends StatefulWidget {
   /// {@macro softbutton}
   const SoftButton({
     Key? key,
-    this.useDarkTheme,
     required this.onTap,
     this.radius,
     required this.child,
@@ -42,23 +38,13 @@ class _SoftButtonState extends State<SoftButton> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return GestureDetector(
       onTapDown: (details) => setState(() => invertColor = !invertColor),
       onTapUp: (details) => setState(() => invertColor = !invertColor),
       onTap: widget.onTap,
-      child: Container(
-        decoration: invertColor
-            ? kSoftInvertedDecoration(
-                isDark: widget.useDarkTheme ?? isDark,
-                radius: widget.radius,
-              )
-            : kSoftDecoration(
-                isDark: widget.useDarkTheme ?? isDark,
-                radius: widget.radius,
-              ),
+      child: SoftContainer(
+        inverted: invertColor,
+        radius: widget.radius,
         child: widget.child,
       ),
     );

@@ -59,8 +59,19 @@ class TasksModel extends ChangeNotifier {
   }
 
   void reorderTasks(int oldIndex, int newIndex) {
-    final oldTask = _tasks.removeAt(oldIndex);
-    tasks.insert(newIndex, oldTask);
+    var effectiveNewIndex = newIndex;
+    var effectiveOldIndex = oldIndex;
+    if (newIndex > oldIndex) {
+      effectiveNewIndex--;
+    }
+    if (filterTasks) {
+      final newIndexTask = filteredTasks.elementAt(effectiveNewIndex);
+      final oldIndexTask = filteredTasks.elementAt(effectiveOldIndex);
+      effectiveNewIndex = _tasks.indexOf(newIndexTask);
+      effectiveOldIndex = _tasks.indexOf(oldIndexTask);
+    }
+    final oldTask = _tasks.removeAt(effectiveOldIndex);
+    _tasks.insert(effectiveNewIndex, oldTask);
     notifyListeners();
   }
 

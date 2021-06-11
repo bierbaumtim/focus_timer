@@ -22,12 +22,11 @@ dependencies:
   auto_size_text: ^3.0.0-nullsafety.0
   simple_animations: ^3.1.1
   # auto_animated: ^2.1.0 # no null-safety
-  font_awesome_flutter: ^9.0.0
   # flip_panel: ^1.0.1 # no null-safety
   uuid: ^3.0.4
   responsive_builder: ^0.4.1
   wakelock: ^0.5.2
-  background_fetch: ^1.0.0-nullsafety.2
+  background_fetch: ^1.0.0
 
   json_annotation: ^4.0.1
 

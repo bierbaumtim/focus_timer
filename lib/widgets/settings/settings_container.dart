@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../helper/enums.dart';
 import '../../state_models/session_settings_model.dart';
+import '../../state_models/settings_model.dart';
 import '../../utils/time_utils.dart';
 import '../soft/soft_container.dart';
 import 'theme_switch.dart';
@@ -37,9 +40,9 @@ class SettingsContainer extends StatelessWidget {
                 height: 2,
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText2!
-                    .color!
-                    .withOpacity(0.75),
+                    .bodyText2
+                    ?.color
+                    ?.withOpacity(0.75),
               ),
             ),
             Expanded(
@@ -51,6 +54,25 @@ class SettingsContainer extends StatelessWidget {
                     ListTile(
                       title: const Text('Darkmode'),
                       trailing: ThemeSwitch(),
+                    ),
+                    ListTile(
+                      title: const Text('Themetype'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: CupertinoSlidingSegmentedControl<ThemeType>(
+                        children: {
+                          ThemeType.flat: const Text('Flat'),
+                          // ThemeType.material: const Text('Material'),
+                          ThemeType.neomorphism: const Text('Neomorphism'),
+                        },
+                        groupValue: context.select<SettingsModel, ThemeType>(
+                          (v) => v.themeType,
+                        ),
+                        onValueChanged: (value) => context
+                            .read<SettingsModel>()
+                            .changeThemeType(value!),
+                      ),
                     ),
                     ListTile(
                       title: const Text('Sessions until break'),

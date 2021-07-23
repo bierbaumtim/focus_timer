@@ -36,7 +36,7 @@ class DesktopLanding extends StatelessWidget {
                     flex: 2,
                     child: Stack(
                       children: <Widget>[
-                        _TimerSection(),
+                        const _TimerSection(),
                         Positioned(
                           left: 16,
                           bottom: 20,
@@ -45,26 +45,30 @@ class DesktopLanding extends StatelessWidget {
                               radius: 15,
                               onTap: () {
                                 final renderBox =
-                                    context.findRenderObject() as RenderBox;
-                                final offset = renderBox.localToGlobal(
-                                  Offset.zero,
-                                );
+                                    context.findRenderObject() as RenderBox?;
 
-                                Navigator.of(context).push(
-                                  FlyoutOverlayRoute(
-                                    builder: (context) => SettingsContainer(
-                                      width: 400,
-                                      height: 626,
-                                      shrinkWrap: true,
+                                if (renderBox != null) {
+                                  final offset = renderBox.localToGlobal(
+                                    Offset.zero,
+                                  );
+
+                                  Navigator.of(context).push(
+                                    FlyoutOverlayRoute(
+                                      builder: (context) =>
+                                          const SettingsContainer(
+                                        width: 400,
+                                        height: 626,
+                                        shrinkWrap: true,
+                                      ),
+                                      bottomPosition: Offset(
+                                        offset.dx,
+                                        offset.dy + renderBox.size.height,
+                                      ),
                                     ),
-                                    bottomPosition: Offset(
-                                      offset.dx,
-                                      offset.dy + renderBox.size.height,
-                                    ),
-                                  ),
-                                );
+                                  );
+                                }
                               },
-                              child: SizedBox(
+                              child: const SizedBox(
                                 height: 50,
                                 width: 50,
                                 child: Padding(
@@ -78,11 +82,11 @@ class DesktopLanding extends StatelessWidget {
                       ],
                     ),
                   ),
-                  VerticalDivider(
+                  const VerticalDivider(
                     indent: 8,
                     endIndent: 24,
                   ),
-                  Flexible(
+                  const Flexible(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: TasksListContainer(),
@@ -144,7 +148,7 @@ class _TimerSection extends StatelessWidget {
                               ),
                               TextSpan(
                                 children: [
-                                  if (model.isLongBreak) ...[
+                                  if (model.isLongBreak) ...const [
                                     TextSpan(
                                       text: '* kurze Meditation\n',
                                     ),
@@ -152,7 +156,7 @@ class _TimerSection extends StatelessWidget {
                                       text:
                                           '* Reflektieren der bisherigen Aufgaben',
                                     ),
-                                  ] else ...[
+                                  ] else ...const [
                                     TextSpan(
                                       text: '* Mache ein paar Liegestütz\n',
                                     ),
@@ -175,10 +179,8 @@ class _TimerSection extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: kToolbarHeight,
-              ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: kToolbarHeight),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: StartBreakButton(),

@@ -72,9 +72,9 @@ class MyApp extends StatelessWidget {
           darkTheme: themeResolver.resolve(Brightness.dark).theme,
           themeMode: model.darkmode ? ThemeMode.dark : ThemeMode.light,
           builder: (context, child) => CustomTheme(
-            child: child!,
             data:
                 themeResolver.resolve(Theme.of(context).brightness).customTheme,
+            child: child!,
           ),
           home: const MyHomePage(),
         );

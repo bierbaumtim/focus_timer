@@ -16,7 +16,7 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
         );
 
   @override
-  Color get barrierColor => Color(0x00000001);
+  Color get barrierColor => const Color(0x00000001);
 
   @override
   bool get barrierDismissible => true;
@@ -43,7 +43,6 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
       onTap: () => Navigator.of(context).pop(),
       behavior: HitTestBehavior.opaque,
       child: Stack(
-        fit: StackFit.loose,
         children: <Widget>[
           Positioned(
             left: bottomPosition.dx,

@@ -77,7 +77,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
               builder: (context, model, child) {
                 if (model.allTasksCompleted) {
                   return Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Center(
                       child: Text(
                         "You've done all your tasks",
@@ -105,7 +105,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
                   );
                 } else {
                   return Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Center(
                       child: Text(
                         'Add tasks that you want to complete in future sessions',

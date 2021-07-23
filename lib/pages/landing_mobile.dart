@@ -45,12 +45,15 @@ class _MobileLandingState extends State<MobileLanding>
           _userLeavedTime = DateTime.now();
           currentSessionModel.pauseTimer();
         } else if (state == AppLifecycleState.resumed) {
+          if(_userLeavedTime!=null){
+
           final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
               _userLeavedTime!.millisecondsSinceEpoch;
           final elapsedSeconds =
               Duration(milliseconds: elapsedMilliseconds).inSeconds;
           currentSessionModel.restartTimer();
           currentSessionModel.handleElapsedTimeInBackground(elapsedSeconds);
+          }
         }
       }
     }
@@ -72,7 +75,7 @@ class _MobileLandingState extends State<MobileLanding>
                 children: <Widget>[
                   SoftAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.headline6!,
+                    titleStyle: theme.textTheme.headline6,
                   ),
                   Expanded(
                     child: Consumer<CurrentSessionModel>(
@@ -105,7 +108,7 @@ class _MobileLandingState extends State<MobileLanding>
                                   child: Text.rich(
                                     TextSpan(
                                       children: <InlineSpan>[
-                                        TextSpan(
+                                        const TextSpan(
                                           text:
                                               'Hier sind ein paar Tips für die Pause:\n\n',
                                         ),
@@ -118,7 +121,8 @@ class _MobileLandingState extends State<MobileLanding>
                                               ),
                                               child: Table(
                                                 children: <TableRow>[
-                                                  if (value.isLongBreak) ...[
+                                                  if (value
+                                                      .isLongBreak) ...const [
                                                     TableRow(
                                                       children: <Widget>[
                                                         Text('* '),
@@ -134,7 +138,7 @@ class _MobileLandingState extends State<MobileLanding>
                                                         ),
                                                       ],
                                                     ),
-                                                  ] else ...[
+                                                  ] else ...const [
                                                     TableRow(
                                                       children: <Widget>[
                                                         Text('* '),
@@ -155,7 +159,7 @@ class _MobileLandingState extends State<MobileLanding>
                                                     ),
                                                   ],
                                                 ],
-                                                columnWidths: {
+                                                columnWidths: const {
                                                   0: IntrinsicColumnWidth(),
                                                 },
                                               ),
@@ -171,14 +175,14 @@ class _MobileLandingState extends State<MobileLanding>
                                 ),
                               ),
                             ),
-                          Expanded(
+                          const Expanded(
                             flex: 3,
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
+                              padding: EdgeInsets.only(bottom: 12),
                               child: SizedBox(
                                 height: kToolbarHeight,
                                 child: Center(
-                                  child: const StartBreakButton(),
+                                  child: StartBreakButton(),
                                 ),
                               ),
                             ),

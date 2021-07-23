@@ -24,7 +24,6 @@ class SessionCountdown extends StatelessWidget {
               Center(
                 child: SimpleTime(
                   duration: model.sessionDuration,
-                  isSmall: false,
                 ),
               )
             else

@@ -4,11 +4,11 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   group('Task data model tests ->', () {
     group('constructor tests ->', () {
       test('named constructor', () {
-        final uuid = Uuid().v4();
+        final uuid = const Uuid().v4();
         final task = Task(
           name: 'Test Name',
           uuid: uuid,
@@ -25,7 +25,7 @@ void main() {
         final task = Task(
           name: 'Test Name',
           isCompleted: false,
-          uuid: Uuid().v4(),
+          uuid: const Uuid().v4(),
         );
 
         expect(task, isA<Task>());
@@ -40,7 +40,7 @@ void main() {
         final task = Task(
           name: 'Test Name',
           isCompleted: false,
-          uuid: Uuid().v4(),
+          uuid: const Uuid().v4(),
         );
         final json = task.toJson();
 
@@ -57,7 +57,7 @@ void main() {
       });
 
       test('json decoding', () {
-        final uuid = Uuid().v4();
+        final uuid = const Uuid().v4();
         final task = Task.fromJson(
           <String, dynamic>{
             'uuid': uuid,

@@ -35,7 +35,7 @@ class TasksModel extends ChangeNotifier {
     final task = Task(
       name: taskName,
       isCompleted: false,
-      uuid: Uuid().v4(),
+      uuid: const Uuid().v4(),
     );
     addTask(task);
   }

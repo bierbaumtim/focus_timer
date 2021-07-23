@@ -25,7 +25,7 @@ class Task {
     required bool isCompleted,
   }) =>
       Task(
-        uuid: Uuid().v4(),
+        uuid: const Uuid().v4(),
         name: name,
         isCompleted: isCompleted,
       );

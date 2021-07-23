@@ -11,9 +11,9 @@ class ThemeSwitch extends StatelessWidget {
     return Consumer<SettingsModel>(
       builder: (context, viewmodel, _) =>
           CupertinoSlidingSegmentedControl<bool>(
-        children: {
-          false: const Text('Light'),
-          true: const Text('Dark'),
+        children: const {
+          false: Text('Light'),
+          true: Text('Dark'),
         },
         groupValue: viewmodel.darkmode,
         onValueChanged: (value) => viewmodel.changeDarkmode(value!),

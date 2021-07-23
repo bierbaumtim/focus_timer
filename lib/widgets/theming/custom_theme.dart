@@ -3,13 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'custom_theme_data.dart';
 
 class CustomTheme extends InheritedWidget {
-  CustomTheme({
+  const CustomTheme({
     Key? key,
-    required this.child,
+    required Widget child,
     required this.data,
   }) : super(key: key, child: child);
-
-  final Widget child;
   final CustomThemeData data;
 
   static CustomThemeData? of(BuildContext context) {

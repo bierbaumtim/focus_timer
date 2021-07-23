@@ -15,7 +15,7 @@ void main() {
     (index) => Task(
       name: 'Test $index',
       isCompleted: false,
-      uuid: Uuid().v4(),
+      uuid: const Uuid().v4(),
     ),
   );
 
@@ -42,7 +42,7 @@ void main() {
       final newTask = Task(
         name: 'New Task Test',
         isCompleted: false,
-        uuid: Uuid().v4(),
+        uuid: const Uuid().v4(),
       );
 
       model.addTask(newTask);

@@ -55,16 +55,16 @@ class SettingsContainer extends StatelessWidget {
                       title: const Text('Darkmode'),
                       trailing: ThemeSwitch(),
                     ),
-                    ListTile(
-                      title: const Text('Themetype'),
+                    const ListTile(
+                      title: Text('Themetype'),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: CupertinoSlidingSegmentedControl<ThemeType>(
-                        children: {
-                          ThemeType.flat: const Text('Flat'),
+                        children: const {
+                          ThemeType.flat: Text('Flat'),
                           // ThemeType.material: const Text('Material'),
-                          ThemeType.neomorphism: const Text('Neomorphism'),
+                          ThemeType.neomorphism: Text('Neomorphism'),
                         },
                         groupValue: context.select<SettingsModel, ThemeType>(
                           (v) => v.themeType,

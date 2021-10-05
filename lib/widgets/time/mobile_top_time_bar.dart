@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../state_models/current_session_model.dart';
 import '../datetime/current_datetime_container.dart';
-import '../soft/soft_container.dart';
+import '../soft/custom_container.dart';
 import 'countdown_time.dart';
 
 class TopTimeBar extends StatelessWidget {
@@ -38,7 +38,7 @@ class TopTimeBar extends StatelessWidget {
               if (model.isBreak || model.isTimerRunning)
                 Padding(
                   padding: contentPadding,
-                  child: SoftContainer(
+                  child: CustomContainer(
                     child: const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 4,

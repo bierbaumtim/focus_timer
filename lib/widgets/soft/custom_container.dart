@@ -7,7 +7,7 @@ import '../theming/custom_theme.dart';
 ///
 /// It's the root widget for widgets which also implements Neomorphism design
 /// {@endtemplate}
-class SoftContainer extends StatelessWidget {
+class CustomContainer extends StatelessWidget {
   /// The [child] contained by the container.
   final Widget? child;
 
@@ -21,7 +21,7 @@ class SoftContainer extends StatelessWidget {
   final BoxConstraints? constraints;
 
   /// {@macro softcontainer}
-  SoftContainer({
+  CustomContainer({
     Key? key,
     double? width,
     double? height,

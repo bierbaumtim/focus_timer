@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_models/tasks_model.dart';
-import '../soft/soft_button.dart';
-import '../soft/soft_container.dart';
+import '../soft/custom_button.dart';
+import '../soft/custom_container.dart';
 
 /// {@template addtasktile}
-/// A [TextInput] and a [SoftButton] inside a [SoftContainer]
+/// A [TextInput] and a [CustomButton] inside a [CustomContainer]
 /// to enter a new task and add it to the tasks
 /// {@endtemplate}
 class AddTaskTile extends StatefulWidget {
@@ -44,7 +44,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: SoftContainer(
+            child: CustomContainer(
               radius: 20,
               child: ListTile(
                 title: TextField(
@@ -61,7 +61,7 @@ class _AddTaskTileState extends State<AddTaskTile> {
             ),
           ),
           const SizedBox(width: 16),
-          SoftButton(
+          CustomButton(
             radius: 15,
             onTap: () {
               if (taskNameController.text.isNotEmpty) {

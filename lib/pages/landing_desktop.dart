@@ -7,13 +7,15 @@ import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/settings/settings_container.dart';
-import '../widgets/soft/soft_appbar.dart';
-import '../widgets/soft/soft_button.dart';
-import '../widgets/soft/soft_container.dart';
+import '../widgets/soft/custom_appbar.dart';
+import '../widgets/soft/custom_button.dart';
+import '../widgets/soft/custom_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
 class DesktopLanding extends StatelessWidget {
+  const DesktopLanding({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -22,7 +24,7 @@ class DesktopLanding extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            SoftAppBar(
+            CustomAppBar(
               height: kToolbarHeight + 14,
               titleStyle: theme.textTheme.headline6!.copyWith(fontSize: 35),
               centerWidget: const Center(
@@ -41,7 +43,7 @@ class DesktopLanding extends StatelessWidget {
                           left: 16,
                           bottom: 20,
                           child: Builder(
-                            builder: (context) => SoftButton(
+                            builder: (context) => CustomButton(
                               radius: 15,
                               onTap: () {
                                 final renderBox =
@@ -123,7 +125,7 @@ class _TimerSection extends StatelessWidget {
                   Flexible(
                     flex: model.isBreak ? 4 : 1,
                     child: Center(
-                      child: SoftContainer(
+                      child: CustomContainer(
                         height: countdownHeight,
                         radius: countdownHeight / 10,
                         child: const SessionCountdown(),

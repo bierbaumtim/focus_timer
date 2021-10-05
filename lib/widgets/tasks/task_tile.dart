@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/task.dart';
 import '../../state_models/tasks_model.dart';
-import '../soft/soft_container.dart';
+import '../soft/custom_container.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
@@ -27,7 +27,7 @@ class TaskTile extends StatelessWidget {
           vertical: 8,
           horizontal: 12,
         ),
-        child: SoftContainer(
+        child: CustomContainer(
           radius: 15,
           child: CheckboxListTile(
             value: task.isCompleted,

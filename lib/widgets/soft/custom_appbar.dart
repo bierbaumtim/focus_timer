@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../settings/theme_switch.dart';
 
-class SoftAppBar extends StatelessWidget {
-  const SoftAppBar({
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({
     Key? key,
     this.centerWidget,
     this.titleStyle,
@@ -34,7 +34,7 @@ class SoftAppBar extends StatelessWidget {
                 style: titleStyle ?? theme.textTheme.headline6!,
               ),
               if (centerWidget != null) Expanded(child: centerWidget!),
-              ThemeSwitch(),
+              const ThemeSwitch(),
             ],
           ),
         ),

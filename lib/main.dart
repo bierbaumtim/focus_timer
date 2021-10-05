@@ -17,7 +17,7 @@ import 'state_models/session_settings_model.dart';
 import 'state_models/settings_model.dart';
 import 'state_models/tasks_model.dart';
 import 'widgets/theming/custom_theme.dart';
-import 'widgets/theming/theme_resolver_factory.dart';
+import 'widgets/theming/resolver/flat_theme_resolver.dart';
 
 /// ignore: avoid_void_async
 void main() async {
@@ -49,17 +49,19 @@ void main() async {
           ),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsModel>(
       builder: (context, model, _) {
-        final themeResolver = ThemeResolverFactory.create(model.themeType);
+        final themeResolver = FlatThemeResolver();
 
         return MaterialApp(
           title: 'Focus Timer',
@@ -107,9 +109,9 @@ class MyHomePage extends StatelessWidget {
         switchThemeKeySet: SwitchThemeIntent(),
       },
       child: ScreenTypeLayout(
-        mobile: MobileLanding(),
-        tablet: DesktopLanding(),
-        desktop: DesktopLanding(),
+        mobile: const MobileLanding(),
+        tablet: const DesktopLanding(),
+        desktop: const DesktopLanding(),
       ),
     );
   }

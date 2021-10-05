@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../state_models/tasks_model.dart';
-import '../soft/soft_button.dart';
+import '../soft/custom_button.dart';
 import 'add_task_tile.dart';
 import 'task_tile.dart';
 
@@ -58,7 +58,7 @@ class _TasksListContainerState extends State<TasksListContainer> {
                 'Tasks',
                 style: headerTextStyle,
               ),
-              trailing: SoftButton(
+              trailing: CustomButton(
                 onTap: () => context.read<TasksModel>().toggleFilter(),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),

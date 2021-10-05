@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-import 'soft_container.dart';
+import 'custom_container.dart';
 
 /// {@template softbutton}
 /// A Button implementing the Neomorphism design.
 /// {@endtemplate}
-class SoftButton extends StatefulWidget {
-  /// The radius to apply to the [SoftButton]
+class CustomButton extends StatefulWidget {
+  /// The radius to apply to the [CustomButton]
   final double? radius;
 
-  /// The callback to call when tapping the [SoftButton]
+  /// The callback to call when tapping the [CustomButton]
   final VoidCallback onTap;
 
   /// Widget placed inside the button
   final Widget child;
 
   /// {@macro softbutton}
-  const SoftButton({
+  const CustomButton({
     Key? key,
     required this.onTap,
     this.radius,
@@ -24,10 +24,10 @@ class SoftButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SoftButtonState createState() => _SoftButtonState();
+  _CustomButtonState createState() => _CustomButtonState();
 }
 
-class _SoftButtonState extends State<SoftButton> {
+class _CustomButtonState extends State<CustomButton> {
   late bool invertColor;
 
   @override
@@ -42,7 +42,8 @@ class _SoftButtonState extends State<SoftButton> {
       onTapDown: (details) => setState(() => invertColor = !invertColor),
       onTapUp: (details) => setState(() => invertColor = !invertColor),
       onTap: widget.onTap,
-      child: SoftContainer(
+      onTapCancel: () => setState(() => invertColor = false),
+      child: CustomContainer(
         inverted: invertColor,
         radius: widget.radius,
         child: widget.child,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:simple_animations/simple_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 import '../constants/tween_constants.dart';
 import '../state_models/current_session_model.dart';
-import 'soft/soft_button.dart';
+import 'soft/custom_button.dart';
 
 class StartBreakButton extends StatelessWidget {
   const StartBreakButton({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class StartBreakButton extends StatelessWidget {
             0,
             animation.get('translation') as double,
           ),
-          child: SoftButton(
+          child: CustomButton(
             radius: 15,
             onTap: () =>
                 context.read<CurrentSessionModel>().onStartBreakButtonTapped(),

@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../helper/enums.dart';
 import '../../state_models/session_settings_model.dart';
-import '../../state_models/settings_model.dart';
 import '../../utils/time_utils.dart';
-import '../soft/soft_container.dart';
+import '../soft/custom_container.dart';
 import 'theme_switch.dart';
 
 class SettingsContainer extends StatelessWidget {
@@ -23,7 +21,7 @@ class SettingsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SoftContainer(
+    return CustomContainer(
       height: height,
       width: width,
       child: Padding(
@@ -51,28 +49,9 @@ class SettingsContainer extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   children: <Widget>[
-                    ListTile(
-                      title: const Text('Darkmode'),
-                      trailing: ThemeSwitch(),
-                    ),
                     const ListTile(
-                      title: Text('Themetype'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: CupertinoSlidingSegmentedControl<ThemeType>(
-                        children: const {
-                          ThemeType.flat: Text('Flat'),
-                          // ThemeType.material: const Text('Material'),
-                          ThemeType.neomorphism: Text('Neomorphism'),
-                        },
-                        groupValue: context.select<SettingsModel, ThemeType>(
-                          (v) => v.themeType,
-                        ),
-                        onValueChanged: (value) => context
-                            .read<SettingsModel>()
-                            .changeThemeType(value!),
-                      ),
+                      title: Text('Darkmode'),
+                      trailing: ThemeSwitch(),
                     ),
                     ListTile(
                       title: const Text('Sessions until break'),

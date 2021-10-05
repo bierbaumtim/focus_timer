@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../state_models/settings_model.dart';
 
 class ThemeSwitch extends StatelessWidget {
+  const ThemeSwitch({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsModel>(

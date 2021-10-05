@@ -9,12 +9,14 @@ import '../state_models/current_session_model.dart';
 import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/settings/settings_container.dart';
-import '../widgets/soft/soft_appbar.dart';
-import '../widgets/soft/soft_container.dart';
+import '../widgets/soft/custom_appbar.dart';
+import '../widgets/soft/custom_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
 class MobileLanding extends StatefulWidget {
+  const MobileLanding({Key? key}) : super(key: key);
+
   @override
   _MobileLandingState createState() => _MobileLandingState();
 }
@@ -45,14 +47,13 @@ class _MobileLandingState extends State<MobileLanding>
           _userLeavedTime = DateTime.now();
           currentSessionModel.pauseTimer();
         } else if (state == AppLifecycleState.resumed) {
-          if(_userLeavedTime!=null){
-
-          final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
-              _userLeavedTime!.millisecondsSinceEpoch;
-          final elapsedSeconds =
-              Duration(milliseconds: elapsedMilliseconds).inSeconds;
-          currentSessionModel.restartTimer();
-          currentSessionModel.handleElapsedTimeInBackground(elapsedSeconds);
+          if (_userLeavedTime != null) {
+            final elapsedMilliseconds = DateTime.now().millisecondsSinceEpoch -
+                _userLeavedTime!.millisecondsSinceEpoch;
+            final elapsedSeconds =
+                Duration(milliseconds: elapsedMilliseconds).inSeconds;
+            currentSessionModel.restartTimer();
+            currentSessionModel.handleElapsedTimeInBackground(elapsedSeconds);
           }
         }
       }
@@ -73,7 +74,7 @@ class _MobileLandingState extends State<MobileLanding>
             page.Page(
               child: Column(
                 children: <Widget>[
-                  SoftAppBar(
+                  CustomAppBar(
                     height: kToolbarHeight + 20,
                     titleStyle: theme.textTheme.headline6,
                   ),
@@ -87,7 +88,7 @@ class _MobileLandingState extends State<MobileLanding>
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: SoftContainer(
+                                child: CustomContainer(
                                   width: containerSize,
                                   height: containerSize,
                                   radius: containerSize,

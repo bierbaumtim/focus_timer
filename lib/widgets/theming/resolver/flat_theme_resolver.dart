@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 import '../custom_theme_data.dart';
 import 'theme_resolver_interface.dart';
 
-class FlatThemeResolver implements IThemeResolver {
-  @override
+class FlatThemeResolver {
   ResolvedTheme resolve(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
 
     final theme = isDark ? _kDarkTheme : _kLightTheme;
     final customTheme = CustomThemeData(
-      brightness: brightness,
       decoration: BoxDecoration(
         border: Border.all(
           color: isDark

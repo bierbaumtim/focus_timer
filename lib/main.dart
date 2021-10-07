@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsModel>(
-      builder: (context, model, _) {
+      builder: (context, model, child) {
         final themeResolver = FlatThemeResolver();
 
         return MaterialApp(
@@ -78,9 +78,10 @@ class MyApp extends StatelessWidget {
                 themeResolver.resolve(Theme.of(context).brightness).customTheme,
             child: child!,
           ),
-          home: const MyHomePage(),
+          home: child,
         );
       },
+      child: const MyHomePage(),
     );
   }
 }

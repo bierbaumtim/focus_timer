@@ -48,8 +48,8 @@ class TaskTile extends StatelessWidget {
                 task.name,
               ),
             ),
-            activeColor:
-                theme.accentColor.withOpacity(task.isCompleted ? 0.75 : 1.0),
+            activeColor: theme.colorScheme.secondary
+                .withOpacity(task.isCompleted ? 0.75 : 1.0),
             checkColor: theme.canvasColor,
           ),
         ),

@@ -41,14 +41,18 @@ class FlatThemeResolver {
 final _kDarkTextColor = Colors.grey[200];
 final _kLighTextColor = Colors.grey[850];
 
+final _baseDarkTheme = ThemeData.dark();
+
 ThemeData get _kDarkTheme {
   final defaultTextTheme =
       Typography.material2018(platform: defaultTargetPlatform).black;
 
-  return ThemeData.dark().copyWith(
+  return _baseDarkTheme.copyWith(
     scaffoldBackgroundColor: Colors.black,
     canvasColor: Colors.black,
-    accentColor: _kDarkTextColor,
+    colorScheme: _baseDarkTheme.colorScheme.copyWith(
+      secondary: _kDarkTextColor,
+    ),
     iconTheme: IconThemeData(
       color: _kDarkTextColor,
     ),
@@ -69,14 +73,18 @@ ThemeData get _kDarkTheme {
   );
 }
 
+final _baseLightTheme = ThemeData.light();
+
 ThemeData get _kLightTheme {
   final defaultTextTheme =
       Typography.material2018(platform: defaultTargetPlatform).white;
 
-  return ThemeData.light().copyWith(
+  return _baseLightTheme.copyWith(
     scaffoldBackgroundColor: Colors.white,
     canvasColor: Colors.white,
-    accentColor: _kLighTextColor,
+    colorScheme: _baseLightTheme.colorScheme.copyWith(
+      secondary: _kLighTextColor,
+    ),
     iconTheme: IconThemeData(
       color: _kLighTextColor,
     ),

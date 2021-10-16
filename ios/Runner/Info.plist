@@ -51,5 +51,7 @@
 		<string>com.transistorsoft.fetch</string>
 		<!-- <string>com.transistorsoft.customtask</string> -->
 	</array>
+	<key>UIStatusBarHidden</key>
+	<false/>
 </dict>
 </plist>

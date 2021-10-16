@@ -6,13 +6,11 @@ part of 'task.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Task _$TaskFromJson(Map<String, dynamic> json) {
-  return Task(
-    uuid: json['uuid'] as String,
-    name: json['name'] as String? ?? '',
-    isCompleted: json['isCompleted'] as bool? ?? false,
-  );
-}
+Task _$TaskFromJson(Map<String, dynamic> json) => Task(
+      uuid: json['uuid'] as String,
+      name: json['name'] as String? ?? '',
+      isCompleted: json['isCompleted'] as bool? ?? false,
+    );
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'uuid': instance.uuid,

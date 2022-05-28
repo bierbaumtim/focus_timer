@@ -7,7 +7,7 @@ class CurrentDateTimeText extends StatefulWidget {
   const CurrentDateTimeText({Key? key}) : super(key: key);
 
   @override
-  _CurrentDateTimeTextState createState() => _CurrentDateTimeTextState();
+  State<CurrentDateTimeText> createState() => _CurrentDateTimeTextState();
 }
 
 class _CurrentDateTimeTextState extends State<CurrentDateTimeText> {

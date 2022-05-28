@@ -15,7 +15,7 @@ class AddTaskTile extends StatefulWidget {
   const AddTaskTile({Key? key}) : super(key: key);
 
   @override
-  _AddTaskTileState createState() => _AddTaskTileState();
+  State<AddTaskTile> createState() => _AddTaskTileState();
 }
 
 class _AddTaskTileState extends State<AddTaskTile> {

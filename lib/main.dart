@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -102,6 +100,8 @@ class MyHomePage extends StatelessWidget {
           onInvoke: (e) {
             final settingsViewmodel = context.read<SettingsModel>();
             settingsViewmodel.changeDarkmode(!settingsViewmodel.darkmode);
+
+            return null;
           },
         ),
       },

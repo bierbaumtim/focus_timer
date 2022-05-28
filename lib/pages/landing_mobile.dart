@@ -18,7 +18,7 @@ class MobileLanding extends StatefulWidget {
   const MobileLanding({Key? key}) : super(key: key);
 
   @override
-  _MobileLandingState createState() => _MobileLandingState();
+  State<MobileLanding> createState() => _MobileLandingState();
 }
 
 class _MobileLandingState extends State<MobileLanding>
@@ -28,12 +28,12 @@ class _MobileLandingState extends State<MobileLanding>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

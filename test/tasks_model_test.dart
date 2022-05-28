@@ -10,7 +10,7 @@ import 'package:focus_timer/state_models/tasks_model.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final _defaultTasksList = List.generate(
+  final defaultTasksList = List.generate(
     10,
     (index) => Task(
       name: 'Test $index',
@@ -24,7 +24,7 @@ void main() {
 
     late TasksModel model;
 
-    when(repo.loadTasks()).thenAnswer((_) async => _defaultTasksList);
+    when(repo.loadTasks()).thenAnswer((_) async => defaultTasksList);
 
     setUp(() {
       model = TasksModel(repo);
@@ -35,7 +35,7 @@ void main() {
 
       expect(model.tasks.length, equals(10));
 
-      expect(model.tasks, equals(_defaultTasksList));
+      expect(model.tasks, equals(defaultTasksList));
     });
 
     test('add task', () {
@@ -55,8 +55,8 @@ void main() {
     test(
       'update task',
       () {
-        final task = _defaultTasksList[1].copyWith(
-          isCompleted: !_defaultTasksList[1].isCompleted,
+        final task = defaultTasksList[1].copyWith(
+          isCompleted: !defaultTasksList[1].isCompleted,
         );
 
         model.updateTask(task);
@@ -68,11 +68,11 @@ void main() {
     );
 
     test('remove task', () {
-      model.removeTask(_defaultTasksList.last);
+      model.removeTask(defaultTasksList.last);
 
       expect(model.tasks.length, equals(10));
 
-      expect(model.tasks.last, equals(_defaultTasksList[9]));
+      expect(model.tasks.last, equals(defaultTasksList[9]));
     });
   });
 }

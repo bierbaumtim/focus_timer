@@ -12,7 +12,7 @@ class TasksListContainer extends StatefulWidget {
   const TasksListContainer({Key? key}) : super(key: key);
 
   @override
-  _TasksListContainerState createState() => _TasksListContainerState();
+  State<TasksListContainer> createState() => _TasksListContainerState();
 }
 
 class _TasksListContainerState extends State<TasksListContainer> {

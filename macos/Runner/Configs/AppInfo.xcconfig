@@ -11,4 +11,4 @@ PRODUCT_NAME = Focus Timer
 PRODUCT_BUNDLE_IDENTIFIER = com.bierbaum.focusTimer
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2021 com.bierbaum. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.bierbaum. All rights reserved.

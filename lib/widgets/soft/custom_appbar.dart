@@ -31,7 +31,7 @@ class CustomAppBar extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Focus Timer',
-                style: titleStyle ?? theme.textTheme.headline6!,
+                style: titleStyle ?? theme.textTheme.titleLarge!,
               ),
               if (centerWidget != null) Expanded(child: centerWidget!),
               const ThemeSwitch(),

@@ -4,44 +4,26 @@ import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../state_models/tasks_model.dart';
-import '../soft/custom_button.dart';
 import 'add_task_tile.dart';
 import 'task_tile.dart';
 
-class TasksListContainer extends StatefulWidget {
-  const TasksListContainer({Key? key}) : super(key: key);
-
-  @override
-  State<TasksListContainer> createState() => _TasksListContainerState();
-}
-
-class _TasksListContainerState extends State<TasksListContainer> {
-  late ScrollController tasksScrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    tasksScrollController = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    tasksScrollController.dispose();
-    super.dispose();
-  }
+class TasksListContainer extends StatelessWidget {
+  const TasksListContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    
     final hintTextStyle = getValueForScreenType<TextStyle>(
       context: context,
-      mobile: theme.textTheme.bodyText1!,
-      desktop: theme.textTheme.headline6,
+      mobile: theme.textTheme.bodyLarge!,
+      desktop: theme.textTheme.titleLarge,
     );
+
     final headerTextStyle = getValueForScreenType<TextStyle>(
       context: context,
-      mobile: theme.textTheme.subtitle1!,
-      desktop: theme.textTheme.headline5,
+      mobile: theme.textTheme.titleMedium!,
+      desktop: theme.textTheme.headlineSmall,
     );
 
     return Padding(
@@ -58,16 +40,12 @@ class _TasksListContainerState extends State<TasksListContainer> {
                 'Tasks',
                 style: headerTextStyle,
               ),
-              trailing: CustomButton(
-                onTap: () => context.read<TasksModel>().toggleFilter(),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Icon(
-                    context.select<TasksModel, bool>(
-                            (value) => value.filterTasks)
-                        ? Icons.filter_list
-                        : Icons.format_list_bulleted,
-                  ),
+              trailing: FilledButton.tonal(
+                onPressed: () => context.read<TasksModel>().toggleFilter(),
+                child: Icon(
+                  context.select<TasksModel, bool>((value) => value.filterTasks)
+                      ? Icons.filter_list
+                      : Icons.format_list_bulleted,
                 ),
               ),
             ),
@@ -92,11 +70,12 @@ class _TasksListContainerState extends State<TasksListContainer> {
                     ),
                     child: ReorderableListView(
                       onReorder: model.reorderTasks,
-                      scrollController: tasksScrollController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      proxyDecorator: (child, index, animation) => child,
                       children: model.filteredTasks
                           .map<Widget>(
                             (e) => TaskTile(
-                              key: ValueKey(e.uuid),
+                              key: ValueKey('${e.uuid}_reorder'),
                               task: e,
                             ),
                           )

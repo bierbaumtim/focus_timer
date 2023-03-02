@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../state_models/tasks_model.dart';
-import '../soft/custom_button.dart';
-import '../soft/custom_container.dart';
 
 /// {@template addtasktile}
 /// A [TextInput] and a [CustomButton] inside a [CustomContainer]
@@ -44,38 +42,32 @@ class _AddTaskTileState extends State<AddTaskTile> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: CustomContainer(
-              radius: 20,
-              child: ListTile(
-                title: TextField(
-                  controller: taskNameController,
-                  decoration: InputDecoration.collapsed(
-                    hintText: 'Task hinzufügen...',
-                    hintStyle: TextStyle(
-                      color: theme.textTheme.headline6!.color,
-                    ),
+            child: Card(
+              elevation: 2,
+              child: TextField(
+                controller: taskNameController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide.none,
                   ),
-                  onSubmitted: createTask,
+                  hintText: 'Task hinzufügen...',
+                  hintStyle: TextStyle(
+                    color: theme.textTheme.titleLarge!.color,
+                  ),
                 ),
+                onSubmitted: createTask,
               ),
             ),
           ),
           const SizedBox(width: 16),
-          CustomButton(
-            radius: 15,
-            onTap: () {
+          FloatingActionButton(
+            heroTag: 'add_task_button',
+            onPressed: () {
               if (taskNameController.text.isNotEmpty) {
                 createTask(taskNameController.text);
               }
             },
-            child: const SizedBox(
-              height: 50,
-              width: 50,
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.add),
-              ),
-            ),
+            child: const Icon(Icons.add),
           ),
           const SizedBox(width: 4),
         ],

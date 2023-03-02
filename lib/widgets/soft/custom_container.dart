@@ -50,7 +50,11 @@ class CustomContainer extends StatelessWidget {
     return Container(
       constraints: constraints,
       decoration: decoration,
-      child: child,
+      child: Material(
+        color: Colors.transparent,
+        clipBehavior: Clip.hardEdge,
+        child: child,
+      ),
     );
   }
 }

@@ -13,6 +13,7 @@ void main() {
           name: 'Test Name',
           uuid: uuid,
           isCompleted: true,
+          sortId: 1,
         );
 
         expect(task, isA<Task>());
@@ -26,6 +27,7 @@ void main() {
           name: 'Test Name',
           isCompleted: false,
           uuid: const Uuid().v4(),
+          sortId: 1,
         );
 
         expect(task, isA<Task>());
@@ -41,6 +43,7 @@ void main() {
           name: 'Test Name',
           isCompleted: false,
           uuid: const Uuid().v4(),
+          sortId: 1,
         );
         final json = task.toJson();
 

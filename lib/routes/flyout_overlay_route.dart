@@ -2,13 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+enum FlyoutPlacement { topLeft, bottomLeft, topRight, bottomRight }
+
 class FlyoutOverlayRoute<T> extends PageRoute<T> {
   final WidgetBuilder builder;
-  final Offset bottomPosition;
+  final RelativeRect parentRect;
+  final FlyoutPlacement placement;
 
   FlyoutOverlayRoute({
     required this.builder,
-    required this.bottomPosition,
+    required this.parentRect,
+    this.placement = FlyoutPlacement.bottomLeft,
     RouteSettings? settings,
   }) : super(
           settings: settings,
@@ -43,14 +47,42 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
       behavior: HitTestBehavior.opaque,
       child: Stack(
         children: <Widget>[
-          Positioned(
-            left: bottomPosition.dx,
-            bottom: MediaQuery.of(context).size.height - bottomPosition.dy,
-            child: Material(
-              color: Colors.transparent,
-              child: builder(context),
+          if (placement == FlyoutPlacement.bottomLeft)
+            Positioned(
+              left: parentRect.left,
+              bottom: parentRect.bottom,
+              child: Material(
+                color: Colors.transparent,
+                child: builder(context),
+              ),
+            )
+          else if (placement == FlyoutPlacement.topLeft)
+            Positioned(
+              left: parentRect.left,
+              top: parentRect.top,
+              child: Material(
+                color: Colors.transparent,
+                child: builder(context),
+              ),
+            )
+          else if (placement == FlyoutPlacement.bottomRight)
+            Positioned(
+              right: parentRect.right,
+              bottom: parentRect.bottom,
+              child: Material(
+                color: Colors.transparent,
+                child: builder(context),
+              ),
+            )
+          else
+            Positioned(
+              right: parentRect.right,
+              top: parentRect.top,
+              child: Material(
+                color: Colors.transparent,
+                child: builder(context),
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -64,6 +96,29 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
     Widget child,
   ) {
     final size = MediaQuery.of(context).size;
+
+    Alignment alignment;
+
+    switch (placement) {
+      case FlyoutPlacement.topLeft:
+        alignment = Alignment(
+          -1.0 + parentRect.left / size.width,
+          -1.0 + (parentRect.top / size.height * 2),
+        );
+        break;
+      case FlyoutPlacement.bottomLeft:
+        alignment = Alignment(-1.0 + parentRect.left / size.width, 1);
+        break;
+      case FlyoutPlacement.topRight:
+        alignment = Alignment(
+          1.0 - parentRect.right / size.width,
+          -1.0 + (parentRect.top / size.height * 2),
+        );
+        break;
+      case FlyoutPlacement.bottomRight:
+        alignment = Alignment(1.0 - parentRect.right / size.width, 1);
+        break;
+    }
 
     return BlurTransition(
       blurAnimation: Tween<double>(
@@ -80,10 +135,7 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
           parent: animation,
           curve: Curves.easeInOut,
         ),
-        alignment: Alignment(
-          -1.0 + bottomPosition.dx / size.width,
-          bottomPosition.dy / size.height + 0.0,
-        ),
+        alignment: alignment,
         child: FadeTransition(
           opacity: CurvedAnimation(
             parent: animation,

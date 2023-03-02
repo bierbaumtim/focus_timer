@@ -14,8 +14,8 @@ class TasksRepository implements ITasksRepository {
   Future<int> removeTask(Task task) => tasksDao.deleteTask(task);
 
   @override
-  Future<String> saveTask(Task task) => tasksDao.insertTask(task);
+  Future<void> saveTask(Task task) => tasksDao.saveTask(task);
 
   @override
-  Future<int> updateTask(Task task) => tasksDao.updateTask(task);
+  Future<void> saveTasks(List<Task> tasks) => tasksDao.saveTasks(tasks);
 }

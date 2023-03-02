@@ -13,33 +13,30 @@ class SessionCountdown extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Consumer<CurrentSessionModel>(
-        builder: (context, model, child) => Stack(
-          children: <Widget>[
-            if (model.isTimerRunning || model.isTimerPaused)
-              child!
-            else if (model.currentSessionIndex == -1)
-              Center(
-                child: SimpleTime(
-                  duration: model.sessionDuration,
+    return Consumer<CurrentSessionModel>(
+      builder: (context, model, child) => Stack(
+        children: <Widget>[
+          if (model.isTimerRunning || model.isTimerPaused)
+            child!
+          else if (model.currentSessionIndex == -1)
+            Center(
+              child: SimpleTime(
+                duration: model.sessionDuration,
+              ),
+            )
+          else
+            Center(
+              child: AutoSizeText(
+                'All sessions done.',
+                maxLines: 1,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontSize: 110,
                 ),
-              )
-            else
-              Center(
-                child: AutoSizeText(
-                  'All sessions done.',
-                  maxLines: 1,
-                  style: theme.textTheme.headline6?.copyWith(
-                    fontSize: 110,
-                  ),
-                ),
-              )
-          ],
-        ),
-        child: const CountdownTime(),
+              ),
+            )
+        ],
       ),
+      child: const CountdownTime(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
 
 import '../models/task.dart';
 import '../repositories/interfaces/tasks_repository_interface.dart';
@@ -28,15 +28,17 @@ class TasksModel extends ChangeNotifier {
 
   Future<void> loadTasks() async {
     _tasks = await repository.loadTasks();
+    _tasks = _tasks.sorted((a, b) => a.sortId.compareTo(b.sortId));
     notifyListeners();
   }
 
   void createTask(String taskName) {
-    final task = Task(
+    final task = Task.create(
       name: taskName,
       isCompleted: false,
-      uuid: const Uuid().v4(),
+      sortId: _tasks.length,
     );
+    
     addTask(task);
   }
 
@@ -48,7 +50,7 @@ class TasksModel extends ChangeNotifier {
 
   void updateTask(Task task) {
     _tasks = _tasks.map<Task>((t) => t.uuid == task.uuid ? task : t).toList();
-    repository.updateTask(task);
+    repository.saveTask(task);
     notifyListeners();
   }
 
@@ -64,14 +66,23 @@ class TasksModel extends ChangeNotifier {
     if (newIndex > oldIndex) {
       effectiveNewIndex--;
     }
+
     if (filterTasks) {
       final newIndexTask = filteredTasks.elementAt(effectiveNewIndex);
       final oldIndexTask = filteredTasks.elementAt(effectiveOldIndex);
       effectiveNewIndex = _tasks.indexOf(newIndexTask);
       effectiveOldIndex = _tasks.indexOf(oldIndexTask);
     }
+
     final oldTask = _tasks.removeAt(effectiveOldIndex);
     _tasks.insert(effectiveNewIndex, oldTask);
+
+    _tasks = _tasks
+        .mapIndexed<Task>((i, task) => task.copyWith(sortId: i))
+        .sorted((a, b) => a.sortId.compareTo(b.sortId));
+
+    repository.saveTasks(_tasks);
+
     notifyListeners();
   }
 

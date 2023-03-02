@@ -8,6 +8,7 @@ import 'database/app_database_interface.dart';
 import 'database/tasks_dao.dart';
 import 'pages/landing_desktop.dart';
 import 'pages/landing_mobile.dart';
+import 'pages/landing_tablet.dart';
 import 'repositories/settings_repository.dart';
 import 'repositories/tasks_repository.dart';
 import 'state_models/current_session_model.dart';
@@ -111,7 +112,7 @@ class MyHomePage extends StatelessWidget {
       },
       child: ScreenTypeLayout(
         mobile: const MobileLanding(),
-        tablet: const DesktopLanding(),
+        tablet: const TabletLanding(),
         desktop: const DesktopLanding(),
       ),
     );

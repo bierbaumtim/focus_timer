@@ -87,7 +87,7 @@ class SimpleTime extends StatelessWidget {
     return AutoSizeText(
       timeToString(duration),
       maxLines: 1,
-      style: Theme.of(context).textTheme.headline6!.copyWith(
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontSize: 130,
           ),
       maxFontSize: isSmall ? 20 : double.infinity,

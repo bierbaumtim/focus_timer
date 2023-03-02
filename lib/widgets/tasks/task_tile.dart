@@ -4,53 +4,44 @@ import 'package:provider/provider.dart';
 
 import '../../models/task.dart';
 import '../../state_models/tasks_model.dart';
-import '../soft/custom_container.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
 
-  const TaskTile({
-    Key? key,
-    required this.task,
-  }) : super(key: key);
+  const TaskTile({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Dismissible(
-      key: ValueKey(task.uuid),
+      key: ValueKey('${task.uuid}_dismiss'),
       direction: DismissDirection.startToEnd,
       onDismissed: (_) => context.read<TasksModel>().removeTask(task),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 12,
-        ),
-        child: CustomContainer(
-          radius: 15,
-          child: CheckboxListTile(
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          leading: Checkbox(
             value: task.isCompleted,
             onChanged: (_) => context
                 .read<TasksModel>()
                 .updateTask(task.copyWith(isCompleted: !task.isCompleted)),
-            title: AnimatedDefaultTextStyle(
-              style: task.isCompleted
-                  ? theme.textTheme.bodyText2!.copyWith(
-                      decoration: TextDecoration.lineThrough,
-                      decorationThickness: 2.0,
-                      color:
-                          theme.textTheme.bodyText2!.color!.withOpacity(0.75),
-                    )
-                  : theme.textTheme.bodyText2!,
-              duration: const Duration(milliseconds: 550),
-              child: Text(
-                task.name,
-              ),
-            ),
             activeColor: theme.colorScheme.secondary
                 .withOpacity(task.isCompleted ? 0.75 : 1.0),
             checkColor: theme.canvasColor,
+          ),
+          title: AnimatedDefaultTextStyle(
+            style: task.isCompleted
+                ? theme.textTheme.bodyMedium!.copyWith(
+                    decoration: TextDecoration.lineThrough,
+                    decorationThickness: 2.0,
+                    color: theme.textTheme.bodyMedium!.color!.withOpacity(0.75),
+                  )
+                : theme.textTheme.bodyMedium!,
+            duration: const Duration(milliseconds: 550),
+            child: Text(
+              task.name,
+            ),
           ),
         ),
       ),

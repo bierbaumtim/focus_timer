@@ -6,10 +6,8 @@ import '../routes/flyout_overlay_route.dart';
 import '../state_models/current_session_model.dart';
 import '../widgets/datetime/current_datetime_container.dart';
 import '../widgets/sessions/session_countdown.dart';
-import '../widgets/settings/settings_container.dart';
+import '../widgets/settings/settings_button.dart';
 import '../widgets/soft/custom_appbar.dart';
-import '../widgets/soft/custom_button.dart';
-import '../widgets/soft/custom_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
@@ -26,7 +24,7 @@ class DesktopLanding extends StatelessWidget {
           children: <Widget>[
             CustomAppBar(
               height: kToolbarHeight + 14,
-              titleStyle: theme.textTheme.headline6!.copyWith(fontSize: 35),
+              titleStyle: theme.textTheme.titleLarge?.copyWith(fontSize: 35),
               centerWidget: const Center(
                 child: CurrentDateTimeContainer(),
               ),
@@ -37,56 +35,22 @@ class DesktopLanding extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Stack(
-                      children: <Widget>[
-                        const _TimerSection(),
+                      children: const <Widget>[
+                        _TimerSection(),
                         Positioned(
                           left: 16,
                           bottom: 20,
-                          child: Builder(
-                            builder: (context) => CustomButton(
-                              radius: 15,
-                              onTap: () {
-                                final renderBox =
-                                    context.findRenderObject() as RenderBox?;
-
-                                if (renderBox != null) {
-                                  final offset = renderBox.localToGlobal(
-                                    Offset.zero,
-                                  );
-
-                                  Navigator.of(context).push(
-                                    FlyoutOverlayRoute(
-                                      builder: (context) =>
-                                          const SettingsContainer(
-                                        width: 400,
-                                        height: 626,
-                                        shrinkWrap: true,
-                                      ),
-                                      bottomPosition: Offset(
-                                        offset.dx,
-                                        offset.dy + renderBox.size.height,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Icon(Icons.settings),
-                                ),
-                              ),
-                            ),
+                          child: SettingsButton(
+                            flyoutPlacement: FlyoutPlacement.bottomLeft,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const VerticalDivider(
+                  VerticalDivider(
                     indent: 8,
                     endIndent: 24,
+                    color: Theme.of(context).dividerColor,
                   ),
                   const Flexible(
                     child: Padding(
@@ -125,10 +89,19 @@ class _TimerSection extends StatelessWidget {
                   Flexible(
                     flex: model.isBreak ? 4 : 1,
                     child: Center(
-                      child: CustomContainer(
-                        height: countdownHeight,
-                        radius: countdownHeight / 10,
-                        child: const SessionCountdown(),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            countdownHeight / 10,
+                          ),
+                        ),
+                        child: SizedBox(
+                          height: countdownHeight,
+                          child: const Padding(
+                            padding: EdgeInsets.all(24),
+                            child: SessionCountdown(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -144,7 +117,7 @@ class _TimerSection extends StatelessWidget {
                               TextSpan(
                                 text:
                                     'Hier sind ein paar Tips für die Pause:\n\n',
-                                style: theme.textTheme.headline5!.copyWith(
+                                style: theme.textTheme.headlineSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -160,9 +133,6 @@ class _TimerSection extends StatelessWidget {
                                     ),
                                   ] else ...const [
                                     TextSpan(
-                                      text: '* Mache ein paar Liegestütz\n',
-                                    ),
-                                    TextSpan(
                                       text: '* Trink etwas\n',
                                     ),
                                     TextSpan(
@@ -170,7 +140,7 @@ class _TimerSection extends StatelessWidget {
                                     ),
                                   ],
                                 ],
-                                style: theme.textTheme.headline6,
+                                style: theme.textTheme.titleLarge,
                               ),
                             ],
                           ),
@@ -185,7 +155,9 @@ class _TimerSection extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: kToolbarHeight),
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: StartBreakButton(),
+                child: StartBreakButton(
+                  withAnimation: false,
+                ),
               ),
             ),
           ],

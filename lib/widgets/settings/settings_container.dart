@@ -37,7 +37,7 @@ class SettingsContainer extends StatelessWidget {
                 height: 2,
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText2
+                    .bodyMedium
                     ?.color
                     ?.withOpacity(0.75),
               ),

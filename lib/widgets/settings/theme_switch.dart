@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,8 @@ class ThemeSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Consumer<SettingsModel>(
       builder: (context, viewmodel, _) =>
           CupertinoSlidingSegmentedControl<bool>(
@@ -17,6 +20,12 @@ class ThemeSwitch extends StatelessWidget {
           true: Text('Dark'),
         },
         groupValue: viewmodel.darkmode,
+        backgroundColor: ElevationOverlay.applySurfaceTint(
+          theme.colorScheme.surface,
+          theme.colorScheme.surfaceTint,
+          4,
+        ),
+        thumbColor: theme.colorScheme.secondaryContainer,
         onValueChanged: (value) => viewmodel.changeDarkmode(value!),
       ),
     );

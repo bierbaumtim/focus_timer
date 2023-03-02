@@ -10,7 +10,6 @@ import '../widgets/pageview_page.dart' as page;
 import '../widgets/sessions/session_countdown.dart';
 import '../widgets/settings/settings_container.dart';
 import '../widgets/soft/custom_appbar.dart';
-import '../widgets/soft/custom_container.dart';
 import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
@@ -76,7 +75,7 @@ class _MobileLandingState extends State<MobileLanding>
                 children: <Widget>[
                   CustomAppBar(
                     height: kToolbarHeight + 20,
-                    titleStyle: theme.textTheme.headline6,
+                    titleStyle: theme.textTheme.titleLarge,
                   ),
                   Expanded(
                     child: Consumer<CurrentSessionModel>(
@@ -88,11 +87,16 @@ class _MobileLandingState extends State<MobileLanding>
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: CustomContainer(
-                                  width: containerSize,
-                                  height: containerSize,
-                                  radius: containerSize,
-                                  child: const SessionCountdown(),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(containerSize),
+                                  ),
+                                  child: SizedBox(
+                                    width: containerSize,
+                                    height: containerSize,
+                                    child: const SessionCountdown(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -115,7 +119,7 @@ class _MobileLandingState extends State<MobileLanding>
                                         ),
                                         WidgetSpan(
                                           child: DefaultTextStyle(
-                                            style: theme.textTheme.subtitle1!,
+                                            style: theme.textTheme.titleMedium!,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                 left: 16.0,
@@ -169,7 +173,8 @@ class _MobileLandingState extends State<MobileLanding>
                                         ),
                                       ],
                                     ),
-                                    style: theme.textTheme.subtitle1!.copyWith(
+                                    style:
+                                        theme.textTheme.titleMedium!.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -183,7 +188,9 @@ class _MobileLandingState extends State<MobileLanding>
                               child: SizedBox(
                                 height: kToolbarHeight,
                                 child: Center(
-                                  child: StartBreakButton(),
+                                  child: StartBreakButton(
+                                    withAnimation: false,
+                                  ),
                                 ),
                               ),
                             ),

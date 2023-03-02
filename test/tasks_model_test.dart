@@ -16,6 +16,7 @@ void main() {
       name: 'Test $index',
       isCompleted: false,
       uuid: const Uuid().v4(),
+      sortId: index,
     ),
   );
 
@@ -43,6 +44,7 @@ void main() {
         name: 'New Task Test',
         isCompleted: false,
         uuid: const Uuid().v4(),
+        sortId: 11,
       );
 
       model.addTask(newTask);

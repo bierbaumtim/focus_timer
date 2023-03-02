@@ -11,18 +11,6 @@ class TasksDao implements ITasksDao {
   final store = stringMapStoreFactory.store('tasks');
 
   @override
-  Future<int> deleteTask(Task task) {
-    final finder = Finder(
-      filter: Filter.equals('uuid', task.uuid),
-    );
-
-    return store.delete(
-      db,
-      finder: finder,
-    );
-  }
-
-  @override
   Future<List<Task>> get getAllTasks async {
     final snapshots = await store.find(db);
 
@@ -34,25 +22,29 @@ class TasksDao implements ITasksDao {
   }
 
   @override
-  Future<String> insertTask(Task task) {
-    return store.add(
-      db,
-      task.toJson(),
+  Future<void> saveTasks(List<Task> tasks) async {
+    await Future.wait(
+      tasks.map(
+        (task) => store.record(task.uuid).put(
+              db,
+              task.toJson(),
+            ),
+      ),
     );
   }
 
   @override
-  Future<int> updateTask(Task task) {
+  Future<void> saveTask(Task task) async =>
+      store.record(task.uuid).put(db, task.toJson());
+
+  @override
+  Future<int> deleteTask(Task task) {
     final finder = Finder(
-      filter: Filter.equals(
-        'uuid',
-        task.uuid,
-      ),
+      filter: Filter.equals('uuid', task.uuid),
     );
 
-    return store.update(
+    return store.delete(
       db,
-      task.toJson(),
       finder: finder,
     );
   }

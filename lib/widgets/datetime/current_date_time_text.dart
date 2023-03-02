@@ -54,9 +54,9 @@ class _CurrentDateTimeTextState extends State<CurrentDateTimeText> {
 
     final basicStyle = getValueForScreenType<TextStyle>(
       context: context,
-      mobile: theme.textTheme.subtitle1!,
-      tablet: theme.textTheme.headline6,
-      desktop: theme.textTheme.headline6,
+      mobile: theme.textTheme.titleMedium!,
+      tablet: theme.textTheme.titleLarge,
+      desktop: theme.textTheme.titleLarge,
     );
 
     return Text(

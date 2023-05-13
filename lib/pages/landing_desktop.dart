@@ -32,10 +32,10 @@ class DesktopLanding extends StatelessWidget {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  const Expanded(
                     flex: 2,
                     child: Stack(
-                      children: const <Widget>[
+                      children: <Widget>[
                         _TimerSection(),
                         Positioned(
                           left: 16,

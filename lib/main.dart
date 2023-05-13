@@ -110,10 +110,10 @@ class MyHomePage extends StatelessWidget {
         startTopTimerKeySet: StartStopTimerIntent(),
         switchThemeKeySet: SwitchThemeIntent(),
       },
-      child: ScreenTypeLayout(
-        mobile: const MobileLanding(),
-        tablet: const TabletLanding(),
-        desktop: const DesktopLanding(),
+      child: ScreenTypeLayout.builder(
+        mobile: (context) => const MobileLanding(),
+        tablet: (context) => const TabletLanding(),
+        desktop: (context) => const DesktopLanding(),
       ),
     );
   }

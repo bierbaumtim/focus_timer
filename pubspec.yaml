@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
 
   auto_size_text: ^3.0.0
-  simple_animations: ^4.0.2
+  simple_animations: ^5.0.0+3
   uuid: ^3.0.7
   responsive_builder: ^0.6.4
   wakelock: ^0.6.2
@@ -32,7 +32,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
-  
+
   path_provider: ^2.0.15
   shared_preferences: ^2.1.1
   supercharged: ^2.1.1

@@ -50,26 +50,25 @@ class StartBreakButton extends StatelessWidget {
     }
 
     if (withAnimation) {
-      return PlayAnimation(
-        tween: MultiTween<String>()
-          ..add(
+      return PlayAnimationBuilder(
+        tween: MovieTween()
+          ..tween(
             'opacity',
             fadeInTween,
-            const Duration(milliseconds: 450),
+            duration: const Duration(milliseconds: 450),
           )
-          ..add(
+          ..tween(
             'translation',
             Tween<double>(
               begin: 130,
               end: 0,
             ),
-            const Duration(milliseconds: 350),
-            Curves.easeInOut,
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeInOut,
           ),
         duration: const Duration(milliseconds: 800),
         delay: const Duration(milliseconds: 250),
-        builder: (context, child, MultiTweenValues<String> animation) =>
-            AnimatedOpacity(
+        builder: (context, animation, child) => AnimatedOpacity(
           duration: const Duration(),
           opacity: animation.get('opacity') as double,
           child: Transform.translate(

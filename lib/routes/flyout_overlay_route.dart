@@ -97,28 +97,20 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
   ) {
     final size = MediaQuery.of(context).size;
 
-    Alignment alignment;
-
-    switch (placement) {
-      case FlyoutPlacement.topLeft:
-        alignment = Alignment(
+    final alignment = switch (placement) {
+      FlyoutPlacement.topLeft => Alignment(
           -1.0 + parentRect.left / size.width,
           -1.0 + (parentRect.top / size.height * 2),
-        );
-        break;
-      case FlyoutPlacement.bottomLeft:
-        alignment = Alignment(-1.0 + parentRect.left / size.width, 1);
-        break;
-      case FlyoutPlacement.topRight:
-        alignment = Alignment(
+        ),
+      FlyoutPlacement.bottomLeft =>
+        Alignment(-1.0 + parentRect.left / size.width, 1),
+      FlyoutPlacement.topRight => Alignment(
           1.0 - parentRect.right / size.width,
           -1.0 + (parentRect.top / size.height * 2),
-        );
-        break;
-      case FlyoutPlacement.bottomRight:
-        alignment = Alignment(1.0 - parentRect.right / size.width, 1);
-        break;
-    }
+        ),
+      FlyoutPlacement.bottomRight =>
+        Alignment(1.0 - parentRect.right / size.width, 1),
+    };
 
     return BlurTransition(
       blurAnimation: Tween<double>(

@@ -10,7 +10,7 @@ import '../../state_models/tasks_model.dart';
 /// {@endtemplate}
 class AddTaskTile extends StatefulWidget {
   /// {@macro addtasktile}
-  const AddTaskTile({Key? key}) : super(key: key);
+  const AddTaskTile({super.key});
 
   @override
   State<AddTaskTile> createState() => _AddTaskTileState();

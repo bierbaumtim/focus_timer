@@ -22,18 +22,17 @@ class CustomContainer extends StatelessWidget {
 
   /// {@macro softcontainer}
   CustomContainer({
-    Key? key,
+    super.key,
     double? width,
     double? height,
     this.radius,
     this.child,
     this.inverted = false,
     BoxConstraints? constraints,
-  })  : constraints = (width != null || height != null)
+  }) : constraints = (width != null || height != null)
             ? constraints?.tighten(width: width, height: height) ??
                 BoxConstraints.tightFor(width: width, height: height)
-            : constraints,
-        super(key: key);
+            : constraints;
 
   @override
   Widget build(BuildContext context) {

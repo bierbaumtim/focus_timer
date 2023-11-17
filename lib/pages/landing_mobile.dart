@@ -14,7 +14,7 @@ import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
 class MobileLanding extends StatefulWidget {
-  const MobileLanding({Key? key}) : super(key: key);
+  const MobileLanding({super.key});
 
   @override
   State<MobileLanding> createState() => _MobileLandingState();

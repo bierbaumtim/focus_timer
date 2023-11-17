@@ -7,7 +7,7 @@ import '../../state_models/current_session_model.dart';
 import '../time/countdown_time.dart';
 
 class SessionCountdown extends StatelessWidget {
-  const SessionCountdown({Key? key}) : super(key: key);
+  const SessionCountdown({super.key});
 
   @override
   Widget build(BuildContext context) {

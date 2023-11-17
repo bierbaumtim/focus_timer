@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class CurrentDateTimeText extends StatefulWidget {
-  const CurrentDateTimeText({Key? key}) : super(key: key);
+  const CurrentDateTimeText({super.key});
 
   @override
   State<CurrentDateTimeText> createState() => _CurrentDateTimeTextState();
@@ -55,8 +55,8 @@ class _CurrentDateTimeTextState extends State<CurrentDateTimeText> {
     final basicStyle = getValueForScreenType<TextStyle>(
       context: context,
       mobile: theme.textTheme.titleMedium!,
-      tablet: theme.textTheme.titleLarge,
-      desktop: theme.textTheme.titleLarge,
+      tablet: theme.textTheme.titleMedium,
+      desktop: theme.textTheme.titleMedium,
     );
 
     return Text(

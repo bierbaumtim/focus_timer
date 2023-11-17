@@ -4,10 +4,10 @@ import 'custom_theme_data.dart';
 
 class CustomTheme extends InheritedWidget {
   const CustomTheme({
-    Key? key,
-    required Widget child,
+    super.key,
+    required super.child,
     required this.data,
-  }) : super(key: key, child: child);
+  });
   final CustomThemeData data;
 
   static CustomThemeData? of(BuildContext context) {

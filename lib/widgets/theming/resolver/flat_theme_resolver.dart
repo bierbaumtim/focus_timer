@@ -7,10 +7,13 @@ import 'theme_resolver_interface.dart';
 class FlatThemeResolver {
   ResolvedTheme resolve(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
-    final colorScheme =
-        isDark ? const ColorScheme.dark() : const ColorScheme.light();
 
-    final theme = ThemeData.from(colorScheme: colorScheme, useMaterial3: true);
+    final theme = ThemeData.from(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.blueAccent,
+        brightness: brightness,
+      ),
+    );
 
     final customTheme = CustomThemeData(
       decoration: BoxDecoration(

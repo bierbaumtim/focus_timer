@@ -13,10 +13,8 @@ class FlyoutOverlayRoute<T> extends PageRoute<T> {
     required this.builder,
     required this.parentRect,
     this.placement = FlyoutPlacement.bottomLeft,
-    RouteSettings? settings,
-  }) : super(
-          settings: settings,
-        );
+    super.settings,
+  });
 
   @override
   Color get barrierColor => const Color(0x00000001);
@@ -147,12 +145,12 @@ class BlurTransition extends AnimatedWidget {
   final Color? backgroundColor;
 
   const BlurTransition({
-    Key? key,
+    super.key,
     required this.blurAnimation,
     required this.child,
     this.backgroundColorAnimation,
     this.backgroundColor,
-  }) : super(key: key, listenable: blurAnimation);
+  }) : super(listenable: blurAnimation);
 
   @override
   Widget build(BuildContext context) {

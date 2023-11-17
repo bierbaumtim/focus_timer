@@ -9,11 +9,11 @@ import 'countdown_time.dart';
 
 class TopTimeBar extends StatelessWidget {
   const TopTimeBar({
-    Key? key,
+    super.key,
     this.alignment = Alignment.topCenter,
     this.padding = const EdgeInsets.fromLTRB(8, 0, 8, 8),
     this.contentPadding = const EdgeInsets.only(top: 8.0, bottom: 8),
-  }) : super(key: key);
+  });
 
   final Alignment alignment;
   final EdgeInsetsGeometry padding;

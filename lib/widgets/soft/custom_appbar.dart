@@ -4,11 +4,11 @@ import '../settings/theme_switch.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
-    Key? key,
+    super.key,
     this.centerWidget,
     this.titleStyle,
     this.height = kToolbarHeight,
-  }) : super(key: key);
+  });
 
   final TextStyle? titleStyle;
   final double height;

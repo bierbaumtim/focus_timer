@@ -11,10 +11,10 @@ class CountdownTime extends StatelessWidget {
   final bool useDigitalClock;
 
   const CountdownTime({
-    Key? key,
+    super.key,
     this.isSmall = false,
     this.useDigitalClock = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +78,10 @@ class SimpleTime extends StatelessWidget {
   final bool isSmall;
 
   const SimpleTime({
-    Key? key,
+    super.key,
     required this.duration,
     this.isSmall = false,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(

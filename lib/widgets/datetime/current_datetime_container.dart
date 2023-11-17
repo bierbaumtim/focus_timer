@@ -3,21 +3,18 @@ import 'package:flutter/material.dart';
 import 'current_date_time_text.dart';
 
 class CurrentDateTimeContainer extends StatelessWidget {
-  const CurrentDateTimeContainer({
-    Key? key,
-    this.useDarkTheme,
-  }) : super(key: key);
-
-  final bool? useDarkTheme;
+  const CurrentDateTimeContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 16,
+    return const Card(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 6,
+          horizontal: 12,
+        ),
+        child: CurrentDateTimeText(),
       ),
-      child: CurrentDateTimeText(),
     );
   }
 }

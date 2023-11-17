@@ -12,11 +12,11 @@ class SettingsContainer extends StatelessWidget {
   final bool shrinkWrap;
 
   const SettingsContainer({
-    Key? key,
+    super.key,
     this.height,
     this.width,
     this.shrinkWrap = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

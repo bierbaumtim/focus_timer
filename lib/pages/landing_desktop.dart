@@ -12,7 +12,7 @@ import '../widgets/start_break_button.dart';
 import '../widgets/tasks/tasks_list_container.dart';
 
 class DesktopLanding extends StatelessWidget {
-  const DesktopLanding({Key? key}) : super(key: key);
+  const DesktopLanding({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,8 @@ class DesktopLanding extends StatelessWidget {
 }
 
 class _TimerSection extends StatelessWidget {
-  const _TimerSection({Key? key}) : super(key: key);
+  // ignore: unused_element
+  const _TimerSection({super.key});
 
   @override
   Widget build(BuildContext context) {

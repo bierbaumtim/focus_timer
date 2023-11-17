@@ -17,11 +17,11 @@ class CustomButton extends StatefulWidget {
 
   /// {@macro softbutton}
   const CustomButton({
-    Key? key,
+    super.key,
     required this.onTap,
     this.radius,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
